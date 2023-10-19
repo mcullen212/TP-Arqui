@@ -5,4 +5,4 @@
 *.qcow2
 *.vmdk
 *.bash_history
-run.sh
+x64barebones/run.sh

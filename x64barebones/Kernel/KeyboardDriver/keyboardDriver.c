@@ -1,11 +1,89 @@
 //Keyboard driver
 #include <keyboardDriver.h>
 
-uint8_t keyValues[] = {'\0', '\0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '+', 8, '\t', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', 10, 17, 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', '`', 15, '\\', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 15, '\0', '\0', ' ', '\0'};
-    //Key Number      0   1    2    3    4    5    6    7    8    9   10    11   12   13  14  15   16   17   18   19   20   21   22   23   24   25   26   27   28  29  30   31   32   33   34   35   36   37   38   39   40    41   42   43   44   45   46   47   48   49   50   51   52   53   54   55   56    57   58
+
+static char shiftPressed = 0;
+static char capsLockPressed = 0;
+
+char keyMap[][2] = { // [cantidad de teclas][2]
+                      // primer elemento es la tecla que presionas y el segundo es la tecla sumada con shift
+        {0, 0},
+        {0, 0}, // esc key 
+        {'1', '!'},
+        {'2', '@'},
+        {'3', '#'},
+        {'4', '$'},
+        {'5', '%'},
+        {'6', '^'},
+        {'7', '&'},
+        {'8', '*'},
+        {'9', '('},
+        {'0', ')'},
+        {'-', '_'},
+        {'-', '+'},
+        {'\b', 128},
+        {'\t', '\t'},
+        {'q', 'Q'},
+        {'w', 'W'},
+        {'e', 'E'},
+        {'r', 'R'},
+        {'t', 'T'},
+        {'y', 'Y'},
+        {'u', 'U'},
+        {'i', 'I'},
+        {'o', 'O'},
+        {'p', 'P'},
+        {'[', '{'},
+        {']', '}'},
+        {'\n', '\n'},
+        {0, 0},
+        {'a', 'A'},
+        {'s', 'S'},
+        {'d', 'D'},
+        {'f', 'F'},
+        {'g', 'G'},
+        {'h', 'H'},
+        {'j', 'J'},
+        {'k', 'K'},
+        {'l', 'L'},
+        {';', ':'},
+        {'\'', '\"'},
+        {167, '~'},
+        {0, 0}, // left shift 
+        {'\\', '|'},
+        {'z', 'Z'},
+        {'x', 'X'},
+        {'c', 'C'},
+        {'v', 'V'},
+        {'b', 'B'},
+        {'n', 'N'},
+        {'m', 'M'},
+        {',', '<'},
+        {'.', '>'},
+        {'/', '?'},
+        {0, 0}, // right shift
+        {0, 0}, //(keypad) * pressed
+        {0, 0}, //left alt pressed
+        {' ', ' '} // space 
+    };
 
 uint8_t getKeyMapping(uint64_t number) {
-    return keyValues[number];
+    if(number == LEFT_SHIFT_NBR  || number == RIGHT_SHIFT_NBR){
+        shiftPressed = 1;
+    }
+
+    if(number == LEFT_SHIFT_RELEASED || number == RIGHT_SHIFT_RELEASED){
+        shiftPressed = 0;
+    }
+
+    if(number >= RELEASED){
+        return 0;
+    }
+
+    if(shiftPressed){
+        return keyMap[number][1];
+    }
+    return keyMap[number][0];
 }
 
 uint8_t getKeyPressed() {

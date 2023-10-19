@@ -21,7 +21,7 @@ void time_handler() {
 void int_00() {
     time_handler();
     if ((ticks % (5000 / 55)) == 0) {
-        ncPrint("Algo ");
+        //ncPrint("Algo ");
     }
 }
 //--------------------------------------------
@@ -29,5 +29,7 @@ void int_00() {
 // Interruption 01 ---------------------------
 void int_01() {
     char keyPressed = getKeyPressed();
-    ncPrintChar(keyPressed);
+    if (keyPressed != 0) {
+        ncPrintChar(keyPressed);    
+    } 
 }
