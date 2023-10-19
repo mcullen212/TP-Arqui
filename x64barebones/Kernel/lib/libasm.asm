@@ -2,7 +2,6 @@ GLOBAL cpuVendor
 GLOBAL getRTCHour
 GLOBAL poolKey
 GLOBAL getKeyNumber
-GLOBAL testS
 
 section .text
 
