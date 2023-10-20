@@ -5,8 +5,9 @@
 static char shiftPressed = 0;
 static char capsLockPressed = 0;
 
-char keyMap[][2] = { // [cantidad de teclas][2]
-                      // primer elemento es la tecla que presionas y el segundo es la tecla sumada con shift
+char keyMap[][2] = { // [cantidad de teclas][2] => teclado estandar en ingles 
+                     // primer elemento es la tecla que presionas 
+                     // y el segundo es la tecla sumada con shift
         {0, 0},
         {0, 0}, // esc key 
         {'1', '!'},
@@ -68,7 +69,7 @@ char keyMap[][2] = { // [cantidad de teclas][2]
     };
 
 uint8_t getKeyMapping(uint64_t number) {
-    if(number == LEFT_SHIFT_NBR  || number == RIGHT_SHIFT_NBR){
+    if(number == LEFT_SHIFT_PRESSED  || number == RIGHT_SHIFT_PRESSED){
         shiftPressed = 1;
     }
 
@@ -76,13 +77,20 @@ uint8_t getKeyMapping(uint64_t number) {
         shiftPressed = 0;
     }
 
+    // if(number == CAPS_LOCK_PRESSED && !capsLockPressed){
+    //     capsLockPressed = 1;
+    // } else if(number == CAPS_LOCK_PRESSED && capsLockPressed){ // segunda vez que se toca el caps_lock 
+    //     capsLockPressed = 0;
+    // }
+
     if(number >= RELEASED){
         return 0;
     }
 
-    if(shiftPressed){
+    if(shiftPressed || capsLockPressed){
         return keyMap[number][1];
     }
+
     return keyMap[number][0];
 }
 
