@@ -77,11 +77,9 @@ uint8_t getKeyMapping(uint64_t number) {
         shiftPressed = 0;
     }
 
-    // if(number == CAPS_LOCK_PRESSED && !capsLockPressed){
-    //     capsLockPressed = 1;
-    // } else if(number == CAPS_LOCK_PRESSED && capsLockPressed){ // segunda vez que se toca el caps_lock 
-    //     capsLockPressed = 0;
-    // }
+    if(number == CAPS_LOCK_PRESSED){
+        capsLockPressed = 1 - capsLockPressed; // segunda vez que toca el caps lock se apaga 
+    }
 
     if(number >= RELEASED){
         return 0;
