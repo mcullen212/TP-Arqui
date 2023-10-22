@@ -87,41 +87,9 @@ int main()
 	//Descomentar las lineas de abajo y el ncPoolChar de navieConsole.c
 
     loadIDT();
-	// ncPrint("[Kernel Main]");
-	// ncNewline();
-	// ncPrint("  Sample code module at 0x");
-	// ncPrintHex((uint64_t)sampleCodeModuleAddress);
-	// ncNewline();
-	// ncPrint("  Calling the sample code module returned: ");
-	// ncPrintHex(((EntryPoint)sampleCodeModuleAddress)());
-	// ncNewline();
-	// ncNewline();
+	
 
-	// ncPrint("  Sample data module at 0x");
-	// ncPrintHex((uint64_t)sampleDataModuleAddress);
-	// ncNewline();
-	// ncPrint("  Sample data module contents: ");
-	// ncPrint((char*)sampleDataModuleAddress);
-	// ncNewline();
-
-	// ncPrint("[Finished]");
-    // ncNewline();
-    //Ej 1 - BIEN
-    // ncPrintWithColor("Arquitectura de Computadoras", GREEN, WHITE);
-    // ncNewline();
-
-    // //Ej 3 - BIEN (Imprime una hora rara)
-    // ncGetRTCHour();
-    // ncNewline();
-
-    // //Ej 4 - BIEN (Salvo las teclas especiales)
-    // ncPoolChar();
-    // ncNewline();
-
-	putPixel(0xFF33CCFF,0,0);
-	putPixel(0xFF33CCFF,0,1);
-	putPixel(0xFF33CCFF,1,0);
-	putPixel(0xFF33CCFF,1,1);
+	printLetter(1, COLOR_CYAN, 0,0, 5);
 
     //Ej 5 - BIEN
 

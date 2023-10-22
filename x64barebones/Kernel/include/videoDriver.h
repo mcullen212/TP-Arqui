@@ -19,6 +19,6 @@ enum Hex64Colors {
 
 void putPixel(uint32_t hexColor, uint64_t x, uint64_t y);
 
-void printLetter(char num, uint32_t hexColor, uint64_t x, uint64_t y);
+void printLetter(char num, uint32_t hexColor, uint64_t x, uint64_t y, uint64_t scale);
 
 #endif

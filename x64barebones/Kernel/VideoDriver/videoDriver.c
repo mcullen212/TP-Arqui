@@ -262,18 +262,20 @@ void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
     framebuffer[offset+2]   =  (hexColor >> 16) & 0xFF; // rojo component
 } 
 
-void printLetter(char num_letter, uint32_t hexColor, uint64_t x, uint64_t y){
-	switch(num_letter){
-		case(1): {
-			for(int i = 0; i < 5 ; i++){
-				for(int j=0; j<5; j++){
-					if(pixel_A[i][j] == 1){
-						putPixel(hexColor, x, y);
-					}
-					y++;
-				}
-				x++;
-			}
-		}
-	}
+void printLetter(char num_letter, uint32_t hexColor, uint64_t x, uint64_t y, uint64_t scale) {
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            if (pixel_A[i][j] == 1) {
+                for (uint64_t k = 0; k < scale; k++) {
+                    for (uint64_t l = 0; l < scale; l++) {
+                        putPixel(hexColor, x + j * scale + l, y + i * scale + k);
+                    }
+                }
+            }
+        }
+    }
 }
+
+
+
+
