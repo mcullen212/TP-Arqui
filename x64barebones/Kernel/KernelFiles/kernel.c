@@ -4,6 +4,7 @@
 #include <moduleLoader.h>
 #include <naiveConsole.h>
 #include <idtManager.h>
+#include <videoDriver.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -104,20 +105,25 @@ int main()
 	// ncPrint("[Finished]");
     // ncNewline();
     //Ej 1 - BIEN
-    ncPrintWithColor("Arquitectura de Computadoras", GREEN, WHITE);
-    ncNewline();
+    // ncPrintWithColor("Arquitectura de Computadoras", GREEN, WHITE);
+    // ncNewline();
 
-    //Ej 3 - BIEN (Imprime una hora rara)
-    ncGetRTCHour();
-    ncNewline();
+    // //Ej 3 - BIEN (Imprime una hora rara)
+    // ncGetRTCHour();
+    // ncNewline();
 
-    //Ej 4 - BIEN (Salvo las teclas especiales)
-    ncPoolChar();
-    ncNewline();
+    // //Ej 4 - BIEN (Salvo las teclas especiales)
+    // ncPoolChar();
+    // ncNewline();
+
+	putPixel(0xFF33CCFF,0,0);
+	putPixel(0xFF33CCFF,0,1);
+	putPixel(0xFF33CCFF,1,0);
+	putPixel(0xFF33CCFF,1,1);
 
     //Ej 5 - BIEN
 
     //Ej 6 -
-    while(1);
+    //while(1);
 	return 0;
 }

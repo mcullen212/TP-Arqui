@@ -124,8 +124,8 @@ void ncGetRTCHour() {
 }
 
 void ncPoolChar() {
-    ncPrint("Press any key: ");
+    // ncPrint("Press any key: ");
 
-    uint8_t character = getKeyMapping(poolKey());
-    ncPrintChar(character);
+    // uint8_t character = getKeyMapping(poolKey());
+    // ncPrintChar(character);
 }
