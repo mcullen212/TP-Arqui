@@ -4,12 +4,15 @@
 
 static char shiftPressed = 0;
 static char capsLockPressed = 0;
+static char buffer[BUFFER_SIZE];
+static char lastKey = '\0';
+static unsigned long index = 0;
 
-char keyMap[][2] = { // [cantidad de teclas][2] => teclado estandar en ingles 
-                     // primer elemento es la tecla que presionas 
+char keyMap[][2] = { // [cantidad de teclas][2] => teclado estandar en ingles
+                     // primer elemento es la tecla que presionas
                      // y el segundo es la tecla sumada con shift
         {0, 0},
-        {0, 0}, // esc key 
+        {0, 0}, // esc key
         {'1', '!'},
         {'2', '@'},
         {'3', '#'},
@@ -50,7 +53,7 @@ char keyMap[][2] = { // [cantidad de teclas][2] => teclado estandar en ingles
         {';', ':'},
         {'\'', '\"'},
         {167, '~'},
-        {0, 0}, // left shift 
+        {0, 0}, // left shift
         {'\\', '|'},
         {'z', 'Z'},
         {'x', 'X'},
@@ -65,33 +68,48 @@ char keyMap[][2] = { // [cantidad de teclas][2] => teclado estandar en ingles
         {0, 0}, // right shift
         {0, 0}, //(keypad) * pressed
         {0, 0}, //left alt pressed
-        {' ', ' '} // space 
+        {' ', ' '} // space
     };
 
-uint8_t getKeyMapping(uint64_t number) {
+void keyHandler() {
+    uint64_t number = getKeyNumber();
     if(number == LEFT_SHIFT_PRESSED  || number == RIGHT_SHIFT_PRESSED){
-        shiftPressed = 1;
+        shiftPressed = 1;   // Si se presiona el Shift, prende el flag
+        return;
     }
 
     if(number == LEFT_SHIFT_RELEASED || number == RIGHT_SHIFT_RELEASED){
-        shiftPressed = 0;
+        shiftPressed = 0;   // Si se suelta el Shift, lo apagar
+        return;
     }
-
     if(number == CAPS_LOCK_PRESSED){
-        capsLockPressed = 1 - capsLockPressed; // segunda vez que toca el caps lock se apaga 
+        capsLockPressed = 1 - capsLockPressed; // Toggle de la tecla CapsLock
+        return;
     }
 
     if(number >= RELEASED){
-        return 0;
+        return; // Si la teclsa es mayor a RELEASED y no es ninguna especial, no nos interesa que se suelte.
     }
 
-    if(shiftPressed || capsLockPressed){
-        return keyMap[number][1];
+    if (shiftPressed) {
+        buffer[index % BUFFER_SIZE] = keyMap[number][1];
+        lastKey = buffer[index % BUFFER_SIZE];
+        index++;
+        return;
     }
 
-    return keyMap[number][0];
+    if (capsLockPressed /* Agregar Condicion*/) {
+        buffer[index % BUFFER_SIZE] = keyMap[number][1];    // Agrego al buffer la tecla, y me guardo cual fue la ultima.
+        lastKey = buffer[index % BUFFER_SIZE];
+        index++;
+        return;
+    }
+
+    buffer[index % BUFFER_SIZE] = keyMap[number][0];
+    lastKey = buffer[index % BUFFER_SIZE];
+    index++;
 }
 
 uint8_t getKeyPressed() {
-    return getKeyMapping(getKeyNumber());
+    return lastKey;
 }
