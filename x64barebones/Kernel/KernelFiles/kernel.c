@@ -84,6 +84,8 @@ void * initializeKernelBinary()
 
 int main()
 {
+	//Descomentar las lineas de abajo y el ncPoolChar de navieConsole.c
+
     loadIDT();
 	// ncPrint("[Kernel Main]");
 	// ncNewline();
