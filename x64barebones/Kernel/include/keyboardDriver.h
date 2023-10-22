@@ -9,9 +9,10 @@
 #define RELEASED 128
 #define LEFT_SHIFT_RELEASED 170
 #define RIGHT_SHIFT_RELEASED 182
+#define BUFFER_SIZE 32
 
-uint8_t getKeyMapping(uint64_t number);
+void keyHandler();
 uint8_t getKeyPressed();
-extern uint8_t getKeyNumber();
+extern uint64_t getKeyNumber();
 
 #endif
