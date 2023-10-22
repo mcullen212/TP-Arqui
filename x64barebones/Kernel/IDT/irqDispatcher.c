@@ -28,8 +28,5 @@ void int_00() {
 
 // Interruption 01 ---------------------------
 void int_01() {
-    char keyPressed = getKeyPressed();
-    if (keyPressed != 0) {
-        ncPrintChar(keyPressed);    
-    } 
+    keyHandler();
 }
