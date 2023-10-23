@@ -1,211 +1,10 @@
 #include <videoDriver.h>
-const uint8_t pixel_A[5][5] = {
-    {0, 0, 1, 0, 0},
-    {0, 1, 0, 1, 0},
-    {1, 1, 1, 1, 1},
-    {1, 0, 0, 0, 1},
-    {1, 0, 0, 0, 1}
-};
+#include<fonts.h>
 
-const uint8_t pixel_B[5][5] = {
-    {1, 1, 1, 0, 0},
-    {1, 0, 0, 1, 0},
-    {1, 1, 1, 0, 0},
-    {1, 0, 0, 1, 0},
-    {1, 1, 1, 0, 0}
-};
+#define CHAR_SIZE 8
+#define SCALE 8
 
-const uint8_t pixel_C[5][5] = {
-    {0, 1, 1, 1, 0},
-    {1, 0, 0, 0, 1},
-    {1, 0, 0, 0, 0},
-    {1, 0, 0, 0, 1},
-    {0, 1, 1, 1, 0}
-};
-
-const uint8_t pixel_D[5][5] = {
-    {1, 1, 1, 0, 0},
-    {1, 0, 0, 1, 0},
-    {1, 0, 0, 1, 0},
-    {1, 0, 0, 1, 0},
-    {1, 1, 1, 0, 0}
-};
-
-const uint8_t pixel_E[5][5] = {
-    {1, 1, 1, 1, 0},
-    {1, 0, 0, 0, 0},
-    {1, 1, 1, 0, 0},
-    {1, 0, 0, 0, 0},
-    {1, 1, 1, 1, 0}
-};
-
-const uint8_t pixel_F[5][5] = {
-    {1, 1, 1, 1, 0},
-    {1, 0, 0, 0, 0},
-    {1, 1, 1, 0, 0},
-    {1, 0, 0, 0, 0},
-    {1, 0, 0, 0, 0}
-};
-
-const uint8_t pixel_G[5][5] = {
-    {0, 1, 1, 1, 1},
-    {1, 0, 0, 0, 0},
-    {1, 0, 0, 1, 1},
-    {1, 0, 0, 0, 1},
-    {0, 1, 1, 1, 0}
-};
-
-const uint8_t pixel_H[5][5] = {
-    {1, 0, 0, 0, 1},
-    {1, 0, 0, 0, 1},
-    {1, 1, 1, 1, 1},
-    {1, 0, 0, 0, 1},
-    {1, 0, 0, 0, 1}
-};
-
-const uint8_t pixel_I[5][5] = {
-    {1, 1, 1, 1, 1},
-    {0, 0, 1, 0, 0},
-    {0, 0, 1, 0, 0},
-    {0, 0, 1, 0, 0},
-    {1, 1, 1, 1, 1}
-};
-
-const uint8_t pixel_J[5][5] = {
-    {0, 0, 0, 0, 1},
-    {0, 0, 0, 0, 1},
-    {0, 0, 0, 0, 1},
-    {1, 0, 0, 0, 1},
-    {0, 1, 1, 1, 0}
-};
-
-const uint8_t pixel_K[5][5] = {
-    {1, 0, 0, 0, 1},
-    {1, 0, 0, 1, 0},
-    {1, 1, 1, 0, 0},
-    {1, 0, 0, 1, 0},
-    {1, 0, 0, 0, 1}
-};
-
-const uint8_t pixel_L[5][5] = {
-    {1, 0, 0, 0, 0},
-    {1, 0, 0, 0, 0},
-    {1, 0, 0, 0, 0},
-    {1, 0, 0, 0, 0},
-    {1, 1, 1, 1, 1}
-};
-
-const uint8_t pixel_M[5][5] = {
-    {1, 0, 0, 0, 1},
-    {1, 1, 0, 1, 1},
-    {1, 0, 1, 0, 1},
-    {1, 0, 0, 0, 1},
-    {1, 0, 0, 0, 1}
-};
-
-const uint8_t pixel_N[5][5] = {
-    {1, 0, 0, 0, 1},
-    {1, 1, 0, 0, 1},
-    {1, 0, 1, 0, 1},
-    {1, 0, 0, 1, 1},
-    {1, 0, 0, 0, 1}
-};
-
-const uint8_t pixel_O[5][5] = {
-    {0, 1, 1, 1, 0},
-    {1, 0, 0, 0, 1},
-    {1, 0, 0, 0, 1},
-    {1, 0, 0, 0, 1},
-    {0, 1, 1, 1, 0}
-};
-
-const uint8_t pixel_P[5][5] = {
-    {1, 1, 1, 0, 0},
-    {1, 0, 0, 1, 0},
-    {1, 1, 1, 0, 0},
-    {1, 0, 0, 0, 0},
-    {1, 0, 0, 0, 0}
-};
-
-const uint8_t pixel_Q[5][5] = {
-    {0, 1, 1, 1, 0},
-    {1, 0, 0, 0, 1},
-    {1, 0, 0, 1, 0},
-    {1, 0, 0, 0, 1},
-    {0, 1, 1, 1, 1}
-};
-
-const uint8_t pixel_R[5][5] = {
-    {1, 1, 1, 0, 0},
-    {1, 0, 0, 1, 0},
-    {1, 1, 1, 0, 1},
-    {1, 0, 0, 0, 1},
-    {1, 0, 0, 0, 1}
-};
-
-const uint8_t pixel_S[5][5] = {
-    {0, 1, 1, 1, 0},
-    {1, 0, 0, 0, 1},
-    {0, 1, 1, 1, 0},
-    {0, 0, 0, 0, 1},
-    {1, 1, 1, 1, 0}
-};
-
-const uint8_t pixel_T[5][5] = {
-    {1, 1, 1, 1, 1},
-    {0, 0, 1, 0, 0},
-    {0, 0, 1, 0, 0},
-    {0, 0, 1, 0, 0},
-    {0, 0, 1, 0, 0}
-};
-
-const uint8_t pixel_U[5][5] = {
-    {1, 0, 0, 0, 1},
-    {1, 0, 0, 0, 1},
-    {1, 0, 0, 0, 1},
-    {1, 0, 0, 0, 1},
-    {0, 1, 1, 1, 0}
-};
-
-const uint8_t pixel_V[5][5] = {
-    {1, 0, 0, 0, 1},
-    {1, 0, 0, 0, 1},
-    {1, 0, 0, 0, 1},
-    {0, 1, 0, 1, 0},
-    {0, 0, 1, 0, 0}
-};
-
-const uint8_t pixel_W[5][5] = {
-    {1, 0, 0, 0, 1},
-    {1, 0, 0, 0, 1},
-    {1, 0, 1, 0, 1},
-    {1, 1, 0, 1, 1},
-    {1, 0, 0, 0, 1}
-};
-
-const uint8_t pixel_X[5][5] = {
-    {1, 0, 0, 0, 1},
-    {1, 0, 0, 0, 1},
-    {0, 1, 0, 1, 0},
-    {1, 0, 0, 0, 1},
-    {1, 0, 0, 0, 1}
-};
-
-const uint8_t pixel_Y[5][5] = {
-    {1, 0, 0, 0, 1},
-    {1, 0, 0, 0, 1},
-    {0, 1, 0, 1, 0},
-    {0, 0, 1, 0, 0},
-    {0, 0, 1, 0, 0}
-};
-
-const uint8_t pixel_Z[5][5] = {
-    {1, 1, 1, 1, 1},
-    {0, 0, 0, 0, 1},
-    {0, 0, 0, 1, 0},
-    {0, 0, 1, 0, 0},
-    {1, 1, 1, 1, 1}
-};
+static void drawSquare(uint32_t hexColor, uint64_t x, uint64_t y, uint32_t scale);
 
 struct vbe_mode_info_structure {
 	uint16_t attributes;		// deprecated, only bit 7 should be of interest to you, and it indicates the mode supports a linear frame buffer.
@@ -262,16 +61,26 @@ void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
     framebuffer[offset+2]   =  (hexColor >> 16) & 0xFF; // rojo component
 } 
 
-void printLetter(char num_letter, uint32_t hexColor, uint64_t x, uint64_t y, uint64_t scale) {
-    for (int i = 0; i < 5; i++) {
-        for (int j = 0; j < 5; j++) {
-            if (pixel_A[i][j] == 1) {
-                for (uint64_t k = 0; k < scale; k++) {
-                    for (uint64_t l = 0; l < scale; l++) {
-                        putPixel(hexColor, x + j * scale + l, y + i * scale + k);
-                    }
-                }
+void drawChar(char letter, uint32_t hexColor, uint64_t x, uint64_t y, uint32_t scale) {
+    char *pixel = font8x8_basic[letter];
+
+    for(int i=0; i < SCALE; i++){
+        for(int j=0; j<CHAR_SIZE; j++){
+            int bit = (pixel[i] >> j) & 1;
+            if(bit){
+                drawSquare(hexColor, x, y, scale);
             }
+            x+=scale;
+        }
+        x-=(8 * scale);
+        y+=scale;
+    }
+}
+
+static void drawSquare(uint32_t hexColor, uint64_t x, uint64_t y, uint32_t scale){
+    for(int j=0; j<scale;j++){
+        for(int i=0; i<scale; i++){
+            putPixel(hexColor,x+i,y+j);
         }
     }
 }

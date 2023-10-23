@@ -89,7 +89,9 @@ int main()
     loadIDT();
 	
 
-	printLetter(1, COLOR_CYAN, 0,0, 5);
+	drawChar('B', COLOR_CYAN, 100,299, 7);
+	//drawChar('@', COLOR_CYAN, 100+ 10, 299 + 10,2);
+	drawChar('A', COLOR_CYAN, 100 + 19, 50 + 10,2);
 
     //Ej 5 - BIEN
 

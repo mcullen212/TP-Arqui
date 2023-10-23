@@ -16,7 +16,7 @@ void syscallsDispatcher(uint64_t rax, uint64_t * otherRegisters) {
     switch(rax) {
         case 0 : sys_read((unsigned int) rdi, (char *) rsi, (size_t) rdx); break;
         case 1 : sys_write((unsigned int) rdi, (char *) rsi, (size_t) rdx); break;
-        case 2 : sys_draw_char();
+        //case 2 : sys_draw_char();
         default : break;
     }
 }
