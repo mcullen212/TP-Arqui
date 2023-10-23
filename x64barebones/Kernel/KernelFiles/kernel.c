@@ -90,8 +90,10 @@ int main()
 	
 
 	drawChar('B', COLOR_CYAN, 100,299, 7);
-	drawChar('A', COLOR_CYAN, 100+9*7, 299,7);
-	drawChar('A', COLOR_CYAN, 100 + 19, 50 + 10,2);
+	drawChar(' ', COLOR_CYAN, 100+9*7,299, 7);
+	drawChar('A', COLOR_CYAN, 100+2*9*7, 299,7);
+	drawChar('a', COLOR_CYAN, 100 + 19, 50 + 10,2);
+	drawChar('*', COLOR_CYAN, 0,0, 3);
 
     //Ej 5 - BIEN
 
