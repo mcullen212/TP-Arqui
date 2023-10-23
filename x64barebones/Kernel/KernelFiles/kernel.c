@@ -88,7 +88,6 @@ int main()
 
     loadIDT();
 	
-
 	drawChar('B', 0xFF0000, 100,299, 7);
 	deleteChar(0xFF0000, 200,500, 7);
 	drawChar(' ', 0xFF0000, 100+9*7,299, 7);

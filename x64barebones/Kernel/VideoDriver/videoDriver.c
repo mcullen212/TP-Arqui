@@ -86,5 +86,12 @@ static void drawSquare(uint32_t hexColor, uint64_t x, uint64_t y, uint32_t scale
 }
 
 void deleteChar(uint32_t hexColor, uint64_t x, uint64_t y, uint32_t scale) {
-    drawChar(0, hexColor, x, y, scale);
+    for(int i=0; i < SCALE; i++){
+        for(int j=0; j<CHAR_SIZE; j++){
+    		drawSquare(hexColor, x, y, scale);
+            x+=scale;
+        }
+        x-=(8 * scale);
+        y+=scale;
+    }
 }
