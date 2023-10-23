@@ -2,7 +2,7 @@
 #include<fonts.h>
 
 #define CHAR_SIZE 8
-#define SCALE 8
+#define SCALE 16
 
 static void drawSquare(uint32_t hexColor, uint64_t x, uint64_t y, uint32_t scale);
 
@@ -62,7 +62,7 @@ void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
 } 
 
 void drawChar(char letter, uint32_t hexColor, uint64_t x, uint64_t y, uint32_t scale) {
-    char *pixel = font8x8_basic[letter];
+    char *pixel = font8x16[letter];
 
     for(int i=0; i < SCALE; i++){
         for(int j=0; j<CHAR_SIZE; j++){
