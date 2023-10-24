@@ -88,10 +88,17 @@ int main()
 
     loadIDT();
 	
-	drawChar('B', 0xFF0000, 100,299, 7);
-	deleteChar(0xFF0000, 200,500, 7);
+	drawChar('R', COLOR_RED, 70,100, 7);
+	drawChar('I', COLOR_WHITE, 70+9*7,100, 7);
+	drawChar('V', COLOR_RED, 70+2*9*7,100, 7);
+	drawChar('E', COLOR_WHITE, 70+3*9*7,100, 7);
+	drawChar('R', COLOR_RED, 70+4*9*7,100, 7);
+	deleteChar(0xFF0000, 200,500, 4);
 	drawChar(' ', 0xFF0000, 100+9*7,299, 7);
-	drawChar('A', 0xFF0000, 100+2*9*7, 299,7);
+	drawChar('B', COLOR_BLUE, 100+2*9*7, 299,7);
+	drawChar('O', COLOR_YELLOW, 100+3*9*7, 299,7);
+	drawChar('C', COLOR_BLUE, 100+4*9*7, 299,7);
+	drawChar('A', COLOR_YELLOW, 100+5*9*7, 299,7);
 	drawChar('a', 0xFF0000, 100 + 19, 50 + 10,2);
 	drawChar('*', 0xFF0000, 0,0, 3);
 
