@@ -50,7 +50,7 @@ VBEInfoPtr VBE_mode_info = (VBEInfoPtr) 0x0000000000005C00;
 
 static void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
 	//the location in memory where the graphics framebuffer is stored
-    uint8_t * framebuffer = (uint8_t *) VBE_mode_info->framebuffer;
+    uint8_t * framebuffer = (uint8_t *) ((uint64_t) VBE_mode_info->framebuffer);
 
 	// indicates where the pixel's color information should be stored
     uint64_t offset = (x * ((VBE_mode_info->bpp)/8)) + (y * VBE_mode_info->pitch);
@@ -62,7 +62,7 @@ static void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
 }
 
 void drawChar(uint8_t character, uint32_t hexColor, uint64_t x, uint64_t y, uint32_t scale) {
-    char *pixel = font8x16[character];
+    unsigned char *pixel = font8x16[character];
 
     for(int i=0; i < HEIGHT_FONT; i++){
         for(int j=0; j<WIDTH_FONT; j++){

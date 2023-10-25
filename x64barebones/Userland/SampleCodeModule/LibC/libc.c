@@ -9,10 +9,10 @@ int strcmp(const char * s1, const char * s2) {
 }
 
 //(unsigned int fd, const char *buf, size_t count)
-int putChar(char *c) {
-    call_write(1, &c, 1);
-}
-
+// int putChar(char *c) {
+//     call_write(1, c, 1);
+// }
+/*
 static char *intToString(int num){
     char *str = malloc(11);
     int i = 0;
@@ -125,7 +125,7 @@ int scanf(const char *format, ...){
         putchar(*format);
         format++;
     }
-}
+} */
 
 char getChar(){
     char c;

@@ -4,15 +4,14 @@
 
 #define EXCEPTION_COMMAND "Error: command not found"
 
-static uint64_t x=0, y=0;  //Top left hand corner of screen
-
 void shell(char *command) {
     int id = interpretCommand(command);
-    char *flag;
-    executeCommand(id, &flag);
+    char * flag;
+    *flag = 0;
+    executeCommand(id, flag);
 
     if(!flag){
-        printf(EXCEPTION_COMMAND);
+        //printf(EXCEPTION_COMMAND);
         return;
     }
 }

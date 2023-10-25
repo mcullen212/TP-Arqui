@@ -3,8 +3,10 @@
 #include <keyboardDriver.h>
 #include <videoDriver.h>
 
-int sys_read(unsigned int fd, char *buf, size_t count);
-void sys_write(unsigned int fd, const char *buf, size_t count);
+static int sys_read(unsigned int fd, char *buf, size_t count);
+static void sys_write(unsigned int fd, const char *buf, size_t count);
+static void sys_draw_char(uint8_t character, uint32_t hexColor, uint64_t x, uint64_t y, uint32_t scale);
+static void sys_delete_char(uint32_t hexColor, uint64_t x, uint64_t y, uint32_t scale) ;
 
 
 void syscallsDispatcher(uint64_t rax, uint64_t * otherRegisters) {

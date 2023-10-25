@@ -14,7 +14,7 @@ int interpretCommand(char * command);
 // Executes the command
 void executeCommand(int indexCommand, char * flag);
 
-char * commands = {"man", "time", "registers", "snake", "div0", "invalid operation"};
+char * commands[6] = {"man", "time", "registers", "snake", "div0", "invalid operation"};
 
 //void (* commandsReferences[])() = {man, time, registers, snake};
 
