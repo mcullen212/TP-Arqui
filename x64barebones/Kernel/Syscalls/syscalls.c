@@ -3,8 +3,8 @@
 #include <keyboardDriver.h>
 #include <videoDriver.h>
 
-static int sys_read(unsigned int fd, char *buf, size_t count);
-static void sys_write(unsigned int fd, const char *buf, size_t count);
+int sys_read(unsigned int fd, char *buf, size_t count);
+void sys_write(unsigned int fd, const char *buf, size_t count);
 
 
 void syscallsDispatcher(uint64_t rax, uint64_t * otherRegisters) {
@@ -25,12 +25,12 @@ void syscallsDispatcher(uint64_t rax, uint64_t * otherRegisters) {
 }
 
 // Syscall Read - ID = 0
-static int sys_read(unsigned int fd, char *buf, size_t count) {
+int sys_read(unsigned int fd, char *buf, size_t count) {
     return readFromKeyboard(buf,count);
 }
 
 // Syscall Write - ID = 1
-static void sys_write(unsigned int fd, const char *buf, size_t count) {
+void sys_write(unsigned int fd, const char *buf, size_t count) {
     switch(fd) {
         case 1 : ncPrintWithColor(buf, WHITE, BLACK); break;
         case 2 : ncPrintWithColor(buf, RED, BLACK); break;
@@ -39,11 +39,11 @@ static void sys_write(unsigned int fd, const char *buf, size_t count) {
 }
 
 // Syscall Draw char - ID = 2
-static void sys_draw_char(uint8_t character, uint32_t hexColor, uint64_t x, uint64_t y, uint32_t scale){
+void sys_draw_char(uint8_t character, uint32_t hexColor, uint64_t x, uint64_t y, uint32_t scale){
     drawChar(character,hexColor,x,y,scale);
 }
 
 // Syscall Delete char - ID = 3
-static void sys_delete_char(uint32_t hexColor, uint64_t x, uint64_t y, uint32_t scale) {
+void sys_delete_char(uint32_t hexColor, uint64_t x, uint64_t y, uint32_t scale) {
     deleteChar(hexColor,x,y,scale);
 }

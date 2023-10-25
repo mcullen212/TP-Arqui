@@ -6,7 +6,7 @@
 #define AMOUNT_OF_COMMANDS 4
 
 // Shell manager
-void shell(char * command);
+void shell();
 
 // Checks if the command is valid
 int interpretCommand(char * command);
@@ -14,7 +14,7 @@ int interpretCommand(char * command);
 // Executes the command
 void executeCommand(int indexCommand, char * flag);
 
-char * commands = {"man", "time", "registers", "snake"};
+char * commands = {"man", "time", "registers", "snake", "div0", "invalid operation"};
 
 //void (* commandsReferences[])() = {man, time, registers, snake};
 

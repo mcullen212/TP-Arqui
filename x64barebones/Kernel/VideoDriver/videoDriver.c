@@ -1,8 +1,8 @@
 #include <videoDriver.h>
 #include<fonts.h>
 
-#define CHAR_SIZE 8
-#define SCALE 16
+#define WIDTH_FONT 8
+#define HEIGHT_FONT 16
 
 static void drawSquare(uint32_t hexColor, uint64_t x, uint64_t y, uint32_t scale);
 
@@ -64,8 +64,8 @@ static void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
 void drawChar(uint8_t character, uint32_t hexColor, uint64_t x, uint64_t y, uint32_t scale) {
     char *pixel = font8x16[character];
 
-    for(int i=0; i < SCALE; i++){
-        for(int j=0; j<CHAR_SIZE; j++){
+    for(int i=0; i < HEIGHT_FONT; i++){
+        for(int j=0; j<WIDTH_FONT; j++){
             int bit = (pixel[i] >> j) & 1;
             if(bit){
                 drawSquare(hexColor, x, y, scale);
@@ -86,8 +86,8 @@ static void drawSquare(uint32_t hexColor, uint64_t x, uint64_t y, uint32_t scale
 }
 
 void deleteChar(uint32_t hexColor, uint64_t x, uint64_t y, uint32_t scale) {
-    for(int i=0; i < SCALE; i++){
-        for(int j=0; j<CHAR_SIZE; j++){
+    for(int i=0; i < HEIGHT_FONT; i++){
+        for(int j=0; j<WIDTH_FONT; j++){
     		drawSquare(hexColor, x, y, scale);
             x+=scale;
         }

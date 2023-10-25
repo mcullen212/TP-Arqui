@@ -1,7 +1,20 @@
 #include <shell.h>
+#include <stdint.h>
+#include <libc.h>
 
-void shell(char * command) {
+#define EXCEPTION_COMMAND "Error: command not found"
 
+static uint64_t x=0, y=0;  //Top left hand corner of screen
+
+void shell(char *command) {
+    int id = interpretCommand(command);
+    char *flag;
+    executeCommand(id, &flag);
+
+    if(!flag){
+        printf(EXCEPTION_COMMAND);
+        return;
+    }
 }
 
 int interpretCommand(char * command) {
@@ -18,7 +31,10 @@ void executeCommand(int indexCommand, char * flag) {
         *flag = 0;
         return;
     }
+
     //commandsReferences[indexCommand]();
     *flag = 1;
 }
+
+
 

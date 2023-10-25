@@ -67,3 +67,22 @@ getKeyNumber:
     mov rsp, rbp
     pop rbp
     ret
+
+realTimeClock:
+    push rbp
+    mov rbp, rsp 
+
+
+    cli ; cancel intruption
+    mov al, dil ; mueve valor 0 a al registro
+    ; "dame la hora" => 4
+    ; rdi es el primer registros que recibe dato en 64 bits 
+
+    ; in es un read data port y out es un write data port
+    out 70h, al ; mueve el valor de al al puerto 70h
+    in al, 71h ; mueve el valor del puerto 71h al registro ax
+    sti ; cuando esta leyendo el reloj no puedas interumpirlo
+
+    mov rsp, rbp
+    pop rbp
+    ret

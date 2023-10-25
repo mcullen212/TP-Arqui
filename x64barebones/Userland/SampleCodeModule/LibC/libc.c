@@ -9,7 +9,7 @@ int strcmp(const char * s1, const char * s2) {
 }
 
 //(unsigned int fd, const char *buf, size_t count)
-void putChar(char *c) {
+int putChar(char *c) {
     call_write(1, &c, 1);
 }
 
@@ -36,7 +36,7 @@ static char *intToString(int num){
     return str;
 }
 
-static char *hexToString(){
+static char *hexToString(int num){
     char *str = malloc(10);
     int i = 0;
     if(num == 0){
@@ -127,7 +127,7 @@ int scanf(const char *format, ...){
     }
 }
 
-char getchar(){
+char getChar(){
     char c;
     call_read(0, &c, 1);
     return c;
