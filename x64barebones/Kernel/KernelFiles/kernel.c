@@ -90,7 +90,7 @@ int main()
 
 	((EntryPoint)sampleCodeModuleAddress)();
 	
-	// drawChar('R', COLOR_RED, 70,100, 7);
+	//drawChar('R', COLOR_RED, 70,100, 7);
 	// drawChar('I', COLOR_WHITE, 70+9*7,100, 7);
 	// drawChar('V', COLOR_RED, 70+2*9*7,100, 7);
 	// drawChar('E', COLOR_WHITE, 70+3*9*7,100, 7);
