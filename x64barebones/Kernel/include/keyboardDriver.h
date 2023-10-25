@@ -9,10 +9,10 @@
 #define RELEASED 128
 #define LEFT_SHIFT_RELEASED 170
 #define RIGHT_SHIFT_RELEASED 182
-#define BUFFER_SIZE 32
+#define BUFFER_SIZE 256
 
 void keyHandler();
-uint8_t getKeyPressed();
-extern uint64_t getKeyNumber();
+int readFromKeyboard(char * toRetbuffer, int amount);
+int getKeyNumber();
 
 #endif

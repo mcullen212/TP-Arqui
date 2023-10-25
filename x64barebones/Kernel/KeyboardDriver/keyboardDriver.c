@@ -5,8 +5,8 @@
 static char shiftPressed = 0;
 static char capsLockPressed = 0;
 static char buffer[BUFFER_SIZE];
-static char lastKey = '\0';
 static unsigned long index = 0;
+static unsigned long currentKey = 0;
 
 char keyMap[][2] = { // [cantidad de teclas][2] => teclado estandar en ingles
                      // primer elemento es la tecla que presionas
@@ -93,23 +93,26 @@ void keyHandler() {
 
     if (shiftPressed) {
         buffer[index % BUFFER_SIZE] = keyMap[number][1];
-        lastKey = buffer[index % BUFFER_SIZE];
         index++;
         return;
     }
 
     if (capsLockPressed /* Agregar Condicion*/) {
         buffer[index % BUFFER_SIZE] = keyMap[number][1];    // Agrego al buffer la tecla, y me guardo cual fue la ultima.
-        lastKey = buffer[index % BUFFER_SIZE];
         index++;
         return;
     }
 
     buffer[index % BUFFER_SIZE] = keyMap[number][0];
-    lastKey = buffer[index % BUFFER_SIZE];
     index++;
 }
 
-uint8_t getKeyPressed() {
-    return lastKey;
+int readFromKeyboard(char * toRetbuffer, int amount) {
+    int j;
+    int toConsume = index - currentKey;
+    for (j = 0; j < toConsume && j < amount; j++) {
+        toRetbuffer[j] = buffer[currentKey % BUFFER_SIZE];
+        currentKey++;
+    }
+    return j;
 }

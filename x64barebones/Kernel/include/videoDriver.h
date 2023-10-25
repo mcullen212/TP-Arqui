@@ -18,10 +18,7 @@ enum Hex32Colors {
 };
 
 
-
-void putPixel(uint32_t hexColor, uint64_t x, uint64_t y);
-
-void drawChar(char num, uint32_t hexColor, uint64_t x, uint64_t y, uint32_t scale);
+void drawChar(uint8_t letter, uint32_t hexColor, uint64_t x, uint64_t y, uint32_t scale);
 
 void deleteChar(uint32_t hexColor, uint64_t x, uint64_t y, uint32_t scale);
 

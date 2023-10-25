@@ -27,7 +27,7 @@ struct vbe_mode_info_structure {
 	uint8_t bank_size;		// deprecated; size of a bank, almost always 64 KB but may be 16 KB...
 	uint8_t image_pages;
 	uint8_t reserved0;
- 
+
 	uint8_t red_mask;
 	uint8_t red_position;
 	uint8_t green_mask;
@@ -37,7 +37,7 @@ struct vbe_mode_info_structure {
 	uint8_t reserved_mask;
 	uint8_t reserved_position;
 	uint8_t direct_color_attributes;
- 
+
 	uint32_t framebuffer;		// physical address of the linear frame buffer; write here to draw to the screen
 	uint32_t off_screen_mem_off;
 	uint16_t off_screen_mem_size;	// size of memory in the framebuffer but not being displayed on the screen
@@ -48,21 +48,21 @@ typedef struct vbe_mode_info_structure * VBEInfoPtr;
 
 VBEInfoPtr VBE_mode_info = (VBEInfoPtr) 0x0000000000005C00;
 
-void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
+static void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
 	//the location in memory where the graphics framebuffer is stored
     uint8_t * framebuffer = (uint8_t *) VBE_mode_info->framebuffer;
 
 	// indicates where the pixel's color information should be stored
     uint64_t offset = (x * ((VBE_mode_info->bpp)/8)) + (y * VBE_mode_info->pitch);
 
-	//setting color 
-    framebuffer[offset]     =  (hexColor) & 0xFF;  // blue components 
+	//setting color
+    framebuffer[offset]     =  (hexColor) & 0xFF;  // blue components
     framebuffer[offset+1]   =  (hexColor >> 8) & 0xFF;  // green component
     framebuffer[offset+2]   =  (hexColor >> 16) & 0xFF; // rojo component
-} 
+}
 
-void drawChar(char letter, uint32_t hexColor, uint64_t x, uint64_t y, uint32_t scale) {
-    char *pixel = font8x16[letter];
+void drawChar(uint8_t character, uint32_t hexColor, uint64_t x, uint64_t y, uint32_t scale) {
+    char *pixel = font8x16[character];
 
     for(int i=0; i < SCALE; i++){
         for(int j=0; j<CHAR_SIZE; j++){
