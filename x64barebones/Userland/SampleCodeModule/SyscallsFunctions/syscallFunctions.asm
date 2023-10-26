@@ -4,7 +4,7 @@ GLOBAL call_draw_char
 GLOBAL call_delete_char
 section .text
 
-%macro pushCalleeState 0
+%macro pushAll 0
 	push rbx
     push r12
     push r13
@@ -12,7 +12,7 @@ section .text
     push r15
 %endmacro
 
-%macro popCalleeState 0
+%macro popAll 0
 	pop r15
 	pop r14
 	pop r13
@@ -23,12 +23,12 @@ section .text
 call_read:
     push rbp
     mov rbp, rsp
-    pushCalleeState
+    pushAll
 
     mov rax, 0 ; Read
     int 80h
 
-    popCalleeState
+    popAll
     mov rsp, rbp
     pop rbp
     ret
@@ -36,12 +36,12 @@ call_read:
 call_write:
     push rbp
     mov rbp, rsp
-    pushCalleeState
+    pushAll
 
     mov rax, 1 ; Write
     int 80h
 
-    popCalleeState
+    popAll
     mov rsp, rbp
     pop rbp
     ret
@@ -49,12 +49,12 @@ call_write:
 call_draw_char:
     push rbp
     mov rbp, rsp
-    pushCalleeState
+    pushAll
 
     mov rax, 2  ; Draw char
     int 80h
 
-    popCalleeState
+    popAll
     mov rsp, rbp
     pop rbp
     ret
@@ -62,12 +62,12 @@ call_draw_char:
 call_delete_char:
     push rbp
     mov rbp, rsp
-    pushCalleeState
+    pushAll
 
     mov rax, 3  ; Delete char
     int 80h
 
-    popCalleeState
+    popAll
     mov rsp, rbp
     pop rbp
     ret
