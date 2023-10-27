@@ -130,18 +130,23 @@ _irq80Handler:
     mov rbp, rsp
     pushState
 
-    push r9     ; Pusheo en las pila en orden todos los registros.
+    push r9
     push r8
     push rcx
     push rdx
     push rsi
     push rdi
+    push rax
 
-    mov rdi, rax    ; Paso como parametro el valor de RAX (id de la syscall)
-    mov rsi, rsp    ; Paso como parametro el puntero a todo el resto de los registros
+    pop rdi
+    pop rsi
+    pop rdx
+    pop rcx
+    pop r8
+    pop r9  ; Me quedan los argumentos guardados en los registros y el r9 el primero en el stack.
     call syscallsDispatcher
 
-    add rsp, 6*8    ; Restablezco el stack
+    add rsp, 8    ; Restablezco el stack
 
     popState
     mov rsp, rbp

@@ -9,19 +9,19 @@ static void sys_draw_char(uint8_t character, uint32_t hexColor, uint64_t x, uint
 static void sys_delete_char(uint32_t hexColor, uint64_t x, uint64_t y, uint32_t scale) ;
 
 
-void syscallsDispatcher(uint64_t rax, uint64_t * otherRegisters) {
-    uint64_t rdi, rsi, rdx, rcx, r8; //r9;     // Me guardo los registros en variables para mayor claridad de lectura del codigo.
-    rdi = otherRegisters[0];
-    rsi = otherRegisters[1];
-    rdx = otherRegisters[2];
-    rcx = otherRegisters[3];
-    r8 = otherRegisters[4];
+void syscallsDispatcher(uint64_t rax, uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t * r9) {
+    uint64_t r9Value = *r9;     // Me guardo los registros en variables para mayor claridad de lectura del codigo.
+    // rdi = otherRegisters[0];
+    // rsi = otherRegisters[1];
+    // rdx = otherRegisters[2];
+    // rcx = otherRegisters[3];
+    // r8 = otherRegisters[4];
     //r9 = otherRegisters[5];
     switch(rax) {
         case 0 : sys_read((unsigned int) rdi, (char *) rsi, (size_t) rdx); break;
         case 1 : sys_write((unsigned int) rdi, (char *) rsi, (size_t) rdx); break;
-        case 2 : sys_draw_char((uint8_t) rdi, (uint32_t) rsi, (uint64_t) rdx, (uint64_t) rcx, (uint32_t) r8);
-        case 3 : sys_delete_char((uint32_t) rdi, (uint64_t) rsi, (uint64_t) rdx, (uint32_t) rcx);
+        case 2 : sys_draw_char((uint8_t) rdi, (uint32_t) rsi, (uint64_t) rdx, (uint64_t) rcx, (uint32_t) r8); break;
+        case 3 : sys_delete_char((uint32_t) rdi, (uint64_t) rsi, (uint64_t) rdx, (uint32_t) rcx); break;
         default : break;
     }
 }

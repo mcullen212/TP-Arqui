@@ -9,7 +9,7 @@
 int main(void){
     char * buffer;
     char c;
-    call_draw_char('>', CHARACTER_COLOR, MIN_X, MIN_Y, 3);
+    call_draw_char('A', CHARACTER_COLOR, MIN_X, MIN_Y, 3);
 	Cursor cursor;
 	cursor.x = MIN_X;
 	cursor.y = MIN_Y;
@@ -20,19 +20,12 @@ int main(void){
         call_draw_char(c, CHARACTER_COLOR, cursor.x, cursor.y, cursor.scale);
 		moveCursor(&cursor, WRITE);
     }
-
 	return 0;
 
 }
 
-// char * v = (char*)0xB8000 + 79 * 2;
-
-// static int var1 = 0;
-// static int var2 = 0;
-
-
 // int main() {
-// 	//All the following code may be removed 
+// 	//All the following code may be removed
 // 	*v = 'X';
 // 	*(v+1) = 0x74;
 

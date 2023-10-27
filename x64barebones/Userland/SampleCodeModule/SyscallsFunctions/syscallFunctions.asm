@@ -49,12 +49,12 @@ call_write:
 call_draw_char:
     push rbp
     mov rbp, rsp
-    pushAll
+    pushState
 
-    mov rax, 2  ; Draw char
+    mov dword rax, 2
     int 80h
 
-    popAll
+    popState
     mov rsp, rbp
     pop rbp
     ret
