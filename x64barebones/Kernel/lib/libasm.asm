@@ -2,6 +2,8 @@ GLOBAL cpuVendor
 GLOBAL getRTCHour
 GLOBAL poolKey
 GLOBAL getKeyNumber
+GLOBAL realTimeClock
+
 
 section .text
 

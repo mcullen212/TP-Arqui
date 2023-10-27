@@ -1,5 +1,6 @@
 #include <time.h>
+#include <syscallFunctions.h>
 
-void time(){
-    
+char * time(){
+    return call_get_time();
 }
