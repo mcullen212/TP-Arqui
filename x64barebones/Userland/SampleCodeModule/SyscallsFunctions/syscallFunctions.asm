@@ -2,6 +2,7 @@ GLOBAL call_read
 GLOBAL call_write
 GLOBAL call_draw_char
 GLOBAL call_delete_char
+GLOBAL call_get_time
 section .text
 
 %macro pushAll 0
@@ -71,3 +72,17 @@ call_delete_char:
     mov rsp, rbp
     pop rbp
     ret
+
+call_get_time:
+    push rbp
+    mov rbp, rsp
+
+    pushAll
+
+    mov rax, 4
+    int 80h
+
+    mov rsp, rbp
+    pop rbp
+    ret
+
