@@ -17,12 +17,12 @@ int strlen(const char * s) {
 }
 
 void putString(char *c, int length) {
-    call_write(c, length); 
+    call_write(1,c, length); 
 }
 
 char getChar(){
     char c;
-    call_read((char *) &c, 1);
+    call_read(1, (char *) &c, 1);
     return c;
 }
 

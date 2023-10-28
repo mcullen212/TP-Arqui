@@ -37,7 +37,7 @@ void loadIDT() {
 }
 
 void setUpIDTEntry(int index, uint64_t offset) {
-    idt[index].offset_l = offset & 0xFFF;
+    idt[index].offset_l = offset & 0xFFFF;
     idt[index].selector = 0x08;
     idt[index].cero = 0;
     idt[index].access = ACS_INT;
