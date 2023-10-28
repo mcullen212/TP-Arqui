@@ -9,14 +9,15 @@
 int main(void){
     char * buffer;
     char c;
-    call_draw_char('A', CHARACTER_COLOR, MIN_X, MIN_Y, 3);
+    call_draw_char('A', CHARACTER_COLOR, MIN_X, MIN_Y, 1);
 	Cursor cursor;
 	cursor.x = MIN_X;
 	cursor.y = MIN_Y;
-	cursor.scale = 3;
+	cursor.scale = 1;
 
     while((c=getChar())!='\n'){
-        *buffer++ = c;
+        *buffer = c;
+        buffer++;
         call_draw_char(c, CHARACTER_COLOR, cursor.x, cursor.y, cursor.scale);
 		moveCursor(&cursor, WRITE);
     }
