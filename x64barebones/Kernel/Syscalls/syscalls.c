@@ -3,7 +3,7 @@
 #include <keyboardDriver.h>
 #include <videoDriver.h>
 
-static int sys_read(unsigned int fd, char *buf, size_t count);
+static void sys_read(unsigned int fd, char *buf, size_t count, int * size);
 static void sys_write(unsigned int fd, const char *buf, size_t count);
 static void sys_draw_char(uint8_t character, uint32_t hexColor, uint32_t x, uint32_t y, uint32_t scale);
 static void sys_delete_char(uint32_t hexColor, uint32_t x, uint32_t y, uint32_t scale) ;
@@ -19,7 +19,7 @@ void syscallsDispatcher(uint64_t rax, uint64_t *otherRegisters) {
     //r9 = otherRegisters[5];
     switch(rax) {
         case 0 : 
-            sys_read((unsigned int) rdi, (char *) rsi, (size_t) rdx); 
+            sys_read((unsigned int) rdi, (char *) rsi, (size_t) rdx, (int *) rcx); 
             break;
         case 1 : 
             sys_write((unsigned int) rdi, (char *) rsi, (size_t) rdx); 
@@ -36,8 +36,8 @@ void syscallsDispatcher(uint64_t rax, uint64_t *otherRegisters) {
 }
 
 // Syscall Read - ID = 0
-int sys_read(unsigned int fd, char *buf, size_t count) {
-    return readFromKeyboard(buf,count);
+void sys_read(unsigned int fd, char *buf, size_t count, int * size) {
+    readFromKeyboard(buf,count, size);
 }
 
 // Syscall Write - ID = 1
@@ -58,3 +58,4 @@ void sys_draw_char(uint8_t character, uint32_t hexColor, uint32_t x, uint32_t y,
 void sys_delete_char(uint32_t hexColor, uint32_t x, uint32_t y, uint32_t scale) {
     deleteChar(hexColor,x,y,scale);
 }
+

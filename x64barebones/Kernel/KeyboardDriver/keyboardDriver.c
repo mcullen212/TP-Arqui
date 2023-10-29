@@ -107,14 +107,14 @@ void keyHandler() {
     index++;
 }
 
-int readFromKeyboard(char * toRetbuffer, int amount) {
+void readFromKeyboard(char * toRetbuffer, int amount, int * size) {
     int j;
     int toConsume = index - currentKey;
     for (j = 0; j < toConsume && j < amount; j++) {
         toRetbuffer[j] = buffer[currentKey % BUFFER_SIZE];
         currentKey++;
     }
-    return j;
+    *size = j;
 }
 
 

@@ -22,7 +22,10 @@ void putString(char *c, int length) {
 
 char getChar(){
     char c;
-    call_read(1, (char *) &c, 1);
+    int size = 0;
+    while(size!=1){
+        call_read(1, &c, 1, &size);
+    }
     return c;
 }
 

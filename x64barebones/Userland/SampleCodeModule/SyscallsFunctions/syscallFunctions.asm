@@ -3,6 +3,8 @@ GLOBAL call_write
 GLOBAL call_draw_char
 GLOBAL call_delete_char
 GLOBAL call_get_time
+GLOBAL call_pool_char
+
 section .text
 
 %macro pushAll 0
@@ -50,12 +52,12 @@ call_write:
 call_draw_char:
     push rbp
     mov rbp, rsp
-    pushState
+    pushAll
 
     mov dword rax, 2
     int 80h
 
-    popState
+    popAll
     mov rsp, rbp
     pop rbp
     ret
@@ -82,7 +84,25 @@ call_get_time:
     mov rax, 4
     int 80h
 
+    popAll
+
     mov rsp, rbp
     pop rbp
     ret
+
+call_pool_char:
+    push rbp
+    mov rbp, rsp
+
+    pushAll
+
+    mov rax, 4
+    int 80h
+
+    popAll
+
+    mov rsp, rbp
+    pop rbp
+    ret
+
 

@@ -3,6 +3,7 @@ GLOBAL getRTCHour
 GLOBAL poolKey
 GLOBAL getKeyNumber
 GLOBAL realTimeClock
+GLOBAL poolChar
 
 
 section .text
@@ -50,15 +51,16 @@ poolKey:
     mov rbp, rsp
 
 .loop:
-    in al, 64h ; Ciclo hasta que el buffer de teclado reciba un imput.
+    in al, 64h ; Loops until the keyboard buffer recived an input.
     test al, 1
     jz .loop
-
-    in al, 60h ; Cuando hay un imput, lo retorno en AL
-
+    
+    in al, 60h ; Returns the input 
+    
     mov rsp, rbp
     pop rbp
     ret
+
 
 getKeyNumber:
     push rbp
@@ -88,3 +90,4 @@ realTimeClock:
     mov rsp, rbp
     pop rbp
     ret
+

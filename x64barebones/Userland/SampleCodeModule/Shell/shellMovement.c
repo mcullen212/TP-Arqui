@@ -2,7 +2,7 @@
 #include <stdint.h>
 
 void inicializeCursor(Cursor * cursor) {
-    cursor->x = MIN_X;
+    cursor->x = MIN_X*8;
     cursor->y = MIN_Y;
     cursor->scale = 1;
 }
