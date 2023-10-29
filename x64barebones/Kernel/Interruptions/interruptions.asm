@@ -130,23 +130,19 @@ _irq80Handler:
     mov rbp, rsp
     pushState
 
+    ;parameters for systemcalls
     push r9
     push r8
-    push rcx
-    push rdx
+    push rcx 
+    push rdx 
     push rsi
-    push rdi
-    push rax
-
-    pop rdi
-    pop rsi
-    pop rdx
-    pop rcx
-    pop r8
-    pop r9  ; Me quedan los argumentos guardados en los registros y el r9 el primero en el stack.
+    push rdi 
+    
+    mov rdi, rax
+    mov rsi, rsp   ; stack pointer is pointing towards first element in the stack  
     call syscallsDispatcher
 
-    add rsp, 8    ; Restablezco el stack
+    add rsp, 8*6    ; Restablezco el stack
 
     popState
     mov rsp, rbp

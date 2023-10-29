@@ -5,15 +5,19 @@
 
 #define CHARACTER_COLOR 0xB0CA07
 
+static Cursor cursor;
 
 int main(void){
     char * buffer;
     char c;
-    call_draw_char('A', CHARACTER_COLOR, MIN_X, MIN_Y, 1);
-	Cursor cursor;
-	cursor.x = MIN_X;
-	cursor.y = MIN_Y;
-	cursor.scale = 1;
+	
+    inicializeCursor(&cursor);
+
+    call_draw_char('u', 0xFFFFFF, 8, 8, 1);
+    call_draw_char('s', 0xFFFFFF, 8*2, 8, 1);
+    call_draw_char('e', 0xFFFFFF, 8*3, 8, 1);
+    call_draw_char('r', 0xFFFFFF, 8*4, 8, 1);
+    call_draw_char('>', 0x0000FF, 8*5, 8, 1);
 
     while((c=getChar())!='\n'){
         *buffer = c;
