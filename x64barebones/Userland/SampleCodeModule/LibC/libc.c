@@ -18,12 +18,12 @@ int strlen(const char * s) {
 
 void putString(char *c, int length) {
     // int size = 0;
-    // call_write(c, cursor->x, cursor->y, cursor->scale, &size); 
+    // call_write(c, cursor->x, cursor->y, cursor->scale, &size);
 }
 
 char getChar(){
-    char c;
-    int size = 0;
+    uint8_t c;
+    uint32_t size = 0;
     while(size!=1){
         call_read(&c, 1, &size);
     }
@@ -33,7 +33,7 @@ char getChar(){
 static int intToString(int num, char *str){
     int i = 0;
     if(num < 0){
-        str[i] = '-'; 
+        str[i] = '-';
         i++;
         num = -num;
     }
@@ -114,7 +114,7 @@ int printf(const char * format, ...){ //nose como accesder a los parametros ... 
 //         if(*format == '%'){
 //             format++;
 //             switch(*format){
-//                //en proceso 
+//                //en proceso
 //             }
 //         }
 //     }

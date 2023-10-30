@@ -3,8 +3,9 @@
 
 #define WIDTH_FONT 8
 #define HEIGHT_FONT 16
+#define TAB_SIZE 4
 
-static uint32_t characterColor = 0xFFFFFF; // default color white 
+static uint32_t characterColor = 0xFFFFFF; // default color white
 static uint32_t backgroundColor = 0x000000; // default color black
 
 static void drawSquare(uint32_t hexColor, uint64_t x, uint64_t y, uint32_t scale);
@@ -101,9 +102,22 @@ void deleteChar(uint64_t x, uint64_t y, uint32_t scale) {
 
 void drawString(uint8_t * string, uint64_t x, uint64_t y, uint32_t scale, uint32_t * length) {
 	int i = 0;
+    int x0 = x;
 	while(string[i] != 0){
-		drawChar(string[i], x, y, scale);
-		x+=8*scale;
+        if (string[i] == '\n') {
+            x = x0;
+            y += (HEIGHT_FONT * scale);
+        } else {
+            if (string[i] == '\t') {
+                for (int j = 0; j < TAB_SIZE ; j++) {
+                    drawChar(' ', x, y, scale);
+                    x+=8*scale;
+                }
+            } else {
+                drawChar(string[i], x, y, scale);
+		        x+=8*scale;
+            }
+        }
 		i++;
 	}
 	*length = i;

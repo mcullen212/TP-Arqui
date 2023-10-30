@@ -20,5 +20,6 @@ typedef struct {
 
 void inicializeCursor(Cursor * cursor, int x, int y, int scale);
 void moveCursor(Cursor * cursor, actionOfCursor movement);
+Cursor getCursor();
 
 #endif
