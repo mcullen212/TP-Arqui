@@ -1,5 +1,5 @@
-#ifndef COLOR_H
-#define COLOR_H
+#ifndef THEMES_H
+#define THEMES_H
 
 enum Hex32Colors {
     COLOR_BLACK     = 0x000000,
@@ -13,6 +13,14 @@ enum Hex32Colors {
     COLOR_GRAY      = 0x808080,
     COLOR_LIGHT_GRAY = 0xC0C0C0,
     COLOR_DARK_GRAY  = 0x404040,
+};
+
+enum Hex32Colors themes[5][2] = {
+    {COLOR_BLACK, COLOR_WHITE},
+    {COLOR_BLACK,COLOR_YELLOW},
+    {COLOR_BLACK,COLOR_CYAN},
+    {COLOR_WHITE,COLOR_BLACK},
+    {COLOR_WHITE,COLOR_BLUE}
 };
 
 #endif

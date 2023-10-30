@@ -2,6 +2,7 @@
 #include <syscallFunctions.h>
 #include <shellMovement.h>
 #include <libc.h>
+#include <themes.h>
 
 #define CHARACTER_COLOR 0xB0CA07
 
@@ -12,6 +13,8 @@ int main(void){
     char c;
 	
     inicializeCursor(&cursor);
+
+    call_set_theme(themes[4][1], themes[4][0]);
 
     call_draw_char('u', 8, 8, 1);
     call_draw_char('s', 8*2, 8, 1);
