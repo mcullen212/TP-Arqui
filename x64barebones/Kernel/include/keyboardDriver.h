@@ -12,7 +12,7 @@
 #define BUFFER_SIZE 256
 
 void keyHandler();
-void readFromKeyboard(char * toRetbuffer, int amount, int * size);
+void readFromKeyboard(uint8_t * toRetbuffer, uint32_t amount, uint32_t * size); 
 int getKeyNumber();
 
 #endif

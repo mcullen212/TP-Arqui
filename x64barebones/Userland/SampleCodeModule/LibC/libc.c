@@ -17,14 +17,15 @@ int strlen(const char * s) {
 }
 
 void putString(char *c, int length) {
-    call_write(1,c, length); 
+    // int size = 0;
+    // call_write(c, cursor->x, cursor->y, cursor->scale, &size); 
 }
 
 char getChar(){
     char c;
     int size = 0;
     while(size!=1){
-        call_read(1, &c, 1, &size);
+        call_read(&c, 1, &size);
     }
     return c;
 }

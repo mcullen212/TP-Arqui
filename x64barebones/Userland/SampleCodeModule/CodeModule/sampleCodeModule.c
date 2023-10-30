@@ -13,16 +13,16 @@ int main(void){
 	
     inicializeCursor(&cursor);
 
-    call_draw_char('u', 0xFFFFFF, 8, 8, 1);
-    call_draw_char('s', 0xFFFFFF, 8*2, 8, 1);
-    call_draw_char('e', 0xFFFFFF, 8*3, 8, 1);
-    call_draw_char('r', 0xFFFFFF, 8*4, 8, 1);
-    call_draw_char('>', 0x0000FF, 8*5, 8, 1);
+    call_draw_char('u', 8, 8, 1);
+    call_draw_char('s', 8*2, 8, 1);
+    call_draw_char('e', 8*3, 8, 1);
+    call_draw_char('r', 8*4, 8, 1);
+    call_draw_char('>', 8*5, 8, 1);
 
     while((c=getChar())!='\n'){
         *buffer = c;
         buffer++;
-        call_draw_char(c, CHARACTER_COLOR, cursor.x, cursor.y, cursor.scale);
+        call_draw_char(c, cursor.x, cursor.y, cursor.scale);
 		moveCursor(&cursor, WRITE);
     }
 	return 0;

@@ -4,6 +4,9 @@
 #define WIDTH_FONT 8
 #define HEIGHT_FONT 16
 
+static uint32_t characterColor = 0xFFFFFF; // default color white 
+static uint32_t backgroundColor = 0x000000; // default color black
+
 static void drawSquare(uint32_t hexColor, uint64_t x, uint64_t y, uint32_t scale);
 
 struct vbe_mode_info_structure {
@@ -61,14 +64,14 @@ static void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
     framebuffer[offset+2]   =  (hexColor >> 16) & 0xFF; // rojo component
 }
 
-void drawChar(uint8_t character, uint32_t hexColor, uint64_t x, uint64_t y, uint32_t scale) {
+void drawChar(uint8_t character, uint64_t x, uint64_t y, uint32_t scale) {
     unsigned char *pixel = font8x16[character];
 
-    for(int i=0; i < HEIGHT_FONT; i++){
-        for(int j=0; j<WIDTH_FONT; j++){
+    for(int i = 0; i < HEIGHT_FONT; i++) {
+        for(int j = 0; j<WIDTH_FONT; j++) {
             int bit = (pixel[i] >> j) & 1;
             if(bit){
-                drawSquare(hexColor, x, y, scale);
+                drawSquare(characterColor, x, y, scale);
             }
             x+=scale;
         }
@@ -77,21 +80,36 @@ void drawChar(uint8_t character, uint32_t hexColor, uint64_t x, uint64_t y, uint
     }
 }
 
-static void drawSquare(uint32_t hexColor, uint64_t x, uint64_t y, uint32_t scale){
-    for(int j=0; j<scale;j++){
-        for(int i=0; i<scale; i++){
+static void drawSquare(uint32_t hexColor,uint64_t x, uint64_t y, uint32_t scale){
+    for(int j = 0; j < scale;j++) {
+        for(int i = 0; i < scale; i++) {
             putPixel(hexColor,x+i,y+j);
         }
     }
 }
 
-void deleteChar(uint32_t hexColor, uint64_t x, uint64_t y, uint32_t scale) {
-    for(int i=0; i < HEIGHT_FONT; i++){
-        for(int j=0; j<WIDTH_FONT; j++){
-    		drawSquare(hexColor, x, y, scale);
+void deleteChar(uint64_t x, uint64_t y, uint32_t scale) {
+    for(int i = 0; i < HEIGHT_FONT; i++) {
+        for(int j = 0; j< WIDTH_FONT; j++) {
+    		drawSquare(backgroundColor, x, y, scale);
             x+=scale;
         }
         x-=(8 * scale);
         y+=scale;
     }
+}
+
+void drawString(uint8_t * string, uint64_t x, uint64_t y, uint32_t scale, uint32_t * length) {
+	int i = 0;
+	while(string[i] != 0){
+		drawChar(string[i], x, y, scale);
+		x+=8*scale;
+		i++;
+	}
+	*length = i;
+}
+
+void setColor(uint32_t textColor, uint32_t backColor) {
+	characterColor = textColor;
+	backgroundColor = backColor;
 }

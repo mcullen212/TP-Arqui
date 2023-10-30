@@ -3,7 +3,7 @@ GLOBAL call_write
 GLOBAL call_draw_char
 GLOBAL call_delete_char
 GLOBAL call_get_time
-GLOBAL call_pool_char
+GLOBAL call_set_theme
 
 section .text
 
@@ -105,4 +105,17 @@ call_pool_char:
     pop rbp
     ret
 
+call_set_theme:
+    push rbp
+    mov rbp, rsp
 
+    pushAll
+
+    mov rax, 5
+    int 80h
+
+    popAll
+
+    mov rsp, rbp
+    pop rbp
+    ret

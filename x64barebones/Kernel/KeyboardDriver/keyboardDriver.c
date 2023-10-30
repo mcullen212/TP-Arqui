@@ -107,7 +107,7 @@ void keyHandler() {
     index++;
 }
 
-void readFromKeyboard(char * toRetbuffer, int amount, int * size) {
+void readFromKeyboard(uint8_t * toRetbuffer, uint32_t amount, uint32_t * size) {
     int j;
     int toConsume = index - currentKey;
     for (j = 0; j < toConsume && j < amount; j++) {
