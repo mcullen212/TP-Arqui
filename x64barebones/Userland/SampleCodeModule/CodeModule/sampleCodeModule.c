@@ -9,6 +9,8 @@
 #define TAB_SIZE 4
 #define HEADER_SIZE 6
 
+int printShellHeader();
+
 static Cursor cursor;
 
 int main(void) {
@@ -52,13 +54,17 @@ int main(void) {
 
 // Prints shell header and returns the y index of the corresponding header.
 int printShellHeader() {
-    int length;
-    call_write("user> ", cursor.x, cursor.y, cursor.scale, &length);
+    uint32_t length;
+    call_write((uint8_t *) "user> ", cursor.x, cursor.y, cursor.scale, &length);
     while (length > 0) {
         moveCursor(&cursor, WRITE);
         length--;
     }
     return cursor.y;
+}
+
+Cursor getCursor() {
+    return cursor;
 }
 
 // int main() {
