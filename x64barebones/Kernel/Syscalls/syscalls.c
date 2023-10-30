@@ -1,13 +1,14 @@
 #include <syscalls.h>
-#include <naiveConsole.h>
 #include <keyboardDriver.h>
 #include <videoDriver.h>
+#include <time.h>
 
 static void sys_read(uint8_t * buf, uint32_t count, uint32_t * readBytes);
 static void sys_write(uint8_t * buf, uint32_t x, uint32_t y, uint32_t scale, uint32_t * count);
 static void sys_draw_char(uint8_t character, uint32_t x, uint32_t y, uint32_t scale);
 static void sys_delete_char( uint32_t x, uint32_t y, uint32_t scale) ;
-static void sys_shell_theme(uint32_t textColor, uint32_t backColor);
+static void sys_shell_theme(uint32_t * theme);
+static void sys_time(uint8_t ** currentTime);
 
 
 void syscallsDispatcher(uint64_t rax, uint64_t *otherRegisters) {
@@ -31,11 +32,11 @@ void syscallsDispatcher(uint64_t rax, uint64_t *otherRegisters) {
         case 3 : 
             sys_delete_char((uint32_t) rdi, (uint32_t) rsi, (uint32_t) rdx); 
             break;
-        // case 4 : 
-        //     //sys_time();
-        //     break;
+        case 4 : 
+            sys_time((uint8_t **) rdi);
+            break;
         case 5 :
-            sys_shell_theme((uint32_t) rdi, (uint32_t) rsi);
+            sys_shell_theme((uint32_t *) rdi);
             break;
         default : 
             break;
@@ -62,7 +63,13 @@ void sys_delete_char(uint32_t x, uint32_t y, uint32_t scale) {
     deleteChar( x, y, scale);
 }
 
+//Syscall Time - ID = 4
+void sys_time(uint8_t ** currentTime){
+    *currentTime = get_time();
+}
+
 // Syscall theme  - ID = 5
-void sys_shell_theme(uint32_t textColor, uint32_t backColor) {
-    setColor(textColor, backColor);
+void sys_shell_theme(uint32_t * theme) {
+    uint32_t font_color = theme[1], background_color = theme[0];
+    setColor(font_color, background_color);
 }

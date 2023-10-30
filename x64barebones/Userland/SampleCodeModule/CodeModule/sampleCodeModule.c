@@ -3,6 +3,7 @@
 #include <shellMovement.h>
 #include <libc.h>
 #include <themes.h>
+#include <commands.h>
 
 #define CHARACTER_COLOR 0xB0CA07
 #define TAB_SIZE 4
@@ -11,14 +12,16 @@
 static Cursor cursor;
 
 int main(void) {
-    call_set_theme(COLOR_WHITE, COLOR_BLACK);
-    inicializeCursor(&cursor, MIN_X, MIN_Y, 3);
+    call_set_theme(themes[5]);
+    inicializeCursor(&cursor, MIN_X, MIN_Y, 1);
 
     char c;
 
     while (1) {
         char * commandBuffer;
         int yIndex = printShellHeader();
+        moveCursor(&cursor, ENTER);
+        time(&cursor);
         while((c=getChar()) != '\n') {
             if (c == 8) { // Backspace key
                 if ( (cursor.y != yIndex) || (cursor.x > MIN_X + (HEADER_SIZE * WIDTH_FONT * cursor.scale))) {

@@ -101,7 +101,7 @@ void deleteChar(uint64_t x, uint64_t y, uint32_t scale) {
 
 void drawString(uint8_t * string, uint64_t x, uint64_t y, uint32_t scale, uint32_t * length) {
 	int i = 0;
-	while(string[i] != 0){
+	while(string[i] != '\0'){
 		drawChar(string[i], x, y, scale);
 		x+=8*scale;
 		i++;

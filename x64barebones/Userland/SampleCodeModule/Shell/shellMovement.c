@@ -28,7 +28,7 @@ static void moveLeft(Cursor * cursor) {
         return;
     }
     if(cursor->x == MIN_X) {
-        cursor->x = MAX_X;
+        cursor->x = MAX_X-(cursor->scale*WIDTH_FONT);
         cursor->y -= (HEIGHT_FONT * cursor->scale);
         return;
     }

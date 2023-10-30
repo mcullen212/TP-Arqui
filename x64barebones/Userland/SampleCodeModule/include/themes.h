@@ -15,12 +15,13 @@ enum Hex32Colors {
     COLOR_DARK_GRAY  = 0x404040,
 };
 
-enum Hex32Colors themes[5][2] = {
+enum Hex32Colors themes[][2] = {
     {COLOR_BLACK, COLOR_WHITE},
     {COLOR_BLACK,COLOR_YELLOW},
     {COLOR_BLACK,COLOR_CYAN},
     {COLOR_WHITE,COLOR_BLACK},
-    {COLOR_WHITE,COLOR_BLUE}
+    {COLOR_WHITE,COLOR_BLUE},
+    {COLOR_BLUE,COLOR_YELLOW}
 };
 
 #endif

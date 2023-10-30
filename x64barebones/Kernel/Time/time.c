@@ -1,8 +1,13 @@
 #include <time.h>
 #include <stdint.h>
 #include <lib.h>
+#include <videoDriver.h>
 
 #define HEXA_BASE 16
+#define LENGTH 8
+#define HOURS 4
+#define MINUTES 2
+#define SECONDS 0
 
 static void uintToBase(uint64_t value, char * buffer, uint32_t base)
 {
@@ -36,18 +41,17 @@ static void uintToBase(uint64_t value, char * buffer, uint32_t base)
 
 char * get_time(){
 
-    char actualTime[8] = {0};
+    char actualTime[LENGTH];
     
 
-    uint64_t hours = realTimeClock(4), mins= realTimeClock(2), secs = realTimeClock(0);
+    uint64_t hours = realTimeClock(HOURS), mins= realTimeClock(MINUTES), secs = realTimeClock(SECONDS);
     
 
     uintToBase(hours, actualTime, HEXA_BASE);
+	actualTime[2] = ':';
     uintToBase(mins, actualTime+3, HEXA_BASE);
+	actualTime[5] = ':';
     uintToBase(secs, actualTime+6, HEXA_BASE);
-
-    actualTime[3] = ':';
-    actualTime[5] = ':';
     
     return actualTime;
 
