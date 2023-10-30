@@ -2,7 +2,7 @@
 #include <stdint.h>
 
 void inicializeCursor(Cursor * cursor) {
-    cursor->x = MIN_X*8;
+    cursor->x = MIN_X;
     cursor->y = MIN_Y;
     cursor->scale = 1;
 }
@@ -31,8 +31,8 @@ static void moveLeft(Cursor * cursor) {
         cursor->x = MAX_X;
         cursor->y -= (HEIGHT_FONT * cursor->scale);
         return;
-    }    
-    cursor->x -= (WIDTH_FONT * cursor->scale);    
+    }
+    cursor->x -= (WIDTH_FONT * cursor->scale);
 }
 
 static void moveDown(Cursor * cursor) {
@@ -50,16 +50,16 @@ static void moveDown(Cursor * cursor) {
 
 void moveCursor(Cursor * cursor, actionOfCursor movement) {
     switch(movement){
-        case WRITE : 
+        case WRITE :
             moveRight(cursor);
             break;
-        case DELETE : 
-            moveLeft(cursor); 
+        case DELETE :
+            moveLeft(cursor);
             break;
-        case ENTER : 
-            moveDown(cursor); 
+        case ENTER :
+            moveDown(cursor);
             break;
-        default : 
+        default :
             break;
     }
 }
