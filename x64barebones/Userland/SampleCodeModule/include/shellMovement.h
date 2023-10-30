@@ -18,7 +18,7 @@ typedef struct {
     uint32_t scale; //size of font in pixel
 }Cursor;
 
-void inicializeCursor(Cursor * cursor);
+void inicializeCursor(Cursor * cursor, int x, int y, int scale);
 void moveCursor(Cursor * cursor, actionOfCursor movement);
 
 #endif

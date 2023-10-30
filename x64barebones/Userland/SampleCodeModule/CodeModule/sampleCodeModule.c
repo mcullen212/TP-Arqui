@@ -10,19 +10,18 @@
 
 static Cursor cursor;
 
-int main(void){
-    char * commandBuffer;
+int main(void) {
+    call_set_theme(COLOR_WHITE, COLOR_BLACK);
+    inicializeCursor(&cursor, MIN_X, MIN_Y, 3);
+
     char c;
 
-    inicializeCursor(&cursor);
-
-    call_set_theme(COLOR_WHITE, COLOR_BLACK);
-
     while (1) {
-        printShellHeader();
+        char * commandBuffer;
+        int yIndex = printShellHeader();
         while((c=getChar()) != '\n') {
             if (c == 8) { // Backspace key
-                if (cursor.x > MIN_X + (HEADER_SIZE * WIDTH_FONT)) {
+                if ( (cursor.y != yIndex) || (cursor.x > MIN_X + (HEADER_SIZE * WIDTH_FONT * cursor.scale))) {
                     commandBuffer--;
                     moveCursor(&cursor, DELETE);
                     call_delete_char(cursor.x, cursor.y, cursor.scale);
@@ -47,13 +46,16 @@ int main(void){
     return 0;
 }
 
-void printShellHeader() {
+
+// Prints shell header and returns the y index of the corresponding header.
+int printShellHeader() {
     int length;
     call_write("user> ", cursor.x, cursor.y, cursor.scale, &length);
     while (length > 0) {
         moveCursor(&cursor, WRITE);
         length--;
     }
+    return cursor.y;
 }
 
 // int main() {

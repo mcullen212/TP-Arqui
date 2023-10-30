@@ -1,14 +1,14 @@
 #include <shellMovement.h>
 #include <stdint.h>
 
-void inicializeCursor(Cursor * cursor) {
-    cursor->x = MIN_X;
-    cursor->y = MIN_Y;
-    cursor->scale = 1;
+void inicializeCursor(Cursor * cursor, int x, int y, int scale) {
+    cursor->x = x;
+    cursor->y = y;
+    cursor->scale = scale;
 }
 
 static void moveRight(Cursor * cursor) {
-    if(cursor->x < MAX_X){
+    if(cursor->x < (MAX_X - (WIDTH_FONT * cursor->scale))) {
         cursor->x += (WIDTH_FONT * cursor->scale);
         return;
     }
