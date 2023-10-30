@@ -3,7 +3,7 @@
 
 #include "externalLibraries.h"
 
-#define AMOUNT_OF_COMMANDS 4
+#define AMOUNT_OF_COMMANDS 6
 
 // Shell manager
 void shell();
@@ -16,6 +16,6 @@ void executeCommand(int indexCommand, char * flag);
 
 char * commands[6] = {"man", "time", "registers", "snake", "div0", "invalid operation"};
 
-//void (* commandsReferences[])() = {man, time, registers, snake};
+//void (* commandsReferences[])() = {time};//{man, time, registers, snake};
 
 #endif

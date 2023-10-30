@@ -1,5 +1,4 @@
 #include <time.h>
-#include <stdint.h>
 #include <lib.h>
 #include <videoDriver.h>
 
@@ -9,10 +8,10 @@
 #define MINUTES 2
 #define SECONDS 0
 
-static void uintToBase(uint64_t value, char * buffer, uint32_t base)
+static void uintToBase(uint64_t value, uint8_t * buffer, uint32_t base)
 {
-	char *p = buffer;
-	char *p1, *p2;
+	uint8_t *p = buffer;
+	uint8_t *p1, *p2;
 	int digit = 0;
 
 	//Calculate characters for each digit
@@ -46,21 +45,36 @@ static void uintToBase(uint64_t value, char * buffer, uint32_t base)
 
 }
 
-char * get_time(){
+static void arg_time_zone(uint8_t *hours){
+	int hour = 0;
+	if(hours[0] == '0'){
+		hour = hours[1] - '0';
+	}else{
+		hour = (hours[0] - '0')*10 + (hours[1] - '0');
+	}
 
-    char actualTime[LENGTH];
-    
+	if(hour<3){
+		hour = 24 + hour - 3;
+	}else{
+		hour = hour - 3;
+	}
 
+	hours[0] = hour/10 + '0';
+	hours[1] = hour%10 + '0';
+}
+
+uint8_t * get_time(){
+	uint8_t * actualTime = {0};
     uint64_t hours = realTimeClock(HOURS), mins= realTimeClock(MINUTES), secs = realTimeClock(SECONDS);
     
 
     uintToBase(hours, actualTime, HEXA_BASE);
+	arg_time_zone(actualTime);
 	actualTime[2] = ':';
     uintToBase(mins, actualTime+3, HEXA_BASE);
 	actualTime[5] = ':';
     uintToBase(secs, actualTime+6, HEXA_BASE);
-    
-    return actualTime;
-
+	actualTime[8] = '\0';
+	return actualTime;
 }
 

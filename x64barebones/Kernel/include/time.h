@@ -1,6 +1,8 @@
 #ifndef TIME_H
 #define TIME_H
 
-char * get_time();
+#include <stdint.h>
+
+uint8_t * get_time();
 
 #endif
