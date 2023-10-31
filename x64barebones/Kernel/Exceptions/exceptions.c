@@ -1,13 +1,19 @@
+#include <exceptions.h>
 
 #define ZERO_EXCEPTION_ID 0
+#define INVALID_OPCODE_EXCEPTION_ID 6
 
-static void zero_division();
-
-void exceptionDispatcher(int exception) {
-	if (exception == ZERO_EXCEPTION_ID)
-		zero_division();
+void exceptionDispatcher(uint64_t exception) {
+    switch(exception) {
+        case ZERO_EXCEPTION_ID :
+            //exceptionsHandlers[ZERO_EXCEPTION_ID]("ERROR - Division by Zero", );
+            break;
+        case INVALID_OPCODE_EXCEPTION_ID :
+            //exceptionsHandlers[INVALID_OPCODE_EXCEPTION_ID]("ERROR - Ivalid Opcode", );
+            break;
+    }
 }
 
-static void zero_division() {
-	// Handler para manejar excepcíon
+void setExceptionHandler(uint64_t number, exceptionHandler exception) {
+    exceptionsHandlers[number] = exception;
 }

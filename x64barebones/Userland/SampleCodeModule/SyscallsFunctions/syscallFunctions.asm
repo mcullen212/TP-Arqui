@@ -119,3 +119,18 @@ call_set_theme:
     mov rsp, rbp
     pop rbp
     ret
+
+call_set_exception_handler:
+    push rbp
+    mov rbp, rsp
+
+    pushAll
+
+    mov rax, 6
+    int 80h
+
+    popAll
+
+    mov rsp, rbp
+    pop rbp
+    ret

@@ -9,6 +9,7 @@ GLOBAL _irq01Handler
 GLOBAL _irq80Handler
 
 GLOBAL _exception0Handler
+GLOBAL _exception06Handler
 
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
@@ -133,13 +134,13 @@ _irq80Handler:
     ;parameters for systemcalls
     push r9
     push r8
-    push rcx 
-    push rdx 
+    push rcx
+    push rdx
     push rsi
-    push rdi 
-    
+    push rdi
+
     mov rdi, rax
-    mov rsi, rsp   ; stack pointer is pointing towards first element in the stack  
+    mov rsi, rsp   ; stack pointer is pointing towards first element in the stack
     call syscallsDispatcher
 
     add rsp, 8*6    ; Restablezco el stack
@@ -154,6 +155,9 @@ _irq80Handler:
 ;Zero Division Exception
 _exception0Handler:
 	exceptionHandler 0
+
+_exception06Handler:
+    exceptionHandler 6
 
 haltcpu:
 	cli

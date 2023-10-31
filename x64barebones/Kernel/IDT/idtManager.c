@@ -26,9 +26,10 @@ void loadIDT() {
     _cli(); // Disable interruptions
 
     setUpIDTEntry(0x00, (uint64_t) &_exception0Handler); //Posicion 0x00
+    setUpIDTEntry(0x06, (uint64_t) &_exception6Handler); //Posicion 0x06
     setUpIDTEntry(0x20, (uint64_t) &_irq00Handler); //Posicion 0x20
     setUpIDTEntry(0x21, (uint64_t) &_irq01Handler); // Posicion 0x21
-    setUpIDTEntry(0x80, (uint64_t) &_irq80Handler);
+    setUpIDTEntry(0x80, (uint64_t) &_irq80Handler); // Posicion 0x80
 
     picMasterMask(0xFC);
     picSlaveMask(0xFF);
