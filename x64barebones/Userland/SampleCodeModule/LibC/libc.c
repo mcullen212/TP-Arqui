@@ -16,9 +16,11 @@ int strlen(const char * s) {
     return i;
 }
 
-void putString(char *c, int length) {
-    // int size = 0;
-    // call_write(c, cursor->x, cursor->y, cursor->scale, &size);
+int putString(char * c) {
+    uint32_t length;
+    call_write(c,getCursorX(), getCursorY(), getCursorScale(), &length);
+    moveCursor(length, 0); // falta implementar si en el string hay \n porq ahi y no seria 0 el segundo parametro
+    return length;
 }
 
 char getChar(){
@@ -77,7 +79,7 @@ int printf(const char * format, ...){ //nose como accesder a los parametros ... 
 
     va_start(variables, format);
 
-    char * str;
+    char * str = " ";
     int index = 0;
 
     while(*format != '\0'){
@@ -103,9 +105,9 @@ int printf(const char * format, ...){ //nose como accesder a los parametros ... 
             index++;
         }
     }
-    putString(str, index);
+    str[index] = '\0';
     va_end(variables);
-    return index;
+    return putString(str);
 }
 
 //guarda valor en el paramentro pasado por referencia
@@ -120,3 +122,22 @@ int printf(const char * format, ...){ //nose como accesder a los parametros ... 
 //     }
 //     return 0;
 // }
+
+char ** substrings(char * str, char delim, int * amountOfSubstrings){
+    int i = 0; //index of str
+    int j = 0; // index of result
+    int k = 0; // index of result[j]
+    char ** result;
+    while(str[i] != '\0'){
+        if(str[i] == delim){
+            k = 0; // restart
+            j++; //new term
+        }else{
+            result[j][k]=str[i];
+            k++;
+        }
+        i++;
+    }
+    *amountOfSubstrings = j;
+    return result;
+}

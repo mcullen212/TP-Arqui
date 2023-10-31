@@ -1,5 +1,5 @@
-#ifndef SHELL_MOVEMENT_H
-#define SHELL_MOVEMENT_H
+#ifndef CURSOR_H
+#define CURSOR_H
 
 #include <stdint.h>
 
@@ -18,8 +18,13 @@ typedef struct {
     uint32_t scale; //size of font in pixel
 }Cursor;
 
-void inicializeCursor(Cursor * cursor, int x, int y, int scale);
-void moveCursor(Cursor * cursor, actionOfCursor movement);
-Cursor getCursor();
+Cursor * getCursor();
+uint32_t getCursorX();
+uint32_t getCursorY();
+uint32_t getCursorScale();
+
+void setScale(int scale);
+void cursorAction(actionOfCursor movement);
+void moveCursor(uint32_t x, uint32_t y);
 
 #endif

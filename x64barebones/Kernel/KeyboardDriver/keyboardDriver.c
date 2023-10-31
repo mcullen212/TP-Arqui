@@ -25,8 +25,8 @@ char keyMap[][2] = { // [cantidad de teclas][2] => teclado estandar en ingles
         {'0', ')'},
         {'-', '_'},
         {'-', '+'},
-        {'\b', 128},
-        {'\t', '\t'},
+        {'\b', '\b'}, // delete 
+        {'\t', '\t'}, //tab
         {'q', 'Q'},
         {'w', 'W'},
         {'e', 'E'},
@@ -39,7 +39,7 @@ char keyMap[][2] = { // [cantidad de teclas][2] => teclado estandar en ingles
         {'p', 'P'},
         {'[', '{'},
         {']', '}'},
-        {'\n', '\n'},
+        {'\n', '\n'}, //enter
         {0, 0},
         {'a', 'A'},
         {'s', 'S'},

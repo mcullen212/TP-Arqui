@@ -2,13 +2,15 @@
 #define LIB_C_H
 
 #include <syscallFunctions.h>
+#include <cursor.h>
 #include<stdarg.h>
 
 int strlen(const char * s);
 int strcmp(const char * s1, const char * s2);
-void putString(char *c, int length);
+int putString(char *c);
 char getChar();
 //int scanf(const char * format, ...);
 int printf(const char * format, ...);
+char ** substrings(char * str, char delim, int * amountOfSubstrings);
 
 #endif

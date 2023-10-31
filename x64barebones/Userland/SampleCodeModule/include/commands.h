@@ -2,7 +2,7 @@
 #define COMMANDS_H
 
 #include <syscallFunctions.h>
-#include <shellMovement.h>
+#include <cursor.h>
 
 // void man();
 
@@ -10,10 +10,16 @@
 
 // void registers();
 
-void time(Cursor * cursor);
+void time();
 
 // void setTheme(uint32_t index);
 
 // void setScale(uint32_t scale);
+
+// void div0();
+
+// void invalidOpCode();
+
+// void clear();
 
 #endif

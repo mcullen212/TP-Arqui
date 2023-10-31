@@ -1,7 +1,7 @@
 #ifndef SHELL_H
 #define SHELL_H
 
-#include "externalLibraries.h"
+#include <commands.h>
 
 #define AMOUNT_OF_COMMANDS 6
 
@@ -12,9 +12,9 @@ void shell();
 int interpretCommand(char * command);
 
 // Executes the command
-void executeCommand(int indexCommand, char * flag);
+void executeCommand(int indexCommand, char ** arguments,char * flag);
 
-char * commands[6] = {"man", "time", "registers", "snake", "div0", "invalid operation"};
+//char * commands[6] = {"man", "time", "registers", "snake", "div0", "invalid operation"};
 
 //void (* commandsReferences[])() = {time};//{man, time, registers, snake};
 
