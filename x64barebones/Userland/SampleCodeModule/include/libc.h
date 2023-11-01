@@ -2,7 +2,6 @@
 #define LIB_C_H
 
 #include <syscallFunctions.h>
-#include <cursor.h>
 #include<stdarg.h>
 
 int strlen(const char * s);

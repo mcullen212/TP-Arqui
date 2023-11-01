@@ -1,5 +1,6 @@
 #include <videoDriver.h>
-#include<fonts.h>
+#include <fonts.h>
+#include <cursor.h>
 
 #define WIDTH_FONT 8
 #define HEIGHT_FONT 16
@@ -8,7 +9,8 @@
 static uint32_t characterColor = 0xFFFFFF; // default color white
 static uint32_t backgroundColor = 0x000000; // default color black
 
-static void drawSquare(uint32_t hexColor, uint64_t x, uint64_t y, uint32_t scale);
+//static void drawSquare(uint32_t hexColor, uint64_t x, uint64_t y, uint32_t scale);
+static void drawSquareOnCursor(uint32_t hexColor, int x, int y);
 
 struct vbe_mode_info_structure {
 	uint16_t attributes;		// deprecated, only bit 7 should be of interest to you, and it indicates the mode supports a linear frame buffer.
@@ -50,6 +52,95 @@ struct vbe_mode_info_structure {
 
 typedef struct vbe_mode_info_structure * VBEInfoPtr;
 
+static Cursor cursor;
+
+void initializeCursor(int x, int y, int scale) {
+    cursor.x = x;
+    cursor.y = y;
+    cursor.scale = scale;
+}
+
+uint32_t getCursorX() {
+    return cursor.x;
+}
+
+uint32_t getCursorY() {
+    return cursor.y;
+}
+
+uint32_t getCursorScale() {
+    return cursor.scale;
+}
+
+void setCursorScale(int scale) {
+    cursor.scale = scale;
+}
+
+
+static void moveRight() {
+    if(cursor.x < (MAX_X - (WIDTH_FONT * cursor.scale))) {
+        cursor.x += (WIDTH_FONT * cursor.scale);
+        return;
+    }
+
+    cursor.x = MIN_X;
+    if(cursor.y < MAX_Y){
+        cursor.y += (HEIGHT_FONT * cursor.scale);
+        return;
+    }
+
+    cursor.y = MIN_Y;
+    //clearTerminal
+}
+
+static void moveLeft() {
+    if(cursor.x == MIN_X && cursor.y == MIN_Y) {
+        return;
+    }
+    if(cursor.x == MIN_X) {
+        cursor.x = MAX_X-(cursor.scale*WIDTH_FONT);
+        cursor.y -= (HEIGHT_FONT * cursor.scale);
+        return;
+    }
+    cursor.x -= (WIDTH_FONT * cursor.scale);
+}
+
+static void moveDown() {
+    if(cursor.y < MAX_Y){
+        cursor.y += (HEIGHT_FONT * cursor.scale);
+        cursor.x = MIN_X;
+        return;
+    }
+    cursor.x = MIN_X;
+    cursor.y = MIN_Y;
+    //clearTerminal
+}
+
+static void moveTab() {
+    for (int i = 0; i < TAB_SIZE; i++) {
+        moveRight();
+    }
+}
+
+void moveCursor(actionOfCursor action) {
+    switch(action) {
+        case WRITE :
+            moveRight();
+            break;
+        case DELETE :
+            moveLeft();
+            break;
+        case ENTER :
+            moveDown();
+            break;
+        case TAB :
+            moveTab();
+            break;
+        default :
+            break;
+    }
+}
+
 VBEInfoPtr VBE_mode_info = (VBEInfoPtr) 0x0000000000005C00;
 
 static void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
@@ -65,63 +156,123 @@ static void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
     framebuffer[offset+2]   =  (hexColor >> 16) & 0xFF; // rojo component
 }
 
-void drawChar(uint8_t character, uint64_t x, uint64_t y, uint32_t scale) {
-    unsigned char *pixel = font8x16[character];
+void drawCharOnCursor(uint8_t character) {
+    unsigned char * bitMapChar = font8x16[character];
+    int x0 = cursor.x, y0 = cursor.y;
 
-    for(int i = 0; i < HEIGHT_FONT; i++) {
-        for(int j = 0; j<WIDTH_FONT; j++) {
-            int bit = (pixel[i] >> j) & 1;
-            if(bit){
-                drawSquare(characterColor, x, y, scale);
+    for (int i = 0; i < HEIGHT_FONT; i++) {
+        for (int j =0; j < WIDTH_FONT; j++) {
+            int bit = (bitMapChar[i] >> j) & 1;
+            if (bit) {
+                drawSquareOnCursor(characterColor, x0, y0);
             }
-            x+=scale;
+            x0 += cursor.scale;
         }
-        x-=(8 * scale);
-        y+=scale;
+        x0 -= (WIDTH_FONT * cursor.scale);
+        y0 += cursor.scale;
     }
+
+    moveCursor(WRITE); // Moves cursor to next key position.
 }
 
-static void drawSquare(uint32_t hexColor,uint64_t x, uint64_t y, uint32_t scale){
-    for(int j = 0; j < scale;j++) {
-        for(int i = 0; i < scale; i++) {
-            putPixel(hexColor,x+i,y+j);
-        }
-    }
-}
+void deleteCharOnCursor() {
+    moveCursor(DELETE); // Moves cursor to the key to be deleted
 
-void deleteChar(uint64_t x, uint64_t y, uint32_t scale) {
+    int x0 = cursor.x, y0 = cursor.y;
+
     for(int i = 0; i < HEIGHT_FONT; i++) {
-        for(int j = 0; j< WIDTH_FONT; j++) {
-    		drawSquare(backgroundColor, x, y, scale);
-            x+=scale;
+        for(int j = 0; j < WIDTH_FONT; j++) {
+            drawSquareOnCursor(backgroundColor, x0, y0);
+            x0 += cursor.scale;
         }
-        x-=(8 * scale);
-        y+=scale;
+        x0-=(8 * cursor.scale);
+        y0+= cursor.scale;
     }
 }
 
-void drawString(uint8_t * string, uint64_t x, uint64_t y, uint32_t scale, uint32_t * length) {
-	int i = 0;
-    int x0 = x;
-	while(string[i] != 0){
+void drawStringOnCursor(uint8_t * string, uint32_t * length) {
+    int i = 0;
+
+    while (string[i] != '\0') {
         if (string[i] == '\n') {
-            x = x0;
-            y += (HEIGHT_FONT * scale);
+            moveCursor(ENTER);
         } else {
             if (string[i] == '\t') {
-                for (int j = 0; j < TAB_SIZE ; j++) {
-                    drawChar(' ', x, y, scale);
-                    x+=8*scale;
-                }
+                moveCursor(TAB);
             } else {
-                drawChar(string[i], x, y, scale);
-		        x+=8*scale;
+                drawCharOnCursor(string[i]);
             }
         }
-		i++;
-	}
-	*length = i;
+        i++;
+    }
+    *length = i;
 }
+
+static void drawSquareOnCursor(uint32_t hexColor, int x, int y) {
+    for (int i = 0; i < cursor.scale; i++) {
+        for (int j = 0; j < cursor.scale; j++) {
+            putPixel(hexColor, x + j, y + i);
+        }
+    }
+}
+
+// void drawChar(uint8_t character, uint64_t x, uint64_t y, uint32_t scale) {
+//     unsigned char *pixel = font8x16[character];
+
+//     for(int i = 0; i < HEIGHT_FONT; i++) {
+//         for(int j = 0; j<WIDTH_FONT; j++) {
+//             int bit = (pixel[i] >> j) & 1;
+//             if(bit){
+//                 drawSquare(characterColor, x, y, scale);
+//             }
+//             x+=scale;
+//         }
+//         x-=(8 * scale);
+//         y+=scale;
+//     }
+// }
+
+// static void drawSquare(uint32_t hexColor,uint64_t x, uint64_t y, uint32_t scale){
+//     for(int j = 0; j < scale;j++) {
+//         for(int i = 0; i < scale; i++) {
+//             putPixel(hexColor,x+i,y+j);
+//         }
+//     }
+// }
+
+// void deleteChar(uint64_t x, uint64_t y, uint32_t scale) {
+//     for(int i = 0; i < HEIGHT_FONT; i++) {
+//         for(int j = 0; j< WIDTH_FONT; j++) {
+//     		drawSquare(backgroundColor, x, y, scale);
+//             x+=scale;
+//         }
+//         x-=(8 * scale);
+//         y+=scale;
+//     }
+// }
+
+// void drawString(uint8_t * string, uint64_t x, uint64_t y, uint32_t scale, uint32_t * length) {
+// 	int i = 0;
+//     int x0 = x;
+// 	while(string[i] != 0){
+//         if (string[i] == '\n') {
+//             x = x0;
+//             y += (HEIGHT_FONT * scale);
+//         } else {
+//             if (string[i] == '\t') {
+//                 for (int j = 0; j < TAB_SIZE ; j++) {
+//                     drawChar(' ', x, y, scale);
+//                     x+=8*scale;
+//                 }
+//             } else {
+//                 drawChar(string[i], x, y, scale);
+// 		        x+=8*scale;
+//             }
+//         }
+// 		i++;
+// 	}
+// 	*length = i;
+// }
 
 void setColor(uint32_t textColor, uint32_t backColor) {
 	characterColor = textColor;

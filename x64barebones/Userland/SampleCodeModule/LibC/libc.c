@@ -18,8 +18,7 @@ int strlen(const char * s) {
 
 int putString(char * c) {
     uint32_t length;
-    call_write(c,getCursorX(), getCursorY(), getCursorScale(), &length);
-    moveCursor(length, 0); // falta implementar si en el string hay \n porq ahi y no seria 0 el segundo parametro
+    call_write((uint8_t *)c, &length);
     return length;
 }
 

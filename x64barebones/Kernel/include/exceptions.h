@@ -11,8 +11,6 @@
 
 typedef void (*exceptionHandler)(char * exception, uint64_t * registers);
 
-void (*exceptionsHandlers[MAX_EXCEPTION])(char * exception, uint64_t * registers);
-
 void setExceptionHandler(uint64_t number, exceptionHandler exception);
 
 #endif

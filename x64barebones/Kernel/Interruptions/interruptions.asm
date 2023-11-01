@@ -9,7 +9,7 @@ GLOBAL _irq01Handler
 GLOBAL _irq80Handler
 
 GLOBAL _exception0Handler
-GLOBAL _exception06Handler
+GLOBAL _exception6Handler
 
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
@@ -156,7 +156,7 @@ _irq80Handler:
 _exception0Handler:
 	exceptionHandler 0
 
-_exception06Handler:
+_exception6Handler:
     exceptionHandler 6
 
 haltcpu:

@@ -4,6 +4,13 @@ GLOBAL call_draw_char
 GLOBAL call_delete_char
 GLOBAL call_get_time
 GLOBAL call_set_theme
+GLOBAL call_c_get_x
+GLOBAL call_c_get_y
+GLOBAL call_c_get_scale
+GLOBAL call_c_set_scale
+GLOBAL call_c_move
+GLOBAL call_c_init
+GLOBAL call_set_colors
 
 section .text
 
@@ -127,6 +134,111 @@ call_set_exception_handler:
     pushAll
 
     mov rax, 6
+    int 80h
+
+    popAll
+
+    mov rsp, rbp
+    pop rbp
+    ret
+
+call_c_get_x:
+    push rbp
+    mov rbp, rsp
+
+    pushAll
+
+    mov rax, 7
+    int 80h
+
+    popAll
+
+    mov rsp, rbp
+    pop rbp
+    ret
+
+    call_c_get_y:
+    push rbp
+    mov rbp, rsp
+
+    pushAll
+
+    mov rax, 8
+    int 80h
+
+    popAll
+
+    mov rsp, rbp
+    pop rbp
+    ret
+
+    call_c_get_scale:
+    push rbp
+    mov rbp, rsp
+
+    pushAll
+
+    mov rax, 9
+    int 80h
+
+    popAll
+
+    mov rsp, rbp
+    pop rbp
+    ret
+
+call_c_set_scale:
+    push rbp
+    mov rbp, rsp
+
+    pushAll
+
+    mov rax, 10
+    int 80h
+
+    popAll
+
+    mov rsp, rbp
+    pop rbp
+    ret
+
+call_c_move:
+    push rbp
+    mov rbp, rsp
+
+    pushAll
+
+    mov rax, 11
+    int 80h
+
+    popAll
+
+    mov rsp, rbp
+    pop rbp
+    ret
+
+call_c_init:
+    push rbp
+    mov rbp, rsp
+
+    pushAll
+
+    mov rax, 12
+    int 80h
+
+    popAll
+
+    mov rsp, rbp
+    pop rbp
+    ret
+
+call_set_colors:
+    push rbp
+    mov rbp, rsp
+
+    pushAll
+
+    mov rax, 13
     int 80h
 
     popAll

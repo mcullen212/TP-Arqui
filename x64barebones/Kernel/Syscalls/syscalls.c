@@ -3,15 +3,28 @@
 #include <videoDriver.h>
 #include <time.h>
 #include <exceptions.h>
+#include <cursor.h>
+
+typedef enum {SYS_READ = 0, SYS_WRITE, DRAW_C, DELETE_C, TIME, THEME, SET_EXC, C_GET_X, C_GET_Y, C_GET_S, C_SET_S, C_MOVE, C_INIT, SET_COLORS}SysID;
 
 
 static void sys_read(uint8_t * buf, uint32_t count, uint32_t * readBytes);
-static void sys_write(uint8_t * buf, uint32_t x, uint32_t y, uint32_t scale, uint32_t * count);
-static void sys_draw_char(uint8_t character, uint32_t x, uint32_t y, uint32_t scale);
-static void sys_delete_char( uint32_t x, uint32_t y, uint32_t scale) ;
+//static void sys_write(uint8_t * buf, uint32_t x, uint32_t y, uint32_t scale, uint32_t * count);
+static void sys_write(uint8_t * buf, uint32_t * count);
+//static void sys_draw_char(uint8_t character, uint32_t x, uint32_t y, uint32_t scale);
+static void sys_draw_char(uint8_t character);
+//static void sys_delete_char( uint32_t x, uint32_t y, uint32_t scale) ;
+static void sys_delete_char();
 static void sys_shell_theme(uint32_t * theme);
 static void sys_time(uint8_t ** currentTime);
 static void sys_set_exception_handler(uint64_t number, exceptionHandler exception);
+static void sys_get_cursor_x(int * x);
+static void sys_get_cursor_y(int * y);
+static void sys_get_cursor_scale(int * scale);
+static void sys_set_cursor_scale(int scale);
+static void sys_move_cursor(actionOfCursor action);
+static void sys_init_cursor(int x, int y, int scale);
+static void sys_set_colors(uint32_t textColor, uint32_t backgroundColor);
 
 
 void syscallsDispatcher(uint64_t rax, uint64_t *otherRegisters) {
@@ -23,62 +36,112 @@ void syscallsDispatcher(uint64_t rax, uint64_t *otherRegisters) {
     r8 = otherRegisters[4];
     //r9 = otherRegisters[5];
     switch(rax) {
-        case 0 :
+        case SYS_READ :
             sys_read((uint8_t *) rdi, (uint32_t) rsi, (uint32_t *) rdx);
             break;
-        case 1 :
-            sys_write((uint8_t *) rdi, (uint8_t) rsi, (uint32_t) rdx, (uint32_t) rcx, (uint32_t *) r8);
+        case SYS_WRITE :
+            sys_write((uint8_t *) rdi, (uint32_t *) rsi);
             break;
-        case 2 :
-            sys_draw_char((uint8_t) rdi, (uint32_t) rsi, (uint32_t) rdx, (uint32_t) rcx);
+        case DRAW_C :
+            sys_draw_char((uint8_t) rdi);
             break;
-        case 3 :
-            sys_delete_char((uint32_t) rdi, (uint32_t) rsi, (uint32_t) rdx);
+        case DELETE_C :
+            sys_delete_char();
             break;
-        case 4 :
+        case TIME :
             sys_time((uint8_t **) rdi);
             break;
-        case 5 :
+        case THEME :
             sys_shell_theme((uint32_t *) rdi);
             break;
-        case 6 :
+        case SET_EXC :
             sys_set_exception_handler((uint64_t) rdi, (exceptionHandler) rsi);
+            break;
+        case C_GET_X :
+            sys_get_cursor_x((int *) rdi);
+            break;
+        case C_GET_Y :
+            sys_get_cursor_y((int *) rdi);
+            break;
+        case C_GET_S :
+            sys_get_cursor_scale((int *) rdi);
+            break;
+        case C_SET_S :
+            sys_set_cursor_scale((int) rdi);
+            break;
+        case C_MOVE :
+            sys_move_cursor((actionOfCursor) rdi);
+            break;
+        case C_INIT :
+            sys_init_cursor((int) rdi, (int) rsi, (int) rdx);
+            break;
+        case SET_COLORS :
+            sys_set_colors((uint32_t) rdi, (uint32_t) rsi);
         default :
             break;
     }
 }
 
 // Syscall Read - ID = 0
-void sys_read(uint8_t * buf, uint32_t count, uint32_t * readBytes) {
+static void sys_read(uint8_t * buf, uint32_t count, uint32_t * readBytes) {
     readFromKeyboard(buf, count, readBytes);
 }
 
 // Syscall Write - ID = 1
-void sys_write(uint8_t * buf, uint32_t x, uint32_t y, uint32_t scale, uint32_t * count) {
-    drawString(buf, x, y, scale, count);
+static void sys_write(uint8_t * buf, uint32_t * count) {
+    drawStringOnCursor(buf, count);
 }
 
 // Syscall Draw char - ID = 2
-void sys_draw_char(uint8_t character, uint32_t x, uint32_t y, uint32_t scale){
-    drawChar(character,  x, y, scale);
+static void sys_draw_char(uint8_t character){
+    drawCharOnCursor(character);
 }
 
 // Syscall Delete char - ID = 3
-void sys_delete_char(uint32_t x, uint32_t y, uint32_t scale) {
-    deleteChar( x, y, scale);
+static void sys_delete_char() {
+    deleteCharOnCursor();
 }
 
 //Syscall Time - ID = 4
-void sys_time(uint8_t ** currentTime){
+static void sys_time(uint8_t ** currentTime){
     *currentTime = get_time();
 }
 
 // Syscall theme  - ID = 5
-void sys_shell_theme(uint32_t * theme) {
+static void sys_shell_theme(uint32_t * theme) {
     uint32_t font_color = theme[1], background_color = theme[0];
     setColor(font_color, background_color);
 }
 
 static void sys_set_exception_handler(uint64_t number, exceptionHandler exception) {
     setExceptionHandler(number, exception);
+}
+
+static void sys_get_cursor_x(int * x) {
+    *x = getCursorX();
+}
+
+
+static void sys_get_cursor_y(int * y) {
+    *y = getCursorY();
+}
+
+static void sys_get_cursor_scale(int * scale) {
+    *scale = getCursorScale();
+}
+
+static void sys_set_cursor_scale(int scale) {
+    setCursorScale(scale);
+}
+
+static void sys_move_cursor(actionOfCursor action) {
+    moveCursor(action);
+}
+
+static void sys_init_cursor(int x, int y, int scale) {
+    initializeCursor(x, y, scale);
+}
+
+static void sys_set_colors(uint32_t textColor, uint32_t backgroundColor) {
+    setColor(textColor,backgroundColor);
 }

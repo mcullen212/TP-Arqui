@@ -3,6 +3,8 @@
 #define ZERO_EXCEPTION_ID 0
 #define INVALID_OPCODE_EXCEPTION_ID 6
 
+void (*exceptionsHandlers[MAX_EXCEPTION])(char * exception, uint64_t * registers);
+
 void exceptionDispatcher(uint64_t exception) {
     switch(exception) {
         case ZERO_EXCEPTION_ID :

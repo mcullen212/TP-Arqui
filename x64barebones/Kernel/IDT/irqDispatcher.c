@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <keyboardDriver.h>
 
 void int_00();
 void int_01();

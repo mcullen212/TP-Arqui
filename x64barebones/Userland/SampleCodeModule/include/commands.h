@@ -2,7 +2,6 @@
 #define COMMANDS_H
 
 #include <syscallFunctions.h>
-#include <cursor.h>
 
 // void man();
 

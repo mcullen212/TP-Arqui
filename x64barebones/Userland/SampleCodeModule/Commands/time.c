@@ -5,7 +5,6 @@ void time(){
     uint32_t length;
     call_get_time(&currentTime);
 
-    call_write(currentTime, getCursorX(), getCursorY(), getCursorScale(), &length);
-    cursorAction(ENTER);
+    call_write(currentTime, &length);
 }
 
