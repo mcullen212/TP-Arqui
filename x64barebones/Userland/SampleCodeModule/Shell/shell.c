@@ -1,40 +1,39 @@
 #include <shell.h>
 #include <stdint.h>
 #include <libc.h>
+#include <commands.h>
 
-#define EXCEPTION_COMMAND "Error: command not found"
+char * commands[6] = {"man", "time", "registers", "snake", "div0", "invalid operation"};
+
+void (* commandsReferences[])() = {man, time, registers, /*snake,*/ div0, invalidop};
 
 void shell(char *command) {
-    int cantArguments;
-    char ** arguments = substrings(command, ' ', &cantArguments);
-    int id = interpretCommand(arguments[0]);
-    char * flag;
-    *flag = 0;
-    executeCommand(id, arguments+1,flag);
+    int id = interpretCommand(command);
+    char flag = 0;
+    executeCommand(id, &flag);
 
-    if(!flag) {
-        //printf(EXCEPTION_COMMAND);
-        return;
+    if(flag == 0) {
+        uint32_t num;
+        call_write((uint8_t *)"Error: command not found", &num);
     }
 }
 
 int interpretCommand(char * command) {
     int index = -1;
     for (int i = 0; i < AMOUNT_OF_COMMANDS; i++) {
-        // if (strcmp(command, commands[i]) == 0) {
-        //     index = i;
-        // }
+        if (strcmp(command, commands[i]) == 0) {
+            index = i;
+        }
     }
     return index;
 }
 
-void executeCommand(int indexCommand, char ** arguments, char * flag) {
+void executeCommand(int indexCommand, char * flag) {
     if (indexCommand == -1 ) {
         *flag = 0;
         return;
-    }//cantArg logic missing
-
-    //commandsReferences[indexCommand]();
+    }
+    commandsReferences[indexCommand]();
     *flag = 1;
 }
 

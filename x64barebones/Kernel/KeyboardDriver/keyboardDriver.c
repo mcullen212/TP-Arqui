@@ -26,7 +26,7 @@ char keyMap[][2] = { // [cantidad de teclas][2] => teclado estandar en ingles
         {'0', ')'},
         {'-', '_'},
         {'-', '+'},
-        {'\b', '\b'}, // delete 
+        {'\b', '\b'}, // delete
         {'\t', '\t'}, //tab
         {'q', 'Q'},
         {'w', 'W'},
@@ -128,40 +128,40 @@ void readFromKeyboard(uint8_t * toRetbuffer, uint32_t amount, uint32_t * size) {
 }
 
 void updateRegs(uint64_t * registers) {
-    uint64_t keyPressed = getKeyNumber();
-    if (altPressed && keyPressed == 19) {
-        regs.r15 = registers[0];
-        regs.r14 = registers[1];
-        regs.r13 = registers[2];
-        regs.r12 = registers[3];
-        regs.r11 = registers[4];
-        regs.r10 = registers[5];
-        regs.r9 = registers[6];
-        regs.r8 = registers[7];
-        regs.rsi = registers[8];
-        regs.rdi = registers[9];
-        regs.rdx = registers[10];
-        regs.rcx = registers[11];
-        regs.rbx = registers[12];
-        regs.rax = registers[13];
-        regs.rbp = registers[14];
-        regs.rip = registers[15];
-        regs.cs = registers[16];
-        regs.rflags = registers[17];
-        regs.rsp = registers[18];
-        regs.ss = registers[19];
-        
-    }
-    
+    // uint64_t keyPressed = getKeyNumber();
+    // if (altPressed && keyPressed == 19) {
+    //     regs.r15 = registers[0];
+    //     regs.r14 = registers[1];
+    //     regs.r13 = registers[2];
+    //     regs.r12 = registers[3];
+    //     regs.r11 = registers[4];
+    //     regs.r10 = registers[5];
+    //     regs.r9 = registers[6];
+    //     regs.r8 = registers[7];
+    //     regs.rsi = registers[8];
+    //     regs.rdi = registers[9];
+    //     regs.rdx = registers[10];
+    //     regs.rcx = registers[11];
+    //     regs.rbx = registers[12];
+    //     regs.rax = registers[13];
+    //     regs.rbp = registers[14];
+    //     regs.rip = registers[15];
+    //     regs.cs = registers[16];
+    //     regs.rflags = registers[17];
+    //     regs.rsp = registers[18];
+    //     regs.ss = registers[19];
+
+    // }
+
 }
 
 void valueToHexString(uint64_t value, char *hexStr) {
     static const char hexDigits[] = "0123456789ABCDEF";
     int i;
-    
+
     hexStr[0] = '0';
     hexStr[1] = 'x';
-    
+
     for (i = 0; i < 16; i++) {
         hexStr[18 - i] = hexDigits[(value >> (i * 4)) & 0xF];
         if(hexStr[18-i]== 0){

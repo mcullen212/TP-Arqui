@@ -3,11 +3,11 @@
 
 #include <syscallFunctions.h>
 
-// void man();
+void man();
 
 // void snake(uint32_t players);
 
-// void registers();
+void registers();
 
 void time();
 
@@ -15,9 +15,9 @@ void time();
 
 // void setScale(uint32_t scale);
 
-// void div0();
+void div0();
 
-// void invalidOpCode();
+void invalidop();
 
 // void clear();
 
