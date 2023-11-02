@@ -5,7 +5,7 @@
 #include <exceptions.h>
 #include <cursor.h>
 
-typedef enum {SYS_READ = 0, SYS_WRITE, DRAW_C, DELETE_C, TIME, THEME, SET_EXC, C_GET_X, C_GET_Y, C_GET_S, C_SET_S, C_MOVE, C_INIT, SET_COLORS}SysID;
+typedef enum {SYS_READ = 0, SYS_WRITE, DRAW_C, DELETE_C, TIME, THEME, SET_EXC, C_GET_X, C_GET_Y, C_GET_S, C_SET_S, C_MOVE, C_INIT, SET_COLORS, GET_REGS}SysID;
 
 
 static void sys_read(uint8_t * buf, uint32_t count, uint32_t * readBytes);
@@ -25,6 +25,7 @@ static void sys_set_cursor_scale(int scale);
 static void sys_move_cursor(actionOfCursor action);
 static void sys_init_cursor(int x, int y, int scale);
 static void sys_set_colors(uint32_t textColor, uint32_t backgroundColor);
+static void sys_get_registers();
 
 
 void syscallsDispatcher(uint64_t rax, uint64_t *otherRegisters) {
@@ -77,6 +78,10 @@ void syscallsDispatcher(uint64_t rax, uint64_t *otherRegisters) {
             break;
         case SET_COLORS :
             sys_set_colors((uint32_t) rdi, (uint32_t) rsi);
+            break;
+        case GET_REGS :
+            sys_get_registers();
+            break;
         default :
             break;
     }
@@ -144,4 +149,90 @@ static void sys_init_cursor(int x, int y, int scale) {
 
 static void sys_set_colors(uint32_t textColor, uint32_t backgroundColor) {
     setColor(textColor,backgroundColor);
+}
+
+static void sys_get_registers(){
+    char *buff;
+    int count=0;
+    valueToHexString(regs.rax, buff);
+    drawStringOnCursor("RAX = ", &count);
+    drawStringOnCursor(buff, &count);
+
+    valueToHexString(regs.rbx, buff);
+    drawStringOnCursor("RBX = ", &count);
+    drawStringOnCursor(buff, &count);
+
+    valueToHexString(regs.rcx, buff);
+    drawStringOnCursor("RCX = ", &count);
+    drawStringOnCursor(buff, &count);
+
+    valueToHexString(regs.rdx, buff);
+    drawStringOnCursor("RDX = ", &count);
+    drawStringOnCursor(buff, &count);
+
+    valueToHexString(regs.r8, buff);
+    drawStringOnCursor("R8 = ", &count);
+    drawStringOnCursor(buff, &count);
+
+    valueToHexString(regs.r9, buff);
+    drawStringOnCursor("R9 = ", &count);
+    drawStringOnCursor(buff, &count);
+
+    valueToHexString(regs.r10, buff);
+    drawStringOnCursor("R10 = ", &count);
+    drawStringOnCursor(buff, &count);
+
+    valueToHexString(regs.r11, buff);
+    drawStringOnCursor("R11 = ", &count);
+    drawStringOnCursor(buff, &count);
+
+    valueToHexString(regs.r12, buff);
+    drawStringOnCursor("R12 = ", &count);
+    drawStringOnCursor(buff, &count);
+
+    valueToHexString(regs.r13, buff);
+    drawStringOnCursor("R13 = ", &count);
+    drawStringOnCursor(buff, &count);
+
+    valueToHexString(regs.r14, buff);
+    drawStringOnCursor("R14 = ", &count);
+    drawStringOnCursor(buff, &count);
+
+    valueToHexString(regs.r15, buff);
+    drawStringOnCursor("R15 = ", &count);
+    drawStringOnCursor(buff, &count);
+
+    valueToHexString(regs.rsi, buff);
+    drawStringOnCursor("RSI = ", &count);
+    drawStringOnCursor(buff, &count);
+
+    valueToHexString(regs.rdi, buff);
+    drawStringOnCursor("RDI = ", &count);
+    drawStringOnCursor(buff, &count);
+
+    valueToHexString(regs.rbp, buff);
+    drawStringOnCursor("RBP = ", &count);
+    drawStringOnCursor(buff, &count);
+
+    valueToHexString(regs.rsp, buff);
+    drawStringOnCursor("RSP = ", &count);
+    drawStringOnCursor(buff, &count);
+
+    valueToHexString(regs.cs, buff);
+    drawStringOnCursor("CS = ", &count);
+    drawStringOnCursor(buff, &count);
+
+    valueToHexString(regs.rflags, buff);
+    drawStringOnCursor("RFLAGS = ", &count);
+    drawStringOnCursor(buff, &count);
+
+    valueToHexString(regs.ss, buff);
+    drawStringOnCursor("SS = ", &count);
+    drawStringOnCursor(buff, &count);
+
+    valueToHexString(regs.rip, buff);
+    drawStringOnCursor("RIP = ", &count);
+    drawStringOnCursor(buff, &count);
+
+    
 }

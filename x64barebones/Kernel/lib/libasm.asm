@@ -6,6 +6,7 @@ GLOBAL realTimeClock
 GLOBAL poolChar
 
 
+
 section .text
 
 cpuVendor:
@@ -90,4 +91,5 @@ realTimeClock:
     mov rsp, rbp
     pop rbp
     ret
+
 

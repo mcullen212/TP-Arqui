@@ -23,5 +23,6 @@ void call_c_set_scale(int scale);
 void call_c_move(actionOfCursor action);
 void call_c_init(int x, int y, int scale);
 void call_set_colors(uint32_t textColor, uint32_t backgroundColor);
+void call_get_registers();
 
 #endif

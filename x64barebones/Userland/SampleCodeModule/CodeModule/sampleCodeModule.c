@@ -21,7 +21,7 @@ int main(void) {
 
     char c;
 
-    int cursorX = MIN_X, cursorY = MIN_Y, cursorScale = 3;
+    int cursorX = MIN_X, cursorY = MIN_Y, cursorScale = 1;
     call_c_init(cursorX, cursorY, cursorScale);
 
     while (1) {
@@ -52,6 +52,7 @@ int main(void) {
         } // When "enter" key is pressed, leaves typing loop.
         *commandBuffer = '\0';
         int length;
+        call_get_registers();
         call_c_move(ENTER);
         //shell(commandBuffer);
     }
