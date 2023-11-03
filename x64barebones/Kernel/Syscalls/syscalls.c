@@ -5,7 +5,7 @@
 #include <exceptions.h>
 #include <cursor.h>
 
-typedef enum {SYS_READ = 0, SYS_WRITE, DRAW_C, DELETE_C, TIME, THEME, SET_EXC, C_GET_X, C_GET_Y, C_GET_S, C_SET_S, C_MOVE, C_INIT, SET_COLORS, GET_REGS}SysID;
+typedef enum {SYS_READ = 0, SYS_WRITE, DRAW_C, DELETE_C, TIME, THEME, SET_EXC, C_GET_X, C_GET_Y, C_GET_S, C_SET_S, C_MOVE, C_INIT, SET_COLORS, GET_REGS, DRAW_SQUARE}SysID;
 
 
 static void sys_read(uint8_t * buf, uint32_t count, uint32_t * readBytes);
@@ -26,6 +26,7 @@ static void sys_move_cursor(actionOfCursor action);
 static void sys_init_cursor(int x, int y, int scale);
 static void sys_set_colors(uint32_t textColor, uint32_t backgroundColor);
 static void sys_get_registers();
+void sys_draw_square(uint32_t hexColor,uint64_t x, uint64_t y, uint32_t scale);
 
 
 void syscallsDispatcher(uint64_t rax, uint64_t *otherRegisters) {
@@ -81,6 +82,9 @@ void syscallsDispatcher(uint64_t rax, uint64_t *otherRegisters) {
             break;
         case GET_REGS :
             sys_get_registers();
+            break;
+        case DRAW_SQUARE:
+            sys_draw_square((uint32_t) rdi, (uint32_t) rsi, (uint32_t) rdx, (uint32_t) rcx);
             break;
         default :
             break;
@@ -165,4 +169,8 @@ static void sys_get_registers(){
         sys_write(toHex, &length);
         sys_write((uint8_t *)"\n", &length);
     } 
+}
+
+void sys_draw_square(uint32_t hexColor,uint64_t x, uint64_t y, uint32_t scale){
+    drawSquare(hexColor,x,y,scale);
 }

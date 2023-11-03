@@ -83,7 +83,7 @@ int printf(const char * format, ...){
 
     va_start(variables, format);
 
-    char * str;
+    char str[DIM];
     int index = 0, fmtPos = 0;
 
     while(format[fmtPos] != '\0'){

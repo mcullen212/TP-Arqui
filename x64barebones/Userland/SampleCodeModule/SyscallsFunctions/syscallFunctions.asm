@@ -12,6 +12,7 @@ GLOBAL call_c_move
 GLOBAL call_c_init
 GLOBAL call_set_colors
 GLOBAL call_get_registers
+GLOBAL call_draw_square
 
 section .text
 
@@ -255,6 +256,21 @@ call_get_registers:
     pushAll
 
     mov rax, 14
+    int 80h
+
+    popAll
+
+    mov rsp, rbp
+    pop rbp
+    ret
+
+call_draw_square:
+    push rbp
+    mov rbp, rsp
+
+    pushAll
+
+    mov rax, 15
     int 80h
 
     popAll

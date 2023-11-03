@@ -24,5 +24,6 @@ void call_c_move(actionOfCursor action);
 void call_c_init(int x, int y, int scale);
 void call_set_colors(uint32_t textColor, uint32_t backgroundColor);
 void call_get_registers();
+void call_draw_square(uint32_t color, uint32_t x, uint32_t y, uint32_t scale);
 
 #endif

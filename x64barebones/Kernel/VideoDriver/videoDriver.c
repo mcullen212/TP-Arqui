@@ -2,9 +2,14 @@
 #include <fonts.h>
 #include <cursor.h>
 
+//font
 #define WIDTH_FONT 8
 #define HEIGHT_FONT 16
 #define TAB_SIZE 4
+
+//screen 
+#define LAST_X 1024
+#define LAST_Y 768
 
 static uint32_t characterColor = 0xFFFFFF; // default color white
 static uint32_t backgroundColor = 0x000000; // default color black
@@ -98,7 +103,7 @@ static void moveLeft() {
         return;
     }
     if(cursor.x == MIN_X) {
-        cursor.x = MAX_X-(cursor.scale*WIDTH_FONT);
+        cursor.x = MAX_X-(cursor.scale * WIDTH_FONT);
         cursor.y -= (HEIGHT_FONT * cursor.scale);
         return;
     }
@@ -216,63 +221,21 @@ static void drawSquareOnCursor(uint32_t hexColor, int x, int y) {
     }
 }
 
-// void drawChar(uint8_t character, uint64_t x, uint64_t y, uint32_t scale) {
-//     unsigned char *pixel = font8x16[character];
+void drawSquare(uint32_t hexColor,uint64_t x, uint64_t y, uint32_t scale){
+    for(int j = 0; j < scale;j++) {
+        for(int i = 0; i < scale; i++) {
+            putPixel(hexColor,x+i,y+j);
+        }
+    }
+}
 
-//     for(int i = 0; i < HEIGHT_FONT; i++) {
-//         for(int j = 0; j<WIDTH_FONT; j++) {
-//             int bit = (pixel[i] >> j) & 1;
-//             if(bit){
-//                 drawSquare(characterColor, x, y, scale);
-//             }
-//             x+=scale;
-//         }
-//         x-=(8 * scale);
-//         y+=scale;
-//     }
-// }
-
-// static void drawSquare(uint32_t hexColor,uint64_t x, uint64_t y, uint32_t scale){
-//     for(int j = 0; j < scale;j++) {
-//         for(int i = 0; i < scale; i++) {
-//             putPixel(hexColor,x+i,y+j);
-//         }
-//     }
-// }
-
-// void deleteChar(uint64_t x, uint64_t y, uint32_t scale) {
-//     for(int i = 0; i < HEIGHT_FONT; i++) {
-//         for(int j = 0; j< WIDTH_FONT; j++) {
-//     		drawSquare(backgroundColor, x, y, scale);
-//             x+=scale;
-//         }
-//         x-=(8 * scale);
-//         y+=scale;
-//     }
-// }
-
-// void drawString(uint8_t * string, uint64_t x, uint64_t y, uint32_t scale, uint32_t * length) {
-// 	int i = 0;
-//     int x0 = x;
-// 	while(string[i] != 0){
-//         if (string[i] == '\n') {
-//             x = x0;
-//             y += (HEIGHT_FONT * scale);
-//         } else {
-//             if (string[i] == '\t') {
-//                 for (int j = 0; j < TAB_SIZE ; j++) {
-//                     drawChar(' ', x, y, scale);
-//                     x+=8*scale;
-//                 }
-//             } else {
-//                 drawChar(string[i], x, y, scale);
-// 		        x+=8*scale;
-//             }
-//         }
-// 		i++;
-// 	}
-// 	*length = i;
-// }
+void colorScreen(uint32_t hexColor) {
+    for (int i = 0; i < LAST_X; i++) {
+        for (int j = 0; j < LAST_Y; j++) {
+            putPixel(hexColor, i, j);
+        }
+    }
+}
 
 void setColor(uint32_t textColor, uint32_t backColor) {
 	characterColor = textColor;
