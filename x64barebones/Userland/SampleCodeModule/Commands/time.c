@@ -9,8 +9,4 @@ void time(){
     return;
 }
 
-void div0(){
-
-}
-
 void invalidop(){}

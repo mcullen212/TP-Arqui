@@ -14,7 +14,6 @@ static char flag = 0;
 static char * registersName[REGISTERS_AMOUNT] = {"R15 = ", "R14 = ", "R13 = ", "R12 = ", "R11 = ", "R10 = ", "R9 = ", "R8 = ", "RSI = ", "RDI = ", "RBP = ", "RDX = ", "RCX = ", "RBX = ", "RAX = ", "RIP  = ", "CS = ", "RFLAGS = ", "RSP = ", "SS = "};
 static uint64_t currentRegisters[REGISTERS_AMOUNT];
 
-void updateRegs(uint64_t * registers);
 static uint64_t binaryToHex(uint64_t binaryNum);
 static void uint64HexaToString(uint64_t valorHexa, char *hexaString);
 
@@ -86,7 +85,6 @@ void keyHandler(uint64_t * registers) {
 
     if( shiftPressed && number == LEFT_ALT_PRESSED){
         updateRegs(registers);
-        flag = 1;
     }
 
     if(number == LEFT_SHIFT_PRESSED  || number == RIGHT_SHIFT_PRESSED){
@@ -147,6 +145,7 @@ char savedRegs() {
 }
 
 void updateRegs(uint64_t * registers) {
+    flag = 1;
     for(int i = 0; i < REGISTERS_AMOUNT; i++){
         currentRegisters[i] = registers[i];
     }
@@ -189,7 +188,7 @@ static void uint64HexaToString(uint64_t valorHexa, char *hexaString) {
 
 uint8_t * getRegisterName(int index){
     return (uint8_t *)registersName[index];
-} 
+}
 
 uint64_t getRegisterValue(int index){
     return currentRegisters[index];

@@ -9,7 +9,7 @@
 #define INVALID_OPCODE_EXCEPTION_ID 6
 
 
-typedef void (*exceptionHandler)(char * exception, uint64_t * registers);
+typedef void (*exceptionHandler)(char * exception);
 
 void setExceptionHandler(uint64_t number, exceptionHandler exception);
 

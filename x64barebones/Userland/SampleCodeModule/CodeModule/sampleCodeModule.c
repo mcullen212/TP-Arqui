@@ -16,8 +16,19 @@
 #define BUFFER_SIZE 256
 
 int printShellHeader();
+void exceptionHandler(uint64_t exceptionNumber, char * errorMessage);
+void terminal();
 
 int main(void) {
+    call_set_exception_handler(0, exceptionHandler);
+    call_set_exception_handler(6, exceptionHandler);
+
+    terminal();
+
+    return 0;
+}
+
+void terminal() {
     call_set_theme(themesShell[1]);
 
     char c;
@@ -54,8 +65,6 @@ int main(void) {
         call_c_move(ENTER);
         shell(commandBuffer);
     }
-
-    return 0;
 }
 
 
@@ -67,14 +76,31 @@ int printShellHeader() {
     return n;
 }
 
-// int main() {
-// 	//All the following code may be removed
-// 	*v = 'X';
-// 	*(v+1) = 0x74;
+void exceptionHandler(uint64_t exceptionNumber, char * errorMessage) {
+    call_set_theme(themesShell[6]);
+    call_c_init(MIN_X, MIN_Y, 1);
+    putString("\t\t\t\t\t\t\t\t\t\t\t\t");
+    switch(exceptionNumber) {
+        case 0 : // Division by Zero
+            putString(errorMessage);
+            break;
+        case 6 : // Invalid Opcode
+            putString(errorMessage);
+            break;
+        default :
+            putString("ERROR - Unknown Exception");
+            break;
+    }
 
-// 	//Test if BSS is properly set up
-// 	if (var1 == 0 && var2 == 0)
-// 		return 0xDEADC0DE;
+    call_get_registers();
 
-// 	return 0xDEADBEEF;
-// }
+    char c = 0;
+
+    printf("\n\n\n\t\t\t\t\t\t\t\t\t\t\t\tPress \"ENTER\" key to continue..\n");
+
+    do {
+        c = getChar();
+    } while(c == 0);
+
+    terminal();
+}

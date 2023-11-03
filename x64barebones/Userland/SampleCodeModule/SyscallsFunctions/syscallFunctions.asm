@@ -15,6 +15,8 @@ GLOBAL call_get_registers
 GLOBAL call_draw_square
 GLOBAL call_color_screen
 GLOBAL call_draw_circle
+GLOBAL call_clear_screen
+GLOBAL call_set_exception_handler
 
 section .text
 
@@ -303,6 +305,21 @@ call_draw_circle:
     pushAll
 
     mov rax, 17
+    int 80h
+
+    popAll
+
+    mov rsp, rbp
+    pop rbp
+    ret
+
+call_clear_screen:
+    push rbp
+    mov rbp, rsp
+
+    pushAll
+
+    mov rax, 18
     int 80h
 
     popAll

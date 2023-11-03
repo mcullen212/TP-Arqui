@@ -3,9 +3,9 @@
 #include <libc.h>
 #include <commands.h>
 
-char * commands[6] = {"man", "time", "registers", "snake", "div0", "invalid operation"};
+char * commands[7] = {"man", "time", "registers", "snake", "div0", "invalid operation", "clear"};
 
-void (* commandsReferences[])() = {man, time, registers, snakeGame, div0, invalidop};
+void (* commandsReferences[])() = {man, time, registers, snakeGame, div0, invalidop, clear};
 
 void shell(char *command) {
     if(*command == 0){

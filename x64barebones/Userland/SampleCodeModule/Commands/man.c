@@ -12,7 +12,7 @@ void man(){
     printf("\t time - Retrieve the current time.\n");
     printf("\t snake - Play the Snake game, available for both single-player and two-player modes. Follow the command with the number \n");
     printf("\t\t of players you want to play with.\n");
-    printf("\t registers - View the registers in use after pressing Ctrl + Alt.\n\n");
+    printf("\t registers - View the registers in use after pressing Shift + Alt.\n\n");
     printf("EXCEPTIONS\n");
     printf("\t inval - Indicates an invalid operation.\n");
     printf("\t div0 - Signals division by zero.\n");

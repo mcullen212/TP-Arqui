@@ -264,3 +264,7 @@ void drawCircle(uint32_t hexColor, uint64_t x, uint64_t y, uint32_t length) {
         }
     }
 }
+
+uint32_t getBackgroundColor() {
+    return backgroundColor;
+}

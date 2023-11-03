@@ -5,7 +5,7 @@
 #include <exceptions.h>
 #include <cursor.h>
 
-typedef enum {SYS_READ = 0, SYS_WRITE, DRAW_C, DELETE_C, TIME, THEME, SET_EXC, C_GET_X, C_GET_Y, C_GET_S, C_SET_S, C_MOVE, C_INIT, SET_COLORS, GET_REGS, DRAW_SQUARE, COLOR_SCREEN, DRAW_CIRCLE}SysID;
+typedef enum {SYS_READ = 0, SYS_WRITE, DRAW_C, DELETE_C, TIME, THEME, SET_EXC, C_GET_X, C_GET_Y, C_GET_S, C_SET_S, C_MOVE, C_INIT, SET_COLORS, GET_REGS, DRAW_SQUARE, COLOR_SCREEN, DRAW_CIRCLE, CLEAR_SCREEN}SysID;
 
 
 static void sys_read(uint8_t * buf, uint32_t count, uint32_t * readBytes);
@@ -29,15 +29,16 @@ static void sys_get_registers();
 static void sys_draw_square(uint32_t hexColor,uint64_t x, uint64_t y, uint32_t scale);
 static void sys_color_screen(uint32_t hexColor);
 static void sys_draw_circle(uint32_t color, uint32_t x, uint32_t y, uint32_t length);
+static void sys_clear_screen();
 
 
 void syscallsDispatcher(uint64_t rax, uint64_t *otherRegisters) {
-    uint64_t rdi,rsi,rdx,rcx, r8; //r9;     // Me guardo los registros en variables para mayor claridad de lectura del codigo.
+    uint64_t rdi,rsi,rdx,rcx;// r8, r9;     // Me guardo los registros en variables para mayor claridad de lectura del codigo.
     rdi = otherRegisters[0];
     rsi = otherRegisters[1];
     rdx = otherRegisters[2];
     rcx = otherRegisters[3];
-    r8 = otherRegisters[4];
+    //r8 = otherRegisters[4];
     //r9 = otherRegisters[5];
     switch(rax) {
         case SYS_READ :
@@ -93,6 +94,9 @@ void syscallsDispatcher(uint64_t rax, uint64_t *otherRegisters) {
             break;
         case DRAW_CIRCLE :
             sys_draw_circle((uint32_t) rdi, (uint32_t) rsi, (uint32_t) rdx, (uint32_t) rcx);
+        case CLEAR_SCREEN :
+            sys_clear_screen();
+            break;
         default :
             break;
     }
@@ -189,4 +193,11 @@ static void sys_color_screen(uint32_t hexColor) {
 
 static void sys_draw_circle(uint32_t color, uint32_t x, uint32_t y, uint32_t length) {
     drawCircle(color, x, y, length);
+}
+
+static void sys_clear_screen() {
+    colorScreen(getBackgroundColor());
+    int scale;
+    sys_get_cursor_scale(&scale);
+    sys_init_cursor(MIN_X, MIN_Y, scale);
 }

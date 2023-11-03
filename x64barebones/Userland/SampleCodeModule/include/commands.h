@@ -22,6 +22,6 @@ void div0();
 
 void invalidop();
 
-// void clear();
+void clear();
 
 #endif

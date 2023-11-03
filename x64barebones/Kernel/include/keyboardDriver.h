@@ -22,6 +22,7 @@ void copyRegisters(uint64_t num, char*buffer);
 char savedRegs();
 uint8_t * getRegisterName(int index);
 uint64_t getRegisterValue(int index);
-
+uint32_t getBackgroundColor();
+void updateRegs(uint64_t * registers);
 
 #endif
