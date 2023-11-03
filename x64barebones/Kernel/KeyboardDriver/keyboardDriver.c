@@ -9,6 +9,9 @@ static char buffer[BUFFER_SIZE];
 static unsigned long index = 0;
 static unsigned long currentKey = 0;
 
+static char flag = 0;
+
+void updateRegs(uint64_t * registers);
 
 char keyMap[][2] = { // [cantidad de teclas][2] => teclado estandar en ingles
                      // primer elemento es la tecla que presionas
@@ -75,13 +78,9 @@ char keyMap[][2] = { // [cantidad de teclas][2] => teclado estandar en ingles
 
 void keyHandler(uint64_t * registers) {
     uint64_t number = getKeyNumber();
-    
+
     if( shiftPressed && number == LEFT_ALT_PRESSED){
         updateRegs(registers);
-        char *tohex;
-        intToBase(0b1111111111111111111111111111111111111111111111111111111111111111, 16, tohex);
-        int length;
-        drawStringOnCursor(tohex, &length);
         flag = 1;
     }
 
@@ -138,12 +137,16 @@ void readFromKeyboard(uint8_t * toRetbuffer, uint32_t amount, uint32_t * size) {
     *size = j;
 }
 
+char savedRegs() {
+    return flag;
+}
+
 void updateRegs(uint64_t * registers) {
     for(int i = 0; i < REGISTERS_AMOUNT; i++){
         currentRegisters[i] = registers[i];
     }
-    uint32_t length;
-    drawStringOnCursor("Se guardo una copia de los registros\n", &length);
+    //uint32_t length;
+    //drawStringOnCursor("Se guardo una copia de los registros\n", &length);
 }
 
 void valueToHexString(unsigned long long value, uint8_t * hexStr) {

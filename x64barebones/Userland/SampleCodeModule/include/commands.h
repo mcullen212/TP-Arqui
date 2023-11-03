@@ -2,6 +2,7 @@
 #define COMMANDS_H
 
 #include <syscallFunctions.h>
+#include <libc.h>
 
 void man();
 

@@ -1,14 +1,13 @@
 #include <snake.h>
-#include <stdint.h>
 
 void screen(){
-    
+
 }
 
-void inputPlayer1(snake * s1){ // que mov tiene la serpiente
-    char c = getchar();
+void inputPlayer1(snake * s){ // que mov tiene la serpiente
+    char c = getChar();
     switch(c){
-        case 'q': // quit game 
+        case 'q': // quit game
             quitGame();
             break;
         case 'i':
@@ -30,9 +29,9 @@ void inputPlayer1(snake * s1){ // que mov tiene la serpiente
 }
 
 void inputPlayer2(snake * s){
-    char c = getchar();
+    char c = getChar();
     switch(c){
-        case 'q': // quit game 
+        case 'q': // quit game
             quitGame();
             break;
         case 'w':
@@ -55,7 +54,7 @@ void inputPlayer2(snake * s){
 
 void snakeMenu() {
     //call_color_screen(0x0000FFFF); // Pains screen of some color
-    call_c_init(MIN_X, MIN_Y, SCALE);
+    //call_c_init(MIN_X, MIN_Y, SCALE);
     printf("Welcome to Snake Game!\nSelec amount of players: (1 or 2)");
     char c;
     do {
@@ -70,9 +69,13 @@ void snakeGame(){
     //     input(1, s1);
     //     input(2, s2);
     // }
-    // amount of players 
+    // amount of players
 }
 
 void quitGame(){
-    // quit game 
+    // quit game
+}
+
+void moveSnake(snake * s, direction direction) {
+
 }

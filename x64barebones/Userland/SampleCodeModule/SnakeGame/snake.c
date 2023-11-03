@@ -1,7 +1,7 @@
 #include <snake.h>
 
 // int collision(){
-    
+
 // }
 
 void move(snake * s, direction direction){
@@ -27,6 +27,6 @@ void move(snake * s, direction direction){
 
 void printSnake(snake * s){
     for (int i = 0; i < s->length; i++) {
-        drawSquare(s->color, s->body[i][0], s->body[i][1], 1);
+        //drawSquare(s->color, s->body[i][0], s->body[i][1], 1);
     }
 }

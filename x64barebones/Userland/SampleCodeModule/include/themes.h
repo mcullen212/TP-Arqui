@@ -15,7 +15,7 @@ enum Hex32Colors {
     COLOR_DARK_GRAY  = 0x404040,
 };
 
-enum Hex32Colors themes[][2] = {
+enum Hex32Colors themesShell[][2] = { // {backgroundColor, fontColor}
     {COLOR_BLACK, COLOR_WHITE},
     {COLOR_BLACK,COLOR_YELLOW},
     {COLOR_BLACK,COLOR_CYAN},
@@ -23,5 +23,6 @@ enum Hex32Colors themes[][2] = {
     {COLOR_WHITE,COLOR_BLUE},
     {COLOR_BLUE,COLOR_YELLOW}
 };
+
 
 #endif

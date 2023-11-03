@@ -9,7 +9,6 @@ void (* commandsReferences[])() = {man, time, registers, /*snake,*/ div0, invali
 
 void shell(char *command) {
     if(*command == 0){
-        printf("Error: nothing was written\n");
         return;
     }
     int id = interpretCommand(command);
@@ -17,7 +16,6 @@ void shell(char *command) {
     executeCommand(id, &flag);
 
     if(flag == 0) {
-        uint32_t num;
         printf("Error: command not found\n");
     }
 }

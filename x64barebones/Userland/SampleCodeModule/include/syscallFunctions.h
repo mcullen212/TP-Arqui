@@ -25,5 +25,6 @@ void call_c_init(int x, int y, int scale);
 void call_set_colors(uint32_t textColor, uint32_t backgroundColor);
 void call_get_registers();
 void call_draw_square(uint32_t color, uint32_t x, uint32_t y, uint32_t scale);
+void call_color_screen(uint32_t hexColor);
 
 #endif

@@ -278,3 +278,18 @@ call_draw_square:
     mov rsp, rbp
     pop rbp
     ret
+
+call_color_screen:
+    push rbp
+    mov rbp, rsp
+
+    pushAll
+
+    mov rax, 16
+    int 80h
+
+    popAll
+
+    mov rsp, rbp
+    pop rbp
+    ret

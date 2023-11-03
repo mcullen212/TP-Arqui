@@ -2,12 +2,11 @@
 
 void time(){
     uint8_t * currentTime;
-    uint32_t length;
     call_get_time(&currentTime);
 
-    printf(currentTime);
+    printf((char *) currentTime);
     printf("\n");
-    return; 
+    return;
 }
 
 void div0(){

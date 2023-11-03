@@ -2,7 +2,7 @@
 #define CURSOR_H
 
 #define MAX_X 1008
-#define MAX_Y 1008
+#define MAX_Y 736
 #define MIN_X 8
 #define MIN_Y 8
 #define WIDTH_FONT 8

@@ -18,7 +18,7 @@
 int printShellHeader();
 
 int main(void) {
-    call_set_theme(themes[0]);
+    call_set_theme(themesShell[5]);
 
     char c;
 
@@ -52,7 +52,6 @@ int main(void) {
         } // When "enter" key is pressed, leaves typing loop.
         commandBuffer[position] = '\0';
         call_c_move(ENTER);
-        call_get_registers();
         shell(commandBuffer);
     }
 
@@ -64,7 +63,7 @@ int main(void) {
 int printShellHeader() {
     uint32_t n;
     call_write((uint8_t *) "user> ", &n);
-    call_c_get_y(&n);
+    call_c_get_y((int *)&n);
     return n;
 }
 

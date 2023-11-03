@@ -5,7 +5,7 @@
 #include <exceptions.h>
 #include <cursor.h>
 
-typedef enum {SYS_READ = 0, SYS_WRITE, DRAW_C, DELETE_C, TIME, THEME, SET_EXC, C_GET_X, C_GET_Y, C_GET_S, C_SET_S, C_MOVE, C_INIT, SET_COLORS, GET_REGS, DRAW_SQUARE}SysID;
+typedef enum {SYS_READ = 0, SYS_WRITE, DRAW_C, DELETE_C, TIME, THEME, SET_EXC, C_GET_X, C_GET_Y, C_GET_S, C_SET_S, C_MOVE, C_INIT, SET_COLORS, GET_REGS, DRAW_SQUARE, COLOR_SCREEN}SysID;
 
 
 static void sys_read(uint8_t * buf, uint32_t count, uint32_t * readBytes);
@@ -26,16 +26,17 @@ static void sys_move_cursor(actionOfCursor action);
 static void sys_init_cursor(int x, int y, int scale);
 static void sys_set_colors(uint32_t textColor, uint32_t backgroundColor);
 static void sys_get_registers();
-void sys_draw_square(uint32_t hexColor,uint64_t x, uint64_t y, uint32_t scale);
+static void sys_draw_square(uint32_t hexColor,uint64_t x, uint64_t y, uint32_t scale);
+static void sys_color_screen(uint32_t hexColor);
 
 
 void syscallsDispatcher(uint64_t rax, uint64_t *otherRegisters) {
-    uint64_t rdi,rsi,rdx,rcx,r8; //r9;     // Me guardo los registros en variables para mayor claridad de lectura del codigo.
+    uint64_t rdi,rsi,rdx,rcx;//,r8; r9;     // Me guardo los registros en variables para mayor claridad de lectura del codigo.
     rdi = otherRegisters[0];
     rsi = otherRegisters[1];
     rdx = otherRegisters[2];
     rcx = otherRegisters[3];
-    r8 = otherRegisters[4];
+    //r8 = otherRegisters[4];
     //r9 = otherRegisters[5];
     switch(rax) {
         case SYS_READ :
@@ -86,6 +87,9 @@ void syscallsDispatcher(uint64_t rax, uint64_t *otherRegisters) {
         case DRAW_SQUARE:
             sys_draw_square((uint32_t) rdi, (uint32_t) rsi, (uint32_t) rdx, (uint32_t) rcx);
             break;
+        case COLOR_SCREEN :
+            sys_color_screen((uint32_t) rdi);
+            break;
         default :
             break;
     }
@@ -120,6 +124,7 @@ static void sys_time(uint8_t ** currentTime){
 static void sys_shell_theme(uint32_t * theme) {
     uint32_t font_color = theme[1], background_color = theme[0];
     setColor(font_color, background_color);
+    sys_color_screen(background_color);
 }
 
 static void sys_set_exception_handler(uint64_t number, exceptionHandler exception) {
@@ -156,21 +161,25 @@ static void sys_set_colors(uint32_t textColor, uint32_t backgroundColor) {
 }
 
 static void sys_get_registers(){
-    if(flag == 0){
-        int length;
-        sys_write("Registers must be saved.\n", &length);
+    if(!savedRegs()){
+        uint32_t length;
+        sys_write((uint8_t *)"Registers must be saved.\n", &length);
         return;
     }
     uint32_t length;
-    uint8_t *toHex;
+    char * toHex;
     for(int i = REGISTERS_AMOUNT-1; i >= 0; i--){
-        intToBase(currentRegisters[i], toHex, 16);
-        sys_write(registersName[i], &length);
-        sys_write(toHex, &length);
+        intToBase(currentRegisters[i], 16, toHex);
+        sys_write((uint8_t *) registersName[i], &length);
+        sys_write((uint8_t *) toHex, &length);
         sys_write((uint8_t *)"\n", &length);
-    } 
+    }
 }
 
-void sys_draw_square(uint32_t hexColor,uint64_t x, uint64_t y, uint32_t scale){
+static void sys_draw_square(uint32_t hexColor,uint64_t x, uint64_t y, uint32_t scale){
     drawSquare(hexColor,x,y,scale);
+}
+
+static void sys_color_screen(uint32_t hexColor) {
+    colorScreen(hexColor);
 }

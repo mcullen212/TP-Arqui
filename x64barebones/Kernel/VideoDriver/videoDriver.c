@@ -7,7 +7,7 @@
 #define HEIGHT_FONT 16
 #define TAB_SIZE 4
 
-//screen 
+//screen
 #define LAST_X 1024
 #define LAST_Y 768
 
@@ -16,6 +16,7 @@ static uint32_t backgroundColor = 0x000000; // default color black
 
 //static void drawSquare(uint32_t hexColor, uint64_t x, uint64_t y, uint32_t scale);
 static void drawSquareOnCursor(uint32_t hexColor, int x, int y);
+static void clearTerminal();
 
 struct vbe_mode_info_structure {
 	uint16_t attributes;		// deprecated, only bit 7 should be of interest to you, and it indicates the mode supports a linear frame buffer.
@@ -95,7 +96,7 @@ static void moveRight() {
     }
 
     cursor.y = MIN_Y;
-    //clearTerminal
+    clearTerminal();
 }
 
 static void moveLeft() {
@@ -118,7 +119,7 @@ static void moveDown() {
     }
     cursor.x = MIN_X;
     cursor.y = MIN_Y;
-    //clearTerminal
+    clearTerminal();
 }
 
 static void moveTab() {
@@ -240,4 +241,8 @@ void colorScreen(uint32_t hexColor) {
 void setColor(uint32_t textColor, uint32_t backColor) {
 	characterColor = textColor;
 	backgroundColor = backColor;
+}
+
+static void clearTerminal() {
+    colorScreen(backgroundColor);
 }

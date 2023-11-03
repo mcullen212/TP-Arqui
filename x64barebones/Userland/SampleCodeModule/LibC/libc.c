@@ -1,6 +1,6 @@
 #include <libc.h>
 #include <syscallFunctions.h>
-#include<stdarg.h>
+#include <stdarg.h>
 
 int strcmp(const char * s1, const char * s2) {
     int i = 0;
@@ -78,7 +78,7 @@ static int doubleToString(double num, char *str){
     return length + i;
 }
 
-int printf(const char * format, ...){ 
+int printf(const char * format, ...){
     va_list variables;
 
     va_start(variables, format);
@@ -113,21 +113,21 @@ int printf(const char * format, ...){
     return putString(str);
 }
 
-char ** substrings(char * str, char delim, int * amountOfSubstrings){
-    int i = 0; //index of str
-    int j = 0; // index of result
-    int k = 0; // index of result[j]
-    char ** result;
-    while(str[i] != '\0'){
-        if(str[i] == delim){
-            k = 0; // restart
-            j++; //new term
-        }else{
-            result[j][k]=str[i];
-            k++;
-        }
-        i++;
-    }
-    *amountOfSubstrings = j;
-    return result;
-}
+// char ** substrings(char * str, char delim, int * amountOfSubstrings){
+//     int i = 0; //index of str
+//     int j = 0; // index of result
+//     int k = 0; // index of result[j]
+//     char ** result;
+//     while(str[i] != '\0'){
+//         if(str[i] == delim){
+//             k = 0; // restart
+//             j++; //new term
+//         }else{
+//             result[j][k]=str[i];
+//             k++;
+//         }
+//         i++;
+//     }
+//     *amountOfSubstrings = j;
+//     return result;
+// }
