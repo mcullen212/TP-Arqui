@@ -6,6 +6,11 @@
 
 typedef enum{ UP = 0, DOWN, LEFT, RIGHT } direction;
 
+enum boardColors {
+    PALE_BLUE      = 0xADD8E6, // Light Pale Blue
+    PALE_BLUE_LIGHTER     = 0x87CEEB, // Slightly Darker Pale Blue
+};
+
 // enum Hex32Colors {
 //     COLOR_BLACK     = 0x000000,
 //     COLOR_WHITE     = 0xFFFFFF,

@@ -1,6 +1,20 @@
 #include <snake.h>
+#include <foods.h>
+#include <syscallFunctions.h>
 
-void screen(){
+void screen(){ // ymax = 768 xmax = 1024
+    // squares 16 x 16 pixels  => 64 x 48 squares 
+    for(int i = 0; i < 32; i++){
+        for(int j = 0; j < 24; j++){
+            //need to create checkers 
+            if((j%2 && i%2) || (j%2 == 0 && i%2 == 0)){
+                call_draw_square(PALE_BLUE, i*32, j*32, 32);
+                call_draw_circle(APPLE, i*32, j*32, 32);
+            }else{
+                call_draw_square(PALE_BLUE_LIGHTER, i*32, j*32, 32);
+            }
+        }
+    }
 
 }
 
@@ -63,6 +77,7 @@ void snakeMenu() {
 }
 
 void snakeGame(){
+    screen();
     // snake * s1 = createSnake();
     // snake * s2 = createSnake();
     // while(1){

@@ -3,10 +3,12 @@
 
 #include <syscallFunctions.h>
 #include <libc.h>
+#include <snake.h>
 
 void man();
 
 // void snake(uint32_t players);
+//void snakeGame();
 
 void registers();
 

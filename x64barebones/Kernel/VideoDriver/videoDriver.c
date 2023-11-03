@@ -246,3 +246,21 @@ void setColor(uint32_t textColor, uint32_t backColor) {
 static void clearTerminal() {
     colorScreen(backgroundColor);
 }
+
+// x y coordinates are the border of the square where the circle is inscribed
+void drawCircle(uint32_t hexColor, uint64_t x, uint64_t y, uint32_t length) {
+    uint32_t radius = length/2 - 1;
+    // center of square
+    x = x + radius;
+    y = y + radius;
+   for(int i=0;i<radius;i++) {
+        for(int j=0;j<radius;j++) {
+            if((i*i)+(j*j)<=(radius*radius)) {
+                putPixel(hexColor,x+i,y+j);
+                putPixel(hexColor,x-i,y+j);
+                putPixel(hexColor,x+i,y-j);
+                putPixel(hexColor,x-i,y-j);
+            }
+        }
+    }
+}

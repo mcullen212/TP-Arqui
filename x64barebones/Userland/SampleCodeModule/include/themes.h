@@ -13,6 +13,13 @@ enum Hex32Colors {
     COLOR_GRAY      = 0x808080,
     COLOR_LIGHT_GRAY = 0xC0C0C0,
     COLOR_DARK_GRAY  = 0x404040,
+    COLOR_ORANGE    = 0xFFA500, 
+    COLOR_PURPLE    = 0x800080, 
+    COLOR_PINK      = 0xFFC0CB, 
+    COLOR_BROWN     = 0xA52A2A, 
+    COLOR_LIME_GREEN = 0x32CD32, 
+    COLOR_TEAL      = 0x008080, 
+    COLOR_GOLD      = 0xFFD700
 };
 
 enum Hex32Colors themesShell[][2] = { // {backgroundColor, fontColor}
