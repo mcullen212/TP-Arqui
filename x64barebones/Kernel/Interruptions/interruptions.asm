@@ -18,7 +18,8 @@ EXTERN syscallsDispatcher
 EXTERN updateRegs
 
 %macro pushState 0
-	push rbx
+	push rax
+    push rbx
 	push rcx
 	push rdx
 	push rbp
@@ -49,11 +50,16 @@ EXTERN updateRegs
 	pop rdx
 	pop rcx
 	pop rbx
+    pop rax
 %endmacro
+
+
 
 %macro irqHandlerMaster 1
     pushState
 
+
+    mov rsi, rsp
     mov rdi, %1
     call irqDispatcher
 
@@ -68,6 +74,7 @@ EXTERN updateRegs
 %macro exceptionHandler 1
 	pushState
 
+    mov rsi, rsp
 	mov rdi, %1  ; Pasaje de parametro
 	call exceptionDispatcher
 
@@ -110,28 +117,6 @@ _irq00Handler:
 
 ; Keyboard
 _irq01Handler:
-    
-    push rbp
-    push rax
-    push rbx
-    push rcx
-    push rdx
-    push rdi
-    push rsi 
-    push r8
-    push r9
-    push r10
-    push r11
-    push r12
-    push r13
-    push r14
-    push r15
-
-    mov rdi, rsp
-    call updateRegs
-
-    add rsp, 8 * 15
-
     irqHandlerMaster 1
 
 ; Cascade pic never called

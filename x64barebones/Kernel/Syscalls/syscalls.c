@@ -152,87 +152,17 @@ static void sys_set_colors(uint32_t textColor, uint32_t backgroundColor) {
 }
 
 static void sys_get_registers(){
-    char *buff;
-    int count=0;
-    valueToHexString(regs.rax, buff);
-    drawStringOnCursor("RAX = ", &count);
-    drawStringOnCursor(buff, &count);
-
-    valueToHexString(regs.rbx, buff);
-    drawStringOnCursor("RBX = ", &count);
-    drawStringOnCursor(buff, &count);
-
-    valueToHexString(regs.rcx, buff);
-    drawStringOnCursor("RCX = ", &count);
-    drawStringOnCursor(buff, &count);
-
-    valueToHexString(regs.rdx, buff);
-    drawStringOnCursor("RDX = ", &count);
-    drawStringOnCursor(buff, &count);
-
-    valueToHexString(regs.r8, buff);
-    drawStringOnCursor("R8 = ", &count);
-    drawStringOnCursor(buff, &count);
-
-    valueToHexString(regs.r9, buff);
-    drawStringOnCursor("R9 = ", &count);
-    drawStringOnCursor(buff, &count);
-
-    valueToHexString(regs.r10, buff);
-    drawStringOnCursor("R10 = ", &count);
-    drawStringOnCursor(buff, &count);
-
-    valueToHexString(regs.r11, buff);
-    drawStringOnCursor("R11 = ", &count);
-    drawStringOnCursor(buff, &count);
-
-    valueToHexString(regs.r12, buff);
-    drawStringOnCursor("R12 = ", &count);
-    drawStringOnCursor(buff, &count);
-
-    valueToHexString(regs.r13, buff);
-    drawStringOnCursor("R13 = ", &count);
-    drawStringOnCursor(buff, &count);
-
-    valueToHexString(regs.r14, buff);
-    drawStringOnCursor("R14 = ", &count);
-    drawStringOnCursor(buff, &count);
-
-    valueToHexString(regs.r15, buff);
-    drawStringOnCursor("R15 = ", &count);
-    drawStringOnCursor(buff, &count);
-
-    valueToHexString(regs.rsi, buff);
-    drawStringOnCursor("RSI = ", &count);
-    drawStringOnCursor(buff, &count);
-
-    valueToHexString(regs.rdi, buff);
-    drawStringOnCursor("RDI = ", &count);
-    drawStringOnCursor(buff, &count);
-
-    valueToHexString(regs.rbp, buff);
-    drawStringOnCursor("RBP = ", &count);
-    drawStringOnCursor(buff, &count);
-
-    valueToHexString(regs.rsp, buff);
-    drawStringOnCursor("RSP = ", &count);
-    drawStringOnCursor(buff, &count);
-
-    valueToHexString(regs.cs, buff);
-    drawStringOnCursor("CS = ", &count);
-    drawStringOnCursor(buff, &count);
-
-    valueToHexString(regs.rflags, buff);
-    drawStringOnCursor("RFLAGS = ", &count);
-    drawStringOnCursor(buff, &count);
-
-    valueToHexString(regs.ss, buff);
-    drawStringOnCursor("SS = ", &count);
-    drawStringOnCursor(buff, &count);
-
-    valueToHexString(regs.rip, buff);
-    drawStringOnCursor("RIP = ", &count);
-    drawStringOnCursor(buff, &count);
-
-    
+    if(flag == 0){
+        int length;
+        sys_write("Registers must be saved.\n", &length);
+        return;
+    }
+    uint32_t length;
+    uint8_t *toHex;
+    for(int i = REGISTERS_AMOUNT-1; i >= 0; i--){
+        intToBase(currentRegisters[i], toHex, 16);
+        sys_write(registersName[i], &length);
+        sys_write(toHex, &length);
+        sys_write((uint8_t *)"\n", &length);
+    } 
 }

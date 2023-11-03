@@ -1,5 +1,6 @@
 //Keyboard driver
 #include <keyboardDriver.h>
+#include <videoDriver.h>
 
 static char shiftPressed = 0;
 static char capsLockPressed = 0;
@@ -72,8 +73,14 @@ char keyMap[][2] = { // [cantidad de teclas][2] => teclado estandar en ingles
         {' ', ' '} // space
     };
 
-void keyHandler() {
+void keyHandler(uint64_t * registers) {
     uint64_t number = getKeyNumber();
+    
+    if( shiftPressed && number == LEFT_ALT_PRESSED){
+        updateRegs(registers);
+        flag = 1;
+    }
+
     if(number == LEFT_SHIFT_PRESSED  || number == RIGHT_SHIFT_PRESSED){
         shiftPressed = 1;   // Si se presiona el Shift, prende el flag
         return;
@@ -128,35 +135,15 @@ void readFromKeyboard(uint8_t * toRetbuffer, uint32_t amount, uint32_t * size) {
 }
 
 void updateRegs(uint64_t * registers) {
-    // uint64_t keyPressed = getKeyNumber();
-    // if (altPressed && keyPressed == 19) {
-    //     regs.r15 = registers[0];
-    //     regs.r14 = registers[1];
-    //     regs.r13 = registers[2];
-    //     regs.r12 = registers[3];
-    //     regs.r11 = registers[4];
-    //     regs.r10 = registers[5];
-    //     regs.r9 = registers[6];
-    //     regs.r8 = registers[7];
-    //     regs.rsi = registers[8];
-    //     regs.rdi = registers[9];
-    //     regs.rdx = registers[10];
-    //     regs.rcx = registers[11];
-    //     regs.rbx = registers[12];
-    //     regs.rax = registers[13];
-    //     regs.rbp = registers[14];
-    //     regs.rip = registers[15];
-    //     regs.cs = registers[16];
-    //     regs.rflags = registers[17];
-    //     regs.rsp = registers[18];
-    //     regs.ss = registers[19];
-
-    // }
-
+    for(int i = 0; i < REGISTERS_AMOUNT; i++){
+        currentRegisters[i] = registers[i];
+    }
+    uint32_t length;
+    drawStringOnCursor("Se guardo una copia de los registros\n", &length);
 }
 
-void valueToHexString(uint64_t value, char *hexStr) {
-    static const char hexDigits[] = "0123456789ABCDEF";
+void valueToHexString(unsigned long long value, uint8_t * hexStr) {
+    static const uint8_t hexDigits[] = "0123456789ABCDEF";
     int i;
 
     hexStr[0] = '0';
@@ -168,8 +155,30 @@ void valueToHexString(uint64_t value, char *hexStr) {
             hexStr[18-i]='1';
         }
     }
-    hexStr[19] = '\n';
-    hexStr[20] = '\0';
+    hexStr[19] = '\0';
+}
+
+int intToBase(uint64_t num, int base, char*buffer){
+    char stack[11];
+    int c = 0;
+    int i=0;
+    int remainder = 0;
+    if(num==0) stack[i++]='0';
+    while(num!=0){
+        remainder = num % base;
+        stack[i]=remainder>=10? remainder+'A'-10:remainder+'0';
+        num = num/base;
+        i++;
+    }
+    c=i;
+    i--;
+    while(i>=0){
+        *buffer=stack[i];
+        buffer++;
+        i--;
+    }
+    *buffer=0;
+    return c;
 }
 
 

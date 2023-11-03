@@ -52,8 +52,7 @@ int main(void) {
         } // When "enter" key is pressed, leaves typing loop.
         commandBuffer[position] = '\0';
         call_c_move(ENTER);
-        int length;
-        call_write(commandBuffer, &length);
+        call_get_registers();
         shell(commandBuffer);
     }
 
