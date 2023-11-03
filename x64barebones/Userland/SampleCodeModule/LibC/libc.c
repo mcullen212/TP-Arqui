@@ -1,4 +1,6 @@
 #include <libc.h>
+#include <syscallFunctions.h>
+#include<stdarg.h>
 
 int strcmp(const char * s1, const char * s2) {
     int i = 0;
@@ -76,18 +78,18 @@ static int doubleToString(double num, char *str){
     return length + i;
 }
 
-int printf(const char * format, ...){ //nose como accesder a los parametros ... pero se que se puede
+int printf(const char * format, ...){ 
     va_list variables;
 
     va_start(variables, format);
 
-    char * str = " ";
-    int index = 0;
+    char * str;
+    int index = 0, fmtPos = 0;
 
-    while(*format != '\0'){
-        if(*format == '%'){
-            format++;
-            switch(*format){
+    while(format[fmtPos] != '\0'){
+        if(format[fmtPos] == '%'){
+            fmtPos++;
+            switch(format[fmtPos]){
                 case 'd': //int
                     index += intToString(va_arg(variables,int),str+index);
                     break;
@@ -100,10 +102,9 @@ int printf(const char * format, ...){ //nose como accesder a los parametros ... 
                 default:
                     break;
             }
-            format++;
+            fmtPos++;
         }else{
-            str[index] = *format;
-            format++;
+            str[index] = format[fmtPos++];
             index++;
         }
     }
@@ -111,19 +112,6 @@ int printf(const char * format, ...){ //nose como accesder a los parametros ... 
     va_end(variables);
     return putString(str);
 }
-
-//guarda valor en el paramentro pasado por referencia
-// int scanf(const char *format, ...){
-//     while(*format != '\0'){
-//         if(*format == '%'){
-//             format++;
-//             switch(*format){
-//                //en proceso
-//             }
-//         }
-//     }
-//     return 0;
-// }
 
 char ** substrings(char * str, char delim, int * amountOfSubstrings){
     int i = 0; //index of str

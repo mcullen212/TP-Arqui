@@ -78,6 +78,10 @@ void keyHandler(uint64_t * registers) {
     
     if( shiftPressed && number == LEFT_ALT_PRESSED){
         updateRegs(registers);
+        char *tohex;
+        intToBase(0b1111111111111111111111111111111111111111111111111111111111111111, 16, tohex);
+        int length;
+        drawStringOnCursor(tohex, &length);
         flag = 1;
     }
 
@@ -166,7 +170,7 @@ int intToBase(uint64_t num, int base, char*buffer){
     if(num==0) stack[i++]='0';
     while(num!=0){
         remainder = num % base;
-        stack[i]=remainder>=10? remainder+'A'-10:remainder+'0';
+        stack[i]=remainder>=2? remainder+'A'-10:remainder+'0';
         num = num/base;
         i++;
     }

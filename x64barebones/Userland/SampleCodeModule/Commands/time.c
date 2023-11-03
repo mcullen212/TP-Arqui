@@ -10,10 +10,6 @@ void time(){
     return; 
 }
 
-void registers(){
-
-}
-
 void div0(){
 
 }
