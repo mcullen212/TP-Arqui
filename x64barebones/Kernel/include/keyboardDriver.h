@@ -18,11 +18,10 @@ void keyHandler();
 void readFromKeyboard(uint8_t * toRetbuffer, uint32_t amount, uint32_t * size);
 int getKeyNumber();
 void valueToHexString(unsigned long long value, uint8_t * hexStr);
-int intToBase(uint64_t num, int base, char*buffer);
+void copyRegisters(uint64_t num, char*buffer);
 char savedRegs();
-
-static char * registersName[REGISTERS_AMOUNT] = {"R15 = ", "R14 = ", "R13 = ", "R12 = ", "R11 = ", "R10 = ", "R9 = ", "R8 = ", "RSI = ", "RDI = ", "RBP = ", "RDX = ", "RCX = ", "RBX = ", "RAX = ", "RIP  = ", "CS = ", "RFLAGS = ", "RSP = ", "SS = "};
-static uint64_t currentRegisters[REGISTERS_AMOUNT];
+uint8_t * getRegisterName(int index);
+uint64_t getRegisterValue(int index);
 
 
 #endif

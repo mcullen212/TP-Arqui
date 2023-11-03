@@ -11,7 +11,12 @@ static unsigned long currentKey = 0;
 
 static char flag = 0;
 
+static char * registersName[REGISTERS_AMOUNT] = {"R15 = ", "R14 = ", "R13 = ", "R12 = ", "R11 = ", "R10 = ", "R9 = ", "R8 = ", "RSI = ", "RDI = ", "RBP = ", "RDX = ", "RCX = ", "RBX = ", "RAX = ", "RIP  = ", "CS = ", "RFLAGS = ", "RSP = ", "SS = "};
+static uint64_t currentRegisters[REGISTERS_AMOUNT];
+
 void updateRegs(uint64_t * registers);
+static uint64_t binaryToHex(uint64_t binaryNum);
+static void uint64HexaToString(uint64_t valorHexa, char *hexaString);
 
 char keyMap[][2] = { // [cantidad de teclas][2] => teclado estandar en ingles
                      // primer elemento es la tecla que presionas
@@ -145,8 +150,6 @@ void updateRegs(uint64_t * registers) {
     for(int i = 0; i < REGISTERS_AMOUNT; i++){
         currentRegisters[i] = registers[i];
     }
-    //uint32_t length;
-    //drawStringOnCursor("Se guardo una copia de los registros\n", &length);
 }
 
 void valueToHexString(unsigned long long value, uint8_t * hexStr) {
@@ -165,29 +168,31 @@ void valueToHexString(unsigned long long value, uint8_t * hexStr) {
     hexStr[19] = '\0';
 }
 
-int intToBase(uint64_t num, int base, char*buffer){
-    char stack[11];
-    int c = 0;
-    int i=0;
-    int remainder = 0;
-    if(num==0) stack[i++]='0';
-    while(num!=0){
-        remainder = num % base;
-        stack[i]=remainder>=2? remainder+'A'-10:remainder+'0';
-        num = num/base;
-        i++;
-    }
-    c=i;
-    i--;
-    while(i>=0){
-        *buffer=stack[i];
-        buffer++;
-        i--;
-    }
-    *buffer=0;
-    return c;
+void copyRegisters(uint64_t num, char*buffer){
+    num = binaryToHex(num);
+    uint64HexaToString(num, buffer);
 }
 
+static uint64_t binaryToHex(uint64_t binaryNum){
+    return binaryNum;
+}
 
+static void uint64HexaToString(uint64_t valorHexa, char *hexaString) {
+    int i;
+    for (i = 15; i >= 0; i--) {
+        uint64_t nibble = (valorHexa >> (i * 4)) & 0xF;
+        hexaString[15 - i] = (nibble < 10) ? (char)('0' + nibble) : (char)('A' + (nibble - 10));
+    }
+    hexaString[16] = 'h';
+    hexaString[17] = '\0'; // Terminar la cadena con el carácter nulo
+}
+
+uint8_t * getRegisterName(int index){
+    return (uint8_t *)registersName[index];
+} 
+
+uint64_t getRegisterValue(int index){
+    return currentRegisters[index];
+}
 
 

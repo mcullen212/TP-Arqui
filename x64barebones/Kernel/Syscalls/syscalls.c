@@ -167,10 +167,10 @@ static void sys_get_registers(){
         return;
     }
     uint32_t length;
-    char * toHex;
-    for(int i = REGISTERS_AMOUNT-1; i >= 0; i--){
-        intToBase(currentRegisters[i], 16, toHex);
-        sys_write((uint8_t *) registersName[i], &length);
+    char toHex[18];
+    for(int i = REGISTERS_AMOUNT-1; i >= 0; i--) {
+        copyRegisters(getRegisterValue(i), toHex);
+        sys_write(getRegisterName(i), &length);
         sys_write((uint8_t *) toHex, &length);
         sys_write((uint8_t *)"\n", &length);
     }
