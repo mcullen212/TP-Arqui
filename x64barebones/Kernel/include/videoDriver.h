@@ -15,4 +15,6 @@ void drawSquare(uint32_t hexColor,uint64_t x, uint64_t y, uint32_t scale);
 
 void colorScreen(uint32_t hexColor);
 
+void drawCircle(uint32_t hexColor, uint64_t x, uint64_t y, uint32_t length);
+
 #endif

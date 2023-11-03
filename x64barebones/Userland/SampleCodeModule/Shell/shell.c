@@ -5,7 +5,7 @@
 
 char * commands[6] = {"man", "time", "registers", "snake", "div0", "invalid operation"};
 
-void (* commandsReferences[])() = {man, time, registers, /*snake,*/ div0, invalidop};
+void (* commandsReferences[])() = {man, time, registers, snakeGame, div0, invalidop};
 
 void shell(char *command) {
     if(*command == 0){

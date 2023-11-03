@@ -13,6 +13,8 @@ GLOBAL call_c_init
 GLOBAL call_set_colors
 GLOBAL call_get_registers
 GLOBAL call_draw_square
+GLOBAL call_color_screen
+GLOBAL call_draw_circle
 
 section .text
 
@@ -286,6 +288,21 @@ call_color_screen:
     pushAll
 
     mov rax, 16
+    int 80h
+
+    popAll
+
+    mov rsp, rbp
+    pop rbp
+    ret
+
+call_draw_circle:
+    push rbp
+    mov rbp, rsp
+
+    pushAll
+
+    mov rax, 17
     int 80h
 
     popAll

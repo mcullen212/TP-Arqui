@@ -18,7 +18,7 @@
 int printShellHeader();
 
 int main(void) {
-    call_set_theme(themesShell[5]);
+    call_set_theme(themesShell[1]);
 
     char c;
 

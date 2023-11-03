@@ -3,7 +3,7 @@
 void man(){
     printf("Welcome to Wuevo\n");
     printf("NAME\n");
-    printf("\t man - the manual to the system refernce\n\n");
+    printf("\t man - the manual to the system reference\n\n");
     printf("DESCRIPTION\n");
     printf("\t This is an assignment for a Computer Architecture Course at ITBA.\n");
     printf("\t Created by Agustin Alonso, Magdalena Cullen, and Tomas Becerra.\n\n");
