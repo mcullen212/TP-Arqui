@@ -13,6 +13,7 @@
 #define MAX_Y 1008
 #define WIDTH_FONT 8
 #define HEIGHT_FONT 16
+#define BUFFER_SIZE 256
 
 int printShellHeader();
 
@@ -25,9 +26,10 @@ int main(void) {
     call_c_init(cursorX, cursorY, cursorScale);
 
     while (1) {
-        char * commandBuffer;
-        int yIndex = printShellHeader();
-
+        char  commandBuffer[BUFFER_SIZE] = {0};
+        int yIndex, position;
+        yIndex = printShellHeader();
+        position = 0;
 
         while((c=getChar()) != '\n') {
             call_c_get_x(&cursorX); // X position of cursor
@@ -35,26 +37,26 @@ int main(void) {
             call_c_get_scale(&cursorScale); // Scale of cursor
             if (c == 8) { // Backspace key
                 if ( (cursorY != yIndex) || (cursorX > MIN_X + (HEADER_SIZE * WIDTH_FONT * cursorScale))) {
-                    commandBuffer--;
+                    position--;
                     call_delete_char();
                 }
             } else if (c == 9) { // Tab key
                 for (int i = 0; i < TAB_SIZE; i++) {
-                    *commandBuffer = ' ';
-                    commandBuffer++;
+                    commandBuffer[position++] = ' ';
                     call_draw_char(' ');
                 }
             } else { // Any other key
-                *commandBuffer = c;
-                commandBuffer++;
+                commandBuffer[position++] = c;
                 call_draw_char(c);
             }
         } // When "enter" key is pressed, leaves typing loop.
-        *commandBuffer = '\0';
-        int length;
+        commandBuffer[position] = '\0';
         call_c_move(ENTER);
-        //shell(commandBuffer);
+        int length;
+        call_write(commandBuffer, &length);
+        shell(commandBuffer);
     }
+
     return 0;
 }
 

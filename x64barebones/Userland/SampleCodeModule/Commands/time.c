@@ -5,6 +5,17 @@ void time(){
     uint32_t length;
     call_get_time(&currentTime);
 
-    call_write(currentTime, &length);
+    printf(currentTime);
+    printf("\n");
+    return; 
 }
 
+void registers(){
+
+}
+
+void div0(){
+
+}
+
+void invalidop(){}
