@@ -10,6 +10,9 @@
 #define X_MAX 1024
 #define SQUARE_SIZE 32
 
+#define X_SQUARES (X_MAX / SQUARE_SIZE)
+#define Y_SQUARES (Y_MAX / SQUARE_SIZE)
+
 #define SNAKE '#'
 #define FOOD '*'
 #define EMPTY ' '

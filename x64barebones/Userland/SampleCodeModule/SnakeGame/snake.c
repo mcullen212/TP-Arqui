@@ -6,7 +6,9 @@ static void drawSnakeHead(snake * s);
 static char collision(snake * s);
 static char ateFood(snake * s);
 
-static char boardStatus[Y_MAX][X_MAX] = {{EMPTY}};
+#define BOARD_POS(i) i / SQUARE_SIZE
+
+static char boardStatus[X_SQUARES][Y_SQUARES] = {{EMPTY}};
 
 char moveSnake(snake * s, direction direction){
     switch(direction){
@@ -73,7 +75,7 @@ void printSnake(snake * s){
 }
 
 static char collision(snake * s){
-    if(boardStatus[s->head[1]][s->head[0]] == SNAKE){ // Collision with its self
+    if(boardStatus[BOARD_POS(s->head[1])][BOARD_POS(s->head[0])] == SNAKE){ // Collision with its self
         return 1;
     }
     else if(s->head[0] < 0 || s->head[0] > X_MAX || s->head[1] < 0 || s->head[1] > Y_MAX){ // Collision with the wall
@@ -88,12 +90,12 @@ static void resetSquare(int x, int y){
     }else{
         call_draw_square(PALE_BLUE_LIGHTER, x*SQUARE_SIZE, y*SQUARE_SIZE, SQUARE_SIZE);
     }
-    boardStatus[y][x] = EMPTY;
+    boardStatus[BOARD_POS(x)][BOARD_POS(y)] = EMPTY;
 }
 
 static void drawSnakeHead(snake * s){
     call_draw_square(s->color, s->head[0], s->head[1], SQUARE_SIZE);
-    boardStatus[s->head[1]][s->head[0]] = SNAKE;
+    boardStatus[BOARD_POS(s->head[1])][BOARD_POS(s->head[0])] = SNAKE;
     return;
 }
 
