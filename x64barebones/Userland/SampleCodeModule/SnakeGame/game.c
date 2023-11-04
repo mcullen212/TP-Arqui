@@ -9,13 +9,13 @@ void screen(){ // ymax = 768 xmax = 1024
     // Squares 16 x 16 pixels  => 64 x 48 squares
     pointsTab(0, 0);
 
-    for(int i = 0; i < 32; i++){ // x
-        for(int j = 1; j < 24; j++){ // y  salto primer linea ya que es para el menu
+    for(int i = 0; i < X_SQUARES; i++){ // x
+        for(int j = 1; j < Y_SQUARES; j++){ // y  salto primer linea ya que es para el menu
             //need to create checkers
             if((j%2 && i%2) || (j%2 == 0 && i%2 == 0)){
-                call_draw_square(PALE_BLUE, i*32, j*32, 32);
+                call_draw_square(PALE_BLUE, PIXEL_POS(i), PIXEL_POS(j), 32);
             }else{
-                call_draw_square(PALE_BLUE_LIGHTER, i*32, j*32, 32);
+                call_draw_square(PALE_BLUE_LIGHTER, PIXEL_POS(i), PIXEL_POS(j), 32);
             }
         }
     }
@@ -59,7 +59,7 @@ void inputPlayer1(snake * s){ // que mov tiene la serpiente
 void inputPlayer2(snake * s){
     char c = getChar();
     switch(c){
-        case 27: // quit game
+        case 'S': // quit game
             quitGame();
             break;
         case 'w':
@@ -82,7 +82,7 @@ void inputPlayer2(snake * s){
 
 int snakeMenu() {
     printf("Welcome to Snake Game!\nSelect amount of players: (1 or 2)");
-    char c;
+    char c,t;
     do {
         c = getChar();
     } while ( c != '1' && c != '2' );

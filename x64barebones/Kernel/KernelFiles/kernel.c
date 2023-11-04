@@ -84,6 +84,7 @@ void * initializeKernelBinary()
 
 int main() {
     loadIDT();
+	drawSquare(0xB0CA07, 1024, 768, 4);
 
 	((EntryPoint)sampleCodeModuleAddress)();
 

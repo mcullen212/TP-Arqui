@@ -6,13 +6,18 @@
 #include <syscallFunctions.h>
 
 #define MIN_SNAKE_LENGTH 5
+
+//pixel positions
 #define Y_MAX 768
 #define X_MAX 1024
-#define SQUARE_SIZE 32
+#define PIXEL_POS(i) i * SQUARE_SIZE
 
+//board positions
+#define SQUARE_SIZE 32
 #define X_SQUARES (X_MAX / SQUARE_SIZE)
 #define Y_SQUARES (Y_MAX / SQUARE_SIZE)
 
+//board status
 #define SNAKE '#'
 #define FOOD '*'
 #define EMPTY ' '
@@ -47,7 +52,11 @@ typedef enum  {
     CHERRY = 0x8B0000, // Dark Red
 } foodColors;
 
-typedef struct { // Snake coordinates
+enum foodColors theFood[]{
+    {APPLE, BANANA, ORANGE, STRAWBERRY, WATERMELON, PINEAPPLE, CHERRY}
+};
+
+typedef struct { // Snake coordinates in the board 
     int head[2]; //{x,y}
     int tail[2];
     int length; // length of the snake (number of squares)
@@ -55,7 +64,7 @@ typedef struct { // Snake coordinates
     direction lastMove;
 } snake;
 
-typedef struct { // Food coordinates
+typedef struct { // Food coordinates in the board
     foodColors color;
     int x;
     int y;
