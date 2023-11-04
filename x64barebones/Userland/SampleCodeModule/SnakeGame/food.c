@@ -1,10 +1,11 @@
 #include <snake.h>
-#include <foods.h>
 
-void printFood(){
-    // int x = rand() % 32;
-    // int y = rand() % 24;
-    // call_draw_circle(APPLE, x, y, 32);
+void createFood(){
+    // food->color = APPLE;
+    // f->x = rand() % 32;
+    // f->y = rand() % 24;
+    // boardStatus[f->y][f->x] = FOOD;
+    //printFood();
 }
 
 // random food position

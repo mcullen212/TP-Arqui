@@ -1,10 +1,9 @@
 #include <snake.h>
-#include <foods.h>
 #include <syscallFunctions.h>
 
-void screen(int players){ // ymax = 768 xmax = 1024
+void screen(){ // ymax = 768 xmax = 1024
     // squares 16 x 16 pixels  => 64 x 48 squares 
-    points(0, 0, players);
+    points(0, 0);
 
     for(int i = 0; i < 32; i++){ // x
         for(int j = 1; j < 24; j++){ // y  salto primer linea ya que es para el menu
@@ -16,21 +15,23 @@ void screen(int players){ // ymax = 768 xmax = 1024
             }
         }
     }
-
 }
 
-void points(int player1, int player2, int amountOfPlayers){
-    printf("ESC to quit game \t\t");
-    printf("\tPoints player 1: %d \t", player1);
-    if(amountOfPlayers == 2){
+void points(int player1, int player2){
+    printf("SHIFT + X to quit game \t\t");
+    printf("turn off CAPS-LOCK \t\t");
+    if(players == 2){
+        printf("\tPoints player 1: %d \t", player1);
         printf("\t Points player 2: %d \t", player2);
+    }else{
+        printf("\tPoints player: %d \t", player1);
     }
 }
 
 void inputPlayer1(snake * s){ // que mov tiene la serpiente
     char c = getChar();
     switch(c){
-        case 27: // quit game ESC = 27
+        case 'X': // quit game SHIFT + X
             quitGame();
             break;
         case 'i':
@@ -54,7 +55,7 @@ void inputPlayer1(snake * s){ // que mov tiene la serpiente
 void inputPlayer2(snake * s){
     char c = getChar();
     switch(c){
-        case 'q': // quit game
+        case 27: // quit game
             quitGame();
             break;
         case 'w':
@@ -78,31 +79,61 @@ void inputPlayer2(snake * s){
 int snakeMenu() {
     //call_color_screen(0x0000FFFF); // Pains screen of some color
     //call_c_init(MIN_X, MIN_Y, SCALE);
-    printf("Welcome to Snake Game!\nSelect amount of players: (1 or 2)");
+    printf("Welcome to Snake Game!\nSelect amount of players: (1 or 2)"); 
     char c;
     do {
         c = getChar();
     } while ( c != '1' && c != '2' );
+    //scanf("%d", &players);
     return c - '0';
 }
 
+void lostGame(int player){ // cartel 
+    clearScreen();
+    if(players == 2){
+        printf("Player %d lost the game, Player %d WON!!\n", player, player%2 + 1);
+        printf("Score Player 1: %d\n", points[0]);
+        printf("Score Player 2: %d\n", points[1]);
+        printf("Press any key to continue...\n");
+    }else{
+        printf("You lost the game, try again!\n\n");
+        printf("Score: %d\n", points[0]);
+        printf("Press any key to continue...\n");
+    }
+    quitGame();
+}
+
+int score(snake * s){
+    return s->length - MIN_SNAKE_LENGTH;
+}
+
+void scoreStatus(){
+    if(players == 2){
+        printf("Score Player 1: %d\n", points[0]);
+        printf("Score Player 2: %d\n", points[1]);
+    }else{
+        printf("Score: %d\n", points[0]);
+    }
+}
+
 void snakeGame(){
-    int players = snakeMenu();
+    players = snakeMenu();
     call_clear_screen();
-    screen(players);
+    screen();
     // snake * s1 = createSnake();
     // snake * s2 = createSnake();
+    // createFood();
     // while(1){
     //     input(1, s1);
     //     input(2, s2);
+    //     moveTwoSnake(s1, s2, s1->lastMove, s2->lastMove);
+    //     points[0] = score(s1);
+    //     points[1] = score(s2);
+    //     scoreStatus(); // print current score of the game
     // }
     // amount of players
 }
 
 void quitGame(){
     // quit game
-}
-
-void moveSnake(snake * s, direction direction) {
-
 }

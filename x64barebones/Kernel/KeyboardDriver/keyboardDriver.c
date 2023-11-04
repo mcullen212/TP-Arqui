@@ -21,7 +21,7 @@ char keyMap[][2] = { // [cantidad de teclas][2] => teclado estandar en ingles
                      // primer elemento es la tecla que presionas
                      // y el segundo es la tecla sumada con shift
         {0, 0},
-        {0, 0}, // esc key
+        {27, 27}, // esc key
         {'1', '!'},
         {'2', '@'},
         {'3', '#'},
@@ -49,7 +49,7 @@ char keyMap[][2] = { // [cantidad de teclas][2] => teclado estandar en ingles
         {'[', '{'},
         {']', '}'},
         {'\n', '\n'}, //enter
-        {0, 0},
+        {0, 0}, //ctrl
         {'a', 'A'},
         {'s', 'S'},
         {'d', 'D'},
@@ -87,17 +87,21 @@ void keyHandler(uint64_t * registers) {
         updateRegs(registers);
     }
 
+    if( number == ESC_PRESSED || number == CTRL_PRESSED ){ // if esc or ctrl is pressed, do nothing
+        return;
+    }
+
     if(number == LEFT_SHIFT_PRESSED  || number == RIGHT_SHIFT_PRESSED){
-        shiftPressed = 1;   // Si se presiona el Shift, prende el flag
+        shiftPressed = 1;   // if shift is pressed, turn it on
         return;
     }
 
     if(number == LEFT_SHIFT_RELEASED || number == RIGHT_SHIFT_RELEASED){
-        shiftPressed = 0;   // Si se suelta el Shift, lo apagar
+        shiftPressed = 0;   // if shift is released, turn it off
         return;
     }
     if(number == CAPS_LOCK_PRESSED){
-        capsLockPressed = 1 - capsLockPressed; // Toggle de la tecla CapsLock
+        capsLockPressed = 1 - capsLockPressed; // if caps lock is pressed, turn it off
         return;
     }
 
@@ -111,7 +115,7 @@ void keyHandler(uint64_t * registers) {
     }
 
     if(number >= RELEASED){
-        return; // Si la teclsa es mayor a RELEASED y no es ninguna especial, no nos interesa que se suelte.
+        return; // if key is released, do nothing
     }
 
     if (shiftPressed) {
@@ -121,7 +125,7 @@ void keyHandler(uint64_t * registers) {
     }
 
     if (capsLockPressed /* Agregar Condicion*/) {
-        buffer[index % BUFFER_SIZE] = keyMap[number][1];    // Agrego al buffer la tecla, y me guardo cual fue la ultima.
+        buffer[index % BUFFER_SIZE] = keyMap[number][1]; // add the key to the buffer
         index++;
         return;
     }

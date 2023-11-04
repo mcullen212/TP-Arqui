@@ -4,55 +4,74 @@
 #include <stdint.h>
 #include <libc.h>
 
+#define MIN_SNAKE_LENGTH 5
+#define Y_MAX 768
+#define X_MAX 1024
+#define SQUARE_SIZE 32
+
+#define SNAKE '#'
+#define FOOD '*'
+#define EMPTY ' '
+
+char boardStatus[Y_MAX][X_MAX] = {EMPTY};
+
+int players = 1;
+
 typedef enum{ UP = 0, DOWN, LEFT, RIGHT } direction;
 
-enum boardColors {
+typedef enum  {
     PALE_BLUE      = 0xADD8E6, // Light Pale Blue
     PALE_BLUE_LIGHTER     = 0x87CEEB, // Slightly Darker Pale Blue
-};
+    PALE_YELLOW    = 0xFFFFE0, // Light Pale Yellow
+    PALE_YELLOW_LIGHTER   = 0xFFFFF0, // Slightly Darker Pale Yellow
+    PALE_GREEN     = 0x98FB98, // Light Pale Green
+    PALE_GREEN_LIGHTER    = 0x90EE90 // Slightly Darker Pale Green
+} boardColors;
 
-// enum Hex32Colors {
-//     COLOR_BLACK     = 0x000000,
-//     COLOR_WHITE     = 0xFFFFFF,
-//     COLOR_RED       = 0xFF0000,
-//     COLOR_GREEN     = 0x00FF00,
-//     COLOR_BLUE      = 0x0000FF,
-//     COLOR_YELLOW    = 0xFFFF00,
-//     COLOR_MAGENTA   = 0xFF00FF,
-//     COLOR_CYAN      = 0x00FFFF,
-//     COLOR_GRAY      = 0x808080,
-//     COLOR_LIGHT_GRAY = 0xC0C0C0,
-//     COLOR_DARK_GRAY  = 0x404040,
-// };
+typedef enum { // cool colors
+    GREEN = 0x00FF00, // Green
+    BLUE = 0x0000FF, // Blue
+    BLUE_LIGHTER = 0x00FFFF, // Light Blue
+    GREEN_LIGHTER = 0x00FF7F, // Light Green
+    PURPLE = 0x800080, // Purple
+    PURPLE_LIGHTER = 0x8A2BE2, // Light Purple
+} snakeColors;
 
-// enum Hex32Colors themesSnake[][4] ={ // {backgroundColor, foodColor, player1, player2}
-//     {COLOR_BLACK, COLOR_RED, COLOR_WHITE, COLOR_CYAN},
-//     {COLOR_BLACK, COLOR_YELLOW, COLOR_BLUE, COLOR_RED},
-//     {COLOR_BLACK, COLOR_CYAN, COLOR_WHITE, COLOR_RED},
-//     {COLOR_WHITE, COLOR_BLACK, COLOR_RED, COLOR_BLUE},
-//     {COLOR_WHITE, COLOR_BLUE, COLOR_RED, COLOR_YELLOW}
-// };
+typedef enum  {
+    APPLE = 0xFF0000, // Red
+    BANANA = 0xFFFF00, // Yellow
+    ORANGE = 0xFFA500, // Orange
+    STRAWBERRY = 0xFFC0CB, // Pink
+    WATERMELON = 0xFF1493, // Dark Pink
+    PINEAPPLE = 0xFFD700, // Gold
+    CHERRY = 0x8B0000, // Dark Red
+} foodColors;
 
 typedef struct { // Snake coordinates
     int head[2]; //{x,y}
     int tail[2];
-    int length;
-    int lastMoveHead[2];
-    int lastMoveTail[2];
+    int length; // length of the snake (number of squares)
+    snakeColors color;
+    direction lastMove;
 } snake;
 
 typedef struct { // Food coordinates
+    foodColors color;
     int x;
     int y;
-} food;
+} foodPosition;
+
+foodPosition * food;
+int points[2] = {0,0};
 
 snake * createSnake();
-void moveSnake(snake * s, direction direction);
+void createFood();
+char move(snake * s, direction direction);
+void moveTwoSnake(snake * s1, snake * s2, direction direction1, direction direction2);
 void printSnake(snake * s);
-
-void printFood();
 
 void snakeGame();
 void quitGame();
+void lostGame(int player);
 
 #endif
