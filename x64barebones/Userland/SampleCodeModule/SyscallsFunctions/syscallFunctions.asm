@@ -17,6 +17,7 @@ GLOBAL call_color_screen
 GLOBAL call_draw_circle
 GLOBAL call_clear_screen
 GLOBAL call_set_exception_handler
+GLOBAL call_sleep
 
 section .text
 
@@ -320,6 +321,21 @@ call_clear_screen:
     pushAll
 
     mov rax, 18
+    int 80h
+
+    popAll
+
+    mov rsp, rbp
+    pop rbp
+    ret
+
+call_sleep:
+    push rbp
+    mov rbp, rsp
+
+    pushAll
+
+    mov rax, 19
     int 80h
 
     popAll

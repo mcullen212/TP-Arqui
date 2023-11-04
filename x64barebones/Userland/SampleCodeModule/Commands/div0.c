@@ -5,4 +5,5 @@ void div0() {
     a = 0;
     b = 1;
     c = b / a;
+    a = c;
 }

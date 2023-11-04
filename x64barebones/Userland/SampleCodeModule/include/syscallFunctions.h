@@ -25,5 +25,6 @@ void call_draw_square(uint32_t color, uint32_t x, uint32_t y, uint32_t scale);
 void call_color_screen(uint32_t hexColor);
 void call_draw_circle(uint32_t color, uint32_t x, uint32_t y, uint32_t length);
 void call_clear_screen();
+void call_sleep(unsigned long long ms);
 
 #endif

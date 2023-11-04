@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <keyboardDriver.h>
+#include <timer.h>
 
 void int_00();
 void int_01(uint64_t * registers);
@@ -12,17 +13,8 @@ void irqDispatcher(uint64_t irq, uint64_t * registers) {
 }
 
 // Interruption 00 ---------------------------
-static unsigned long ticks = 0;
-
-void time_handler() {
-    ticks++;
-}
-
 void int_00() {
     time_handler();
-    if ((ticks % (5000 / 55)) == 0) {
-        //ncPrint("Algo ");
-    }
 }
 //--------------------------------------------
 
