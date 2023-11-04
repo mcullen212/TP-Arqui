@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <libc.h>
+#include <syscallFunctions.h>
 
 #define MIN_SNAKE_LENGTH 5
 #define Y_MAX 768
@@ -12,10 +13,6 @@
 #define SNAKE '#'
 #define FOOD '*'
 #define EMPTY ' '
-
-char boardStatus[Y_MAX][X_MAX] = {EMPTY};
-
-int players = 1;
 
 typedef enum{ UP = 0, DOWN, LEFT, RIGHT } direction;
 
@@ -61,17 +58,29 @@ typedef struct { // Food coordinates
     int y;
 } foodPosition;
 
-foodPosition * food;
-int points[2] = {0,0};
+// Food ------------------------------------------------
+
+foodPosition * getFood();
+void createFood();
+
+// -----------------------------------------------------
+
+// Snake -----------------------------------------------
 
 snake * createSnake();
-void createFood();
-char move(snake * s, direction direction);
+char moveSnake(snake * s, direction direction);
 void moveTwoSnake(snake * s1, snake * s2, direction direction1, direction direction2);
 void printSnake(snake * s);
 
+// -----------------------------------------------------
+
+// Game ------------------------------------------------
+
 void snakeGame();
+int getPlayers();
 void quitGame();
 void lostGame(int player);
+
+// -----------------------------------------------------
 
 #endif

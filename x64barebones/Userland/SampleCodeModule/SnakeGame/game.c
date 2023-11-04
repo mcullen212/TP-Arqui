@@ -1,13 +1,17 @@
 #include <snake.h>
-#include <syscallFunctions.h>
+
+static void pointsTab(int player1, int player2);
+
+static int points[2] = {0,0};
+static int players = 1;
 
 void screen(){ // ymax = 768 xmax = 1024
-    // squares 16 x 16 pixels  => 64 x 48 squares 
-    points(0, 0);
+    // Squares 16 x 16 pixels  => 64 x 48 squares
+    pointsTab(0, 0);
 
     for(int i = 0; i < 32; i++){ // x
         for(int j = 1; j < 24; j++){ // y  salto primer linea ya que es para el menu
-            //need to create checkers 
+            //need to create checkers
             if((j%2 && i%2) || (j%2 == 0 && i%2 == 0)){
                 call_draw_square(PALE_BLUE, i*32, j*32, 32);
             }else{
@@ -17,7 +21,7 @@ void screen(){ // ymax = 768 xmax = 1024
     }
 }
 
-void points(int player1, int player2){
+static void pointsTab(int player1, int player2) {
     printf("SHIFT + X to quit game \t\t");
     printf("turn off CAPS-LOCK \t\t");
     if(players == 2){
@@ -77,9 +81,7 @@ void inputPlayer2(snake * s){
 }
 
 int snakeMenu() {
-    //call_color_screen(0x0000FFFF); // Pains screen of some color
-    //call_c_init(MIN_X, MIN_Y, SCALE);
-    printf("Welcome to Snake Game!\nSelect amount of players: (1 or 2)"); 
+    printf("Welcome to Snake Game!\nSelect amount of players: (1 or 2)");
     char c;
     do {
         c = getChar();
@@ -88,8 +90,8 @@ int snakeMenu() {
     return c - '0';
 }
 
-void lostGame(int player){ // cartel 
-    clearScreen();
+void lostGame(int player){ // cartel
+    call_clear_screen();
     if(players == 2){
         printf("Player %d lost the game, Player %d WON!!\n", player, player%2 + 1);
         printf("Score Player 1: %d\n", points[0]);
@@ -117,6 +119,7 @@ void scoreStatus(){
 }
 
 void snakeGame(){
+    call_clear_screen();
     players = snakeMenu();
     call_clear_screen();
     screen();
@@ -136,4 +139,8 @@ void snakeGame(){
 
 void quitGame(){
     // quit game
+}
+
+int getPlayers(){
+    return players;
 }

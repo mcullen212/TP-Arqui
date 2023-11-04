@@ -4,8 +4,11 @@ static char collision(snake * s);
 static void resetSquare(int x, int y);
 static void drawSnakeHead(snake * s);
 static char collision(snake * s);
+static char ateFood(snake * s);
 
-char move(snake * s, direction direction){
+static char boardStatus[Y_MAX][X_MAX] = {{EMPTY}};
+
+char moveSnake(snake * s, direction direction){
     switch(direction){
         case UP: // Up v
             s->head[1] = s->head[1] - SQUARE_SIZE;
@@ -40,7 +43,7 @@ char move(snake * s, direction direction){
             printSnake(s);
             break;
         default: // continue moving in the same direction
-            move(s, s->lastMove);
+            moveSnake(s, s->lastMove);
             break;
     }
     return 0;
@@ -49,8 +52,8 @@ char move(snake * s, direction direction){
 void moveTwoSnake(snake * s1, snake * s2, direction direction1, direction direction2){
     char c1,c2;
 
-    c1 = move(s1, direction1);
-    c2 = move(s2, direction2);
+    c1 = moveSnake(s1, direction1);
+    c2 = moveSnake(s2, direction2);
 
     if(c1){
         lostGame(1);
@@ -59,11 +62,7 @@ void moveTwoSnake(snake * s1, snake * s2, direction direction1, direction direct
     }
 }
 
-int score(snake * s){
-    return s->length - MIN_SNAKE_LENGTH;
-}
-
-void printSnake(snake * s){ 
+void printSnake(snake * s){
     drawSnakeHead(s);
     if(ateFood(s)){
         s->length++;
@@ -98,8 +97,8 @@ static void drawSnakeHead(snake * s){
     return;
 }
 
-static char ateFood(snake * s){ 
-    if (s->head[0] == food->x && s->head[1] == food->y) {
+static char ateFood(snake * s){
+    if (s->head[0] == getFood()->x && s->head[1] == getFood()->y) {
         createFood(); // generates a new food
         return 1;
     }
