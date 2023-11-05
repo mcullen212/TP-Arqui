@@ -52,11 +52,9 @@ typedef enum  {
     CHERRY = 0x8B0000, // Dark Red
 } foodColors;
 
-enum foodColors theFood[]{
-    {APPLE, BANANA, ORANGE, STRAWBERRY, WATERMELON, PINEAPPLE, CHERRY}
-};
+// typedef enum {APPLE, BANANA, ORANGE, STRAWBERRY, WATERMELON, PINEAPPLE, CHERRY} foodType;
 
-typedef struct { // Snake coordinates in the board 
+typedef struct { // Snake coordinates in the board
     int head[2]; //{x,y}
     int tail[2];
     int length; // length of the snake (number of squares)

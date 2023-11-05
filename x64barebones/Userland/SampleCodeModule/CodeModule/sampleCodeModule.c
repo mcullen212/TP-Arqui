@@ -3,6 +3,7 @@
 #include <shell.h>
 #include <libc.h>
 #include <themes.h>
+#include <references.h>
 
 #define CHARACTER_COLOR 0xB0CA07
 #define TAB_SIZE 4
@@ -19,9 +20,13 @@ int printShellHeader();
 void exceptionHandler(uint64_t exceptionNumber, char * errorMessage);
 void terminal();
 
+static reference shellReference;
+
 int main(void) {
     call_set_exception_handler(0, exceptionHandler);
     call_set_exception_handler(6, exceptionHandler);
+
+    saveReference(&shellReference);
 
     terminal();
 
@@ -102,5 +107,5 @@ void exceptionHandler(uint64_t exceptionNumber, char * errorMessage) {
         c = getChar();
     } while(c == 0);
 
-    terminal();
+    jumpToReference(&shellReference);
 }
