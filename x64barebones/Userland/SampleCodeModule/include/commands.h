@@ -5,6 +5,8 @@
 #include <libc.h>
 #include <snake.h>
 
+#define AMOUNT_OF_COMMANDS 9
+
 void man();
 
 // void snake(uint32_t players);
@@ -23,5 +25,9 @@ void div0();
 void invalidop();
 
 void clear();
+
+void zoomIn();
+
+void zoomOut();
 
 #endif
