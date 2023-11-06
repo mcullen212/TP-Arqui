@@ -55,12 +55,12 @@ static char inputPlayer1(snake * s){ // que mov tiene la serpiente
                 lost = moveSnake(s, RIGHT);
                 break;
             default:
-                call_sleep(500);
+                //call_sleep(500);
                 lost = moveSnake(s, s->lastMove);
                 break;
         }
     } else {
-        call_sleep(500);
+        //call_sleep(1000);
         lost = moveSnake(s, s->lastMove);
     }
     return lost;
@@ -173,12 +173,10 @@ void snakeGame(){
 
     snake snakeP1, snakeP2 ;
 
-    createSnake(&snakeP1, DOWN);
-    snakeP1.color = SNAKE_BLUE;
+    createSnake(&snakeP1, SNAKE_BLUE, 1);
 
     if(players == 2){
-        createSnake(&snakeP2, UP);
-        snakeP2.color = SNAKE_YELLOW;
+        createSnake(&snakeP2, SNAKE_YELLOW, 2);
     }
 
     char p1, p2;

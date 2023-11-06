@@ -5,7 +5,9 @@
 #include <libc.h>
 #include <syscallFunctions.h>
 
+//snake
 #define MIN_SNAKE_LENGTH 5
+#define MAX_SNAKE_LENGTH 100
 
 //menu positions
 #define MENU_Y 0
@@ -25,7 +27,8 @@
 #define Y_SQUARES (Y_MAX / SQUARE_SIZE ) // 23
 
 //board status
-#define SNAKE '#'
+#define SNAKE_PLAYER_1 '#'
+#define SNAKE_PLAYER_2 '@'
 #define FOOD '*'
 #define EMPTY ' '
 
@@ -58,18 +61,23 @@ typedef enum  {
 
 //foodColors[]  {APPLE, BANANA, ORANGE, STRAWBERRY, WATERMELON, PINEAPPLE, CHERRY} foodType;
 
+typedef struct point{
+    int x;
+    int y;
+} point;
+
 typedef struct { // Snake coordinates in the board
-    int head[2]; //{x,y}
-    int tail[2];
+    point head; //{x,y}
+    point body[MAX_SNAKE_LENGTH];
     int length; // length of the snake (number of squares)
     uint32_t color;
     direction lastMove;
+    int points;
 } snake;
 
 typedef struct { // Food coordinates in the board
     foodColors color;
-    int x;
-    int y;
+    point position; //{x,y}
 } foodPosition;
 
 // Food ------------------------------------------------
@@ -81,7 +89,7 @@ void createFood();
 
 // Snake -----------------------------------------------
 
-void createSnake(snake * s, direction direction);
+void createSnake(snake * s, uint32_t color, int player);
 char moveSnake(snake * s, direction direction);
 void printSnake(snake * s);
 void createBoard();

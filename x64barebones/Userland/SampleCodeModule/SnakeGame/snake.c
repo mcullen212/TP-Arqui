@@ -19,10 +19,38 @@ void createBoard(){
     }
 }
 
+void createSnake(snake * s, uint32_t color, int player) {
+    s->color = color; 
+    if(player == 1){
+        s->head.x = MIN_SNAKE_LENGTH - 1;
+        s->head.y = Y_SQUARES / 2 + 1;
+        for(int i = 0; i <= s->head.x; i++){ // tail is first
+            s->body[i].x = i;
+            s->body[i].y = s->head.y;
+            boardStatus[i][s->head.y] = SNAKE_PLAYER_1;
+        }
+        s->length = MIN_SNAKE_LENGTH;
+        s->lastMove = RIGHT;
+        s->points = 0;
+        return;
+    }
+    
+    s->head.x = X_SQUARES-MIN_SNAKE_LENGTH;
+    s->head.y = Y_SQUARES / 2 - 1;
+    for(int i = X_SQUARES-1; i >= s->head.x; i--){ // tail is first
+        s->body[i].x = i;
+        s->body[i].y = s->head.y;
+        boardStatus[i][s->head.y] = SNAKE_PLAYER_2;
+    }
+    s->length = MIN_SNAKE_LENGTH;
+    s->lastMove = LEFT;
+    s->points = 0;
+}
+
 char moveSnake(snake * s, direction direction){
     switch(direction){
         case UP: // Up v
-            s->head[Y] = s->head[Y] + 1;
+            s->head[Y] = s->head[Y] - 1;
             if(collision(s)){
                 return 1;
             }
@@ -30,7 +58,7 @@ char moveSnake(snake * s, direction direction){
             printSnake(s);
             break;
         case DOWN: // Down ^
-            s->head[Y] = s->head[Y] - 1;
+            s->head[Y] = s->head[Y] + 1;
             if(collision(s)){
                 return 1;
             }
@@ -66,67 +94,16 @@ void printSnake(snake * s){
         s->length++;
         return;
     }
-    resetSquare(s->tail[0], s->tail[1]);
     return;
 }
 
-void createSnake(snake * s, direction direction) {
-    switch (direction) {
-        case UP:
-            s->head[X] = X_SQUARES - 1;
-            s->head[Y] = Y_SQUARES - MIN_SNAKE_LENGTH;
-            s->tail[X] = X_SQUARES - 1;
-            s->tail[Y] = Y_SQUARES - 1;
-            for (int i = s->tail[Y]; i >= s->head[Y]; i--) {
-                boardStatus[i][X_SQUARES-1] = SNAKE;
-                call_draw_square(s->color, PIXEL_POS(X_SQUARES-1), PIXEL_POS(i), SQUARE_SIZE);
-            }
-            s->lastMove = UP;
-            break;
-        case DOWN:
-            s->head[X] = 0;
-            s->head[Y] = MIN_SNAKE_LENGTH; 
-            s->tail[X] = 0;                    // Since row 0 is the top of the menu bar
-            s->tail[Y] = 1;
-            for (int i = s->tail[Y]; i <= s->head[Y]; i++) {
-                boardStatus[i][0] = SNAKE;
-                call_draw_square(s->color, PIXEL_POS(0), PIXEL_POS(i), SQUARE_SIZE);
-            }
-            s->lastMove = DOWN;
-            break;
-        case LEFT:
-            s->head[X] = X_SQUARES - MIN_SNAKE_LENGTH;
-            s->head[Y] = Y_SQUARES / 2 - 1;         //Upper middle screen
-            s->tail[X] = X_SQUARES - 1;
-            s->tail[Y] = s->head[Y];
-            for (int i = s->tail[X]; i >= s->head[X]; i--) {
-                boardStatus[s->head[Y]][i] = SNAKE;
-                call_draw_square(s->color, PIXEL_POS(i), PIXEL_POS(s->tail[Y]), SQUARE_SIZE);
-            }
-            s->lastMove = LEFT;
-            break;
-        case RIGHT:
-            s->head[X] = MIN_SNAKE_LENGTH - 1;
-            s->head[Y] = Y_SQUARES / 2 + 1;
-            s->tail[X] = 0;
-            s->tail[Y] = s->head[Y];
-            for (int i = s->tail[X]; i <= s->head[X]; i++) {
-                boardStatus[s->head[Y]][i] = SNAKE;
-                call_draw_square(s->color, PIXEL_POS(i), PIXEL_POS(s->head[Y]), SQUARE_SIZE);
-            }
-            s->lastMove = RIGHT;
-            break;
-        default:
-            break;
-    }
-    s->length = MIN_SNAKE_LENGTH;
-}
+
 
 static char collision(snake * s){
-    if(boardStatus[s->head[1]][s->head[0]] == SNAKE){ // Collision with its self
+    if(boardStatus[s->head[Y]][s->head[X]] == SNAKE){ // Collision with its snake
         return 1;
     }
-    else if(s->head[0] < 0 || s->head[0] > X_SQUARES || s->head[1] < 0 || s->head[1] > Y_SQUARES){ // Collision with the wall
+    else if(s->head[X] < 0 || s->head[X] > X_SQUARES || s->head[Y] < 1 || s->head[Y] > Y_SQUARES){ // Collision with the wall
         return 1;
     }
     return 0;
@@ -134,21 +111,22 @@ static char collision(snake * s){
 
 static void resetSquare(int x, int y){
     if((x%2 && y%2) || (x%2 == 0 && y%2 == 0)){
-        call_draw_square(PALE_BLUE, PIXEL_POS(x), PIXEL_POS(y), SQUARE_SIZE);
+        call_draw_square(PALE_GREEN, PIXEL_POS(x), PIXEL_POS(y), SQUARE_SIZE);
     }else{
-        call_draw_square(PALE_BLUE_LIGHTER, PIXEL_POS(x), PIXEL_POS(y), SQUARE_SIZE);
+        call_draw_square(PALE_GREEN_LIGHTER, PIXEL_POS(x), PIXEL_POS(y), SQUARE_SIZE);
     }
     boardStatus[x][y] = EMPTY;
 }
 
 static void drawSnakeHead(snake * s){
-    call_draw_square(s->color, s->head[0], s->head[1], SQUARE_SIZE);
-    boardStatus[s->head[1]][s->head[0]] = SNAKE;
+    call_draw_square(s->color, PIXEL_POS(s->head[X]), PIXEL_POS(s->head[Y]), SQUARE_SIZE);
+    boardStatus[s->head[Y]][s->head[X]] = SNAKE;
+    resetSquare(s->tail[X], s->tail[Y]);
     return;
 }
 
 static char ateFood(snake * s){
-    if (s->head[0] == getFood()->x && s->head[1] == getFood()->y) {
+    if (s->head[X] == getFood()->x && s->head[Y] == getFood()->y) {
         createFood(); // generates a new food
         return 1;
     }
