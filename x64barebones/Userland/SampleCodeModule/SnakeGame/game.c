@@ -13,9 +13,9 @@ void screen(){ // ymax = 768 xmax = 1024
         for(int j = 1; j < Y_SQUARES; j++){ // y  salto primer linea ya que es para el menu
             //need to create checkers
             if((j%2 && i%2) || (j%2 == 0 && i%2 == 0)){
-                call_draw_square(PALE_BLUE, PIXEL_POS(i), PIXEL_POS(j), 32);
+                call_draw_square(PALE_GREEN, PIXEL_POS(i), PIXEL_POS(j), 32);
             }else{
-                call_draw_square(PALE_BLUE_LIGHTER, PIXEL_POS(i), PIXEL_POS(j), 32);
+                call_draw_square(PALE_GREEN_LIGHTER, PIXEL_POS(i), PIXEL_POS(j), 32);
             }
         }
     }
@@ -123,9 +123,14 @@ void snakeGame(){
     players = snakeMenu();
     call_clear_screen();
     screen();
-    // snake * s1 = createSnake();
-    // snake * s2 = createSnake();
-    // createFood();
+    snake * snakeP1 = createSnake(DOWN);
+    snakeP1->color = SNAKE_PURPLE;
+    if(players == 2){
+        snake * snakeP2 = createSnake(UP);
+        snakeP2->color = SNAKE_ORANGE;
+    }
+
+    //createFood();
     // while(1){
     //     input(1, s1);
     //     input(2, s2);

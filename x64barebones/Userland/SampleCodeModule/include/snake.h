@@ -7,6 +7,11 @@
 
 #define MIN_SNAKE_LENGTH 5
 
+//menu positions
+#define MENU_Y 0
+#define MENU_WIDTH 1024
+#define MENU_HEIGHT 32
+
 //pixel positions
 #define Y_MAX 768
 #define X_MAX 1024
@@ -14,8 +19,8 @@
 
 //board positions
 #define SQUARE_SIZE 32
-#define X_SQUARES (X_MAX / SQUARE_SIZE)
-#define Y_SQUARES (Y_MAX / SQUARE_SIZE)
+#define X_SQUARES (X_MAX / SQUARE_SIZE) // 32
+#define Y_SQUARES (Y_MAX / SQUARE_SIZE ) // 23
 
 //board status
 #define SNAKE '#'
@@ -29,30 +34,27 @@ typedef enum  {
     PALE_BLUE_LIGHTER     = 0x87CEEB, // Slightly Darker Pale Blue
     PALE_YELLOW    = 0xFFFFE0, // Light Pale Yellow
     PALE_YELLOW_LIGHTER   = 0xFFFFF0, // Slightly Darker Pale Yellow
-    PALE_GREEN     = 0x98FB98, // Light Pale Green
-    PALE_GREEN_LIGHTER    = 0x90EE90 // Slightly Darker Pale Green
+    PALE_GREEN     = 0xB7EA9D, // Light Pale Green
+    PALE_GREEN_LIGHTER    = 0xEBFFD1 // Slightly Darker Pale Green
 } boardColors;
 
-typedef enum { // cool colors
-    GREEN = 0x00FF00, // Green
-    BLUE = 0x0000FF, // Blue
-    BLUE_LIGHTER = 0x00FFFF, // Light Blue
-    GREEN_LIGHTER = 0x00FF7F, // Light Green
-    PURPLE = 0x800080, // Purple
-    PURPLE_LIGHTER = 0x8A2BE2, // Light Purple
+typedef enum { 
+    SNAKE_GREEN = 0x003B00, 
+    SNAKE_BLUE = 0x1A9FFF,
+    SNAKE_PURPLE = 0x291AFF, 
+    SNAKE_ORANGE = 0xFF791A,
 } snakeColors;
 
 typedef enum  {
     APPLE = 0xFF0000, // Red
     BANANA = 0xFFFF00, // Yellow
-    ORANGE = 0xFFA500, // Orange
     STRAWBERRY = 0xFFC0CB, // Pink
     WATERMELON = 0xFF1493, // Dark Pink
     PINEAPPLE = 0xFFD700, // Gold
     CHERRY = 0x8B0000, // Dark Red
 } foodColors;
 
-// typedef enum {APPLE, BANANA, ORANGE, STRAWBERRY, WATERMELON, PINEAPPLE, CHERRY} foodType;
+//foodColors[]  {APPLE, BANANA, ORANGE, STRAWBERRY, WATERMELON, PINEAPPLE, CHERRY} foodType;
 
 typedef struct { // Snake coordinates in the board
     int head[2]; //{x,y}
@@ -77,11 +79,10 @@ void createFood();
 
 // Snake -----------------------------------------------
 
-snake * createSnake();
+snake * createSnake(direction direction);
 char moveSnake(snake * s, direction direction);
 void moveTwoSnake(snake * s1, snake * s2, direction direction1, direction direction2);
 void printSnake(snake * s);
-
 // -----------------------------------------------------
 
 // Game ------------------------------------------------

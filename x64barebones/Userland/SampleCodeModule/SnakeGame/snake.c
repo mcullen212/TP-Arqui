@@ -72,6 +72,56 @@ void printSnake(snake * s){
     return;
 }
 
+snake * createSnake(direction direction){
+    snake * s;
+    switch (direction) {
+        case UP:
+            s->head[0] = X_SQUARES - 1;
+            s->head[1] = Y_SQUARES - 1;
+            s->tail[0] = X_SQUARES - 1;
+            s->tail[1] = Y_SQUARES - MIN_SNAKE_LENGTH;
+            for (int i = s->tail[1]; i <= s->head[1]; i++) {
+                boardStatus[i][0] = SNAKE;
+                call_draw_square(s->color, PIXEL_POS(s->tail[0]), PIXEL_POS(i), SQUARE_SIZE);
+            }
+            break;
+        case DOWN:
+            s->head[0] = 0;
+            s->head[1] = 1; // Since row 0 is the top of the menu bar
+            s->tail[0] = 0;
+            s->tail[1] = MIN_SNAKE_LENGTH;
+            for (int i = s->tail[1]; i >= s->head[1]; i--) {
+                boardStatus[X_SQUARES - 1][i] = SNAKE;
+                call_draw_square(s->color, PIXEL_POS(X_SQUARES - 1), PIXEL_POS(i), SQUARE_SIZE);
+            }
+            break;
+        case LEFT:
+            s->head[0] = X_SQUARES - MIN_SNAKE_LENGTH;
+            s->head[1] = Y_SQUARES / 2 - 1;
+            s->tail[0] = X_SQUARES - 1;
+            s->tail[1] = s->head[1];
+            for (int i = s->tail[0]; i >= s->head[0]; i--) {
+                boardStatus[i][s->head[1]] = SNAKE;
+                call_draw_square(s->color, PIXEL_POS(i), PIXEL_POS(s->tail[1]), SQUARE_SIZE);
+            }
+            break;
+        case RIGHT:
+            s->head[0] = MIN_SNAKE_LENGTH - 1;
+            s->head[1] = Y_SQUARES / 2 + 1;
+            s->tail[0] = 0;
+            s->tail[1] = s->head[1];
+            for (int i = s->tail[0]; i <= s->head[0]; i++) {
+                boardStatus[i][X_SQUARES - 1] = SNAKE;
+                call_draw_square(s->color, PIXEL_POS(i), PIXEL_POS(s->tail[1]), SQUARE_SIZE);
+            }
+            break;
+        default:
+            break;
+    }
+    s->length = MIN_SNAKE_LENGTH;
+    return s;
+}
+
 static char collision(snake * s){
     if(boardStatus[s->head[1]][s->head[0]] == SNAKE){ // Collision with its self
         return 1;
