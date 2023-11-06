@@ -2,19 +2,17 @@
 
 static void pointsTab(int player1, int player2);
 static char inputPlayer1(snake * s);
-static char inputPlayer2(snake * s);
+static char inputPlayer2(snake * s1, snake * s2);
 
 static int points[2] = {0,0};
 static int players = 1;
 static char exit = 0;
 
 void screen(){ // ymax = 768 xmax = 1024
-    // Squares 16 x 16 pixels  => 64 x 48 squares
     pointsTab(0, 0);
 
     for(int i = 0; i < X_SQUARES; i++){ // x
-        for(int j = 1; j < Y_SQUARES; j++){ // y  salto primer linea ya que es para el menu
-            //need to create checkers
+        for(int j = 1; j < Y_SQUARES; j++){ // y  skip first row because it is the menu
             if((j%2 && i%2) || (j%2 == 0 && i%2 == 0)){
                 call_draw_square(PALE_GREEN, PIXEL_POS(i), PIXEL_POS(j), 32);
             }else{
@@ -36,53 +34,83 @@ static void pointsTab(int player1, int player2) {
 }
 
 static char inputPlayer1(snake * s){ // que mov tiene la serpiente
-    char c = getChar();
+    int readBytes;
+    char c = readChar(&readBytes);
     char lost = 0;
-    switch(c){
-        case 27: // quit game SHIFT + X
-            exit = 1;
-            break;
-        case 'i':
-            lost = moveSnake(s, UP);
-            break;
-        case 'k':
-            lost = moveSnake(s, DOWN);
-            break;
-        case 'j':
-            lost = moveSnake(s, LEFT);
-            break;
-        case 'l':
-            lost = moveSnake(s, RIGHT);
-            break;
-        default:
-            // do nothing
-            break;
+    if(readBytes){
+        switch(c){
+            case 27: // quit game (ESC)
+                exit = 1;
+                break;
+            case 'w':
+                lost = moveSnake(s, UP);
+                break;
+            case 's':
+                lost = moveSnake(s, DOWN);
+                break;
+            case 'a':
+                lost = moveSnake(s, LEFT);
+                break;
+            case 'd':
+                lost = moveSnake(s, RIGHT);
+                break;
+            default:
+                call_sleep(500);
+                lost = moveSnake(s, s->lastMove);
+                break;
+        }
+    } else {
+        call_sleep(500);
+        lost = moveSnake(s, s->lastMove);
     }
     return lost;
 }
 
-static char inputPlayer2(snake * s){
-    char c = getChar();
+static char inputPlayer2(snake * s1, snake * s2){
+    int readBytes, aux;
+    char c = readChar(&readBytes);
     char lost = 0;
-    switch(c){
-        case 27: // quit game
-            exit = 1;
-            break;
-        case 'w':
-            lost = moveSnake(s, UP);
-            break;
-        case 's':
-            lost = moveSnake(s, DOWN);
-            break;
-        case 'a':
-            lost = moveSnake(s, LEFT);
-            break;
-        case 'd':
-            lost = moveSnake(s, RIGHT);
-            break;
-        default:
-            // do nothing
-            break;
+    if(readBytes){
+        switch(c){
+            case 27: // quit game (ESC)
+                exit = 1;
+                break;
+            case 'w':
+                lost = moveSnake(s1, UP);
+                break;
+            case 's':
+                lost = moveSnake(s1, DOWN);
+                break;
+            case 'a':
+                lost = moveSnake(s1, LEFT);
+                break;
+            case 'd':
+                lost = moveSnake(s1, RIGHT);
+                break;
+            case 'i':
+                lost = moveSnake(s2, UP)? 2 : 0;
+                break;
+            case 'k':
+                lost = moveSnake(s2, DOWN)? 2 : 0;
+                break;
+            case 'j':
+                lost = moveSnake(s2, LEFT)? 2 : 0;
+                break;
+            case 'l':
+                lost = moveSnake(s2, RIGHT)? 2 : 0;
+                break;
+            default:
+                call_sleep(500);
+                aux = moveSnake(s1, s1->lastMove);
+                lost = moveSnake(s2, s2->lastMove);
+                lost = (aux > lost)? aux : lost;
+                break;
+        }
+    }else{
+        call_sleep(500);
+        aux = moveSnake(s1, s1->lastMove);
+        lost = moveSnake(s2, s2->lastMove);
+        lost = (aux > lost)? aux : lost;
     }
     return lost;
 }
@@ -135,37 +163,44 @@ void scoreStatus(){
 }
 
 void snakeGame(){
+    exit = 0;
     call_clear_screen();
     players = snakeMenu();
     call_clear_screen();
     screen();
     createBoard();
+    call_sleep(3000);
 
-    snake * snakeP1 = createSnake(DOWN);
-    snake * snakeP2;
+    snake snakeP1, snakeP2 ;
 
-    snakeP1->color = SNAKE_PURPLE;
+    createSnake(&snakeP1, DOWN);
+    snakeP1.color = SNAKE_BLUE;
 
     if(players == 2){
-        snakeP2 = createSnake(UP);
-        snakeP2->color = SNAKE_ORANGE;
+        createSnake(&snakeP2, UP);
+        snakeP2.color = SNAKE_YELLOW;
     }
+
     char p1, p2;
     createFood();
 
     while(exit != 1){
-        p1 = inputPlayer1(snakeP1);
-        if(players == 2){
-            p2 = inputPlayer2(snakeP2);
-            points[1] = score(snakeP2);
+        if(players == 1){
+            p1 = inputPlayer1(&snakeP1);
+        } else {
+            p2 = inputPlayer2(&snakeP1, &snakeP2);
+            points[1] = score(&snakeP2);
         }
-        points[0] = score(snakeP1);
+        points[0] = score(&snakeP1);
         
         scoreStatus(); // print current score of the game
 
         if(p1 || p2){
-            lostGame(p1 ? 1 : 2);
-            return;
+            if(players == 2){
+                lostGame(p2);
+                return;
+            }
+            lostGame(p1);
         }
     }   
     quitGame();

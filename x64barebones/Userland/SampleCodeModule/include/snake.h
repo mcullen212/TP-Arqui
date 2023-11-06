@@ -17,7 +17,7 @@
 //pixel positions
 #define Y_MAX 768
 #define X_MAX 1024
-#define PIXEL_POS(i) i * SQUARE_SIZE
+#define PIXEL_POS(i) (i) * SQUARE_SIZE
 
 //board positions
 #define SQUARE_SIZE 32
@@ -41,10 +41,10 @@ typedef enum  {
 } boardColors;
 
 typedef enum { 
-    SNAKE_GREEN = 0x003B00, 
-    SNAKE_BLUE = 0x1A9FFF,
-    SNAKE_PURPLE = 0x291AFF, 
-    SNAKE_ORANGE = 0xFF791A,
+    SNAKE_BLUE      = 0x0000FF,
+    SNAKE_YELLOW    = 0xFFFF00,
+    SNAKE_MAGENTA   = 0xFF00FF,
+    SNAKE_CYAN      = 0x00FFFF,
 } snakeColors;
 
 typedef enum  {
@@ -62,7 +62,7 @@ typedef struct { // Snake coordinates in the board
     int head[2]; //{x,y}
     int tail[2];
     int length; // length of the snake (number of squares)
-    snakeColors color;
+    uint32_t color;
     direction lastMove;
 } snake;
 
@@ -81,7 +81,7 @@ void createFood();
 
 // Snake -----------------------------------------------
 
-snake * createSnake(direction direction);
+void createSnake(snake * s, direction direction);
 char moveSnake(snake * s, direction direction);
 void printSnake(snake * s);
 void createBoard();

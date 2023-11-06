@@ -1,16 +1,19 @@
 #include <snake.h>
 
+#define X 0
+#define Y 1
+
 static char collision(snake * s);
 static void resetSquare(int x, int y);
 static void drawSnakeHead(snake * s);
 static char collision(snake * s);
 static char ateFood(snake * s);
 
-static char boardStatus[X_SQUARES][Y_SQUARES];
+static char boardStatus[Y_SQUARES][X_SQUARES];
 
 void createBoard(){
-    for(int i = 0; i < X_SQUARES; i++){
-        for(int j = 0; j < Y_SQUARES; j++){
+    for(int i = 0; i < Y_SQUARES; i++){
+        for(int j = 0; j < X_SQUARES; j++){
             boardStatus[i][j] = EMPTY;
         }
     }
@@ -19,7 +22,7 @@ void createBoard(){
 char moveSnake(snake * s, direction direction){
     switch(direction){
         case UP: // Up v
-            s->head[1] = s->head[1] - 1;
+            s->head[Y] = s->head[Y] + 1;
             if(collision(s)){
                 return 1;
             }
@@ -27,7 +30,7 @@ char moveSnake(snake * s, direction direction){
             printSnake(s);
             break;
         case DOWN: // Down ^
-            s->head[1] = s->head[1] + 1;
+            s->head[Y] = s->head[Y] - 1;
             if(collision(s)){
                 return 1;
             }
@@ -35,7 +38,7 @@ char moveSnake(snake * s, direction direction){
             printSnake(s);
             break;
         case LEFT: // Left ->
-            s->head[0] = s->head[0] - 1;
+            s->head[X] = s->head[X] + 1;
             if(collision(s)){
                 return 1;
             }
@@ -43,7 +46,7 @@ char moveSnake(snake * s, direction direction){
             printSnake(s);
             break;
         case RIGHT: // Right <-
-            s->head[0] = s->head[0] + 1; // x + 1 right in the x axis
+            s->head[X] = s->head[X] - 1; // x + 1 right in the x axis
             if(collision(s)){
                 return 1;
             }
@@ -67,54 +70,56 @@ void printSnake(snake * s){
     return;
 }
 
-snake * createSnake(direction direction){
-    snake * s;
+void createSnake(snake * s, direction direction) {
     switch (direction) {
         case UP:
-            s->head[0] = X_SQUARES - 1;
-            s->head[1] = Y_SQUARES - 1;
-            s->tail[0] = X_SQUARES - 1;
-            s->tail[1] = Y_SQUARES - MIN_SNAKE_LENGTH;
-            for (int i = s->tail[1]; i <= s->head[1]; i++) {
-                boardStatus[i][0] = SNAKE;
-                call_draw_square(s->color, PIXEL_POS(s->tail[0]), PIXEL_POS(i), SQUARE_SIZE);
+            s->head[X] = X_SQUARES - 1;
+            s->head[Y] = Y_SQUARES - MIN_SNAKE_LENGTH;
+            s->tail[X] = X_SQUARES - 1;
+            s->tail[Y] = Y_SQUARES - 1;
+            for (int i = s->tail[Y]; i >= s->head[Y]; i--) {
+                boardStatus[i][X_SQUARES-1] = SNAKE;
+                call_draw_square(s->color, PIXEL_POS(X_SQUARES-1), PIXEL_POS(i), SQUARE_SIZE);
             }
+            s->lastMove = UP;
             break;
         case DOWN:
-            s->head[0] = 0;
-            s->head[1] = 1; // Since row 0 is the top of the menu bar
-            s->tail[0] = 0;
-            s->tail[1] = MIN_SNAKE_LENGTH;
-            for (int i = s->tail[1]; i >= s->head[1]; i--) {
-                boardStatus[X_SQUARES - 1][i] = SNAKE;
-                call_draw_square(s->color, PIXEL_POS(X_SQUARES - 1), PIXEL_POS(i), SQUARE_SIZE);
+            s->head[X] = 0;
+            s->head[Y] = MIN_SNAKE_LENGTH; 
+            s->tail[X] = 0;                    // Since row 0 is the top of the menu bar
+            s->tail[Y] = 1;
+            for (int i = s->tail[Y]; i <= s->head[Y]; i++) {
+                boardStatus[i][0] = SNAKE;
+                call_draw_square(s->color, PIXEL_POS(0), PIXEL_POS(i), SQUARE_SIZE);
             }
+            s->lastMove = DOWN;
             break;
         case LEFT:
-            s->head[0] = X_SQUARES - MIN_SNAKE_LENGTH;
-            s->head[1] = Y_SQUARES / 2 - 1;
-            s->tail[0] = X_SQUARES - 1;
-            s->tail[1] = s->head[1];
-            for (int i = s->tail[0]; i >= s->head[0]; i--) {
-                boardStatus[i][s->head[1]] = SNAKE;
-                call_draw_square(s->color, PIXEL_POS(i), PIXEL_POS(s->tail[1]), SQUARE_SIZE);
+            s->head[X] = X_SQUARES - MIN_SNAKE_LENGTH;
+            s->head[Y] = Y_SQUARES / 2 - 1;         //Upper middle screen
+            s->tail[X] = X_SQUARES - 1;
+            s->tail[Y] = s->head[Y];
+            for (int i = s->tail[X]; i >= s->head[X]; i--) {
+                boardStatus[s->head[Y]][i] = SNAKE;
+                call_draw_square(s->color, PIXEL_POS(i), PIXEL_POS(s->tail[Y]), SQUARE_SIZE);
             }
+            s->lastMove = LEFT;
             break;
         case RIGHT:
-            s->head[0] = MIN_SNAKE_LENGTH - 1;
-            s->head[1] = Y_SQUARES / 2 + 1;
-            s->tail[0] = 0;
-            s->tail[1] = s->head[1];
-            for (int i = s->tail[0]; i <= s->head[0]; i++) {
-                boardStatus[i][X_SQUARES - 1] = SNAKE;
-                call_draw_square(s->color, PIXEL_POS(i), PIXEL_POS(s->tail[1]), SQUARE_SIZE);
+            s->head[X] = MIN_SNAKE_LENGTH - 1;
+            s->head[Y] = Y_SQUARES / 2 + 1;
+            s->tail[X] = 0;
+            s->tail[Y] = s->head[Y];
+            for (int i = s->tail[X]; i <= s->head[X]; i++) {
+                boardStatus[s->head[Y]][i] = SNAKE;
+                call_draw_square(s->color, PIXEL_POS(i), PIXEL_POS(s->head[Y]), SQUARE_SIZE);
             }
+            s->lastMove = RIGHT;
             break;
         default:
             break;
     }
     s->length = MIN_SNAKE_LENGTH;
-    return s;
 }
 
 static char collision(snake * s){

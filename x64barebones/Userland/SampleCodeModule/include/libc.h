@@ -9,5 +9,6 @@ int putString(char *c);
 char getChar();
 int printf(const char * format, ...);
 char ** substrings(char * str, char delim, int * amountOfSubstrings);
+char readChar(int * readBytes);
 
 #endif

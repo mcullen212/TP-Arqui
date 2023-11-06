@@ -69,14 +69,14 @@ static int strConcat(char *str1, char *str2){
     return i;
 }
 
-static int doubleToString(double num, char *str){
-    int integerPart = (int) num;
-    int decimalPart = (int) (num - integerPart)*1000;
-    int length = intToString(integerPart,str);
-    *(str+length) = '.';
-    int i = intToString(decimalPart,str+integerPart+1);
-    return length + i;
-}
+// static int doubleToString(double num, char *str){
+//     int integerPart = (int) num;
+//     int decimalPart = (int) (num - integerPart)*1000;
+//     int length = intToString(integerPart,str);
+//     *(str+length) = '.';
+//     int i = intToString(decimalPart,str+integerPart+1);
+//     return length + i;
+// }
 
 int printf(const char * format, ...){
     va_list variables;
@@ -96,9 +96,6 @@ int printf(const char * format, ...){
                 case 's': //string
                     index+=strConcat(str,va_arg(variables,char*));
                     break;
-                // case 'f'://float tira un error SSE register return with SSE disabled no se como solucionarlo
-                //     index += doubleToString(va_arg(variables,double), str);
-                //     break;
                 default:
                     break;
             }
@@ -113,21 +110,8 @@ int printf(const char * format, ...){
     return putString(str);
 }
 
-// char ** substrings(char * str, char delim, int * amountOfSubstrings){
-//     int i = 0; //index of str
-//     int j = 0; // index of result
-//     int k = 0; // index of result[j]
-//     char ** result;
-//     while(str[i] != '\0'){
-//         if(str[i] == delim){
-//             k = 0; // restart
-//             j++; //new term
-//         }else{
-//             result[j][k]=str[i];
-//             k++;
-//         }
-//         i++;
-//     }
-//     *amountOfSubstrings = j;
-//     return result;
-// }
+char readChar(int * readBytes) {
+    uint8_t buffer;
+    call_read(&buffer, 1, (uint32_t *) readBytes);
+    return buffer;
+}

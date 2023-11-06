@@ -6,4 +6,4 @@ invalidOp:
     ret
 
 section .data 
-    inval equ 42849
+    inval equ 200
