@@ -16,7 +16,7 @@ extern void _exception6Handler();
 
 extern void _cli();
 extern void _sti();
-extern void hlt();
+extern void _hlt();
 
 extern void picMasterMask(uint8_t mask);
 extern void picSlaveMask(uint8_t mask);

@@ -49,7 +49,7 @@ char keyMap[][2] = { // [cantidad de teclas][2] => teclado estandar en ingles
         {'[', '{'},
         {']', '}'},
         {'\n', '\n'}, //enter
-        {0, 0}, //ctrl
+        {17, 17}, //ctrl
         {'a', 'A'},
         {'s', 'S'},
         {'d', 'D'},
@@ -86,8 +86,8 @@ void keyHandler(uint64_t * registers) {
     if( shiftPressed && number == LEFT_ALT_PRESSED){
         updateRegs(registers);
     }
-
-    if( number == ESC_PRESSED || number == CTRL_PRESSED ){ // if esc or ctrl is pressed, do nothing
+    
+    if(number == CTRL_PRESSED){ // if ctrl is pressed, do nothing
         return;
     }
 

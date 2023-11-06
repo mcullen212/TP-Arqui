@@ -1,4 +1,4 @@
-
+GLOBAL _hlt
 GLOBAL _cli
 GLOBAL _sti
 GLOBAL picMasterMask

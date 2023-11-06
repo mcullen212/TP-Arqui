@@ -5,6 +5,7 @@
 #include <exceptions.h>
 #include <cursor.h>
 #include <timer.h>
+#include <interruptions.h>
 
 typedef enum {SYS_READ = 0, SYS_WRITE, DRAW_C, DELETE_C, TIME, THEME, SET_EXC, C_GET_X, C_GET_Y, C_GET_S, C_SET_S, C_MOVE, C_INIT, SET_COLORS, GET_REGS, DRAW_SQUARE, COLOR_SCREEN, DRAW_CIRCLE, CLEAR_SCREEN, SLEEP}SysID;
 
@@ -208,5 +209,7 @@ static void sys_clear_screen() {
 
 static void sys_sleep(unsigned long long ms) {
     unsigned long long intial_time = ms_elapsed();
-	while( (ms_elapsed() - intial_time) <= ms );
+    while( (ms_elapsed() - intial_time) <= ms ) {
+        _hlt();
+    }
 }

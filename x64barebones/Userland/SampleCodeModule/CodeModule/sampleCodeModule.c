@@ -61,7 +61,7 @@ void terminal() {
                     commandBuffer[position++] = ' ';
                     call_draw_char(' ');
                 }
-            } else { // Any other key
+            } else if( c != 27 ) { // Any other key not including ESC key (27)
                 commandBuffer[position++] = c;
                 call_draw_char(c);
             }

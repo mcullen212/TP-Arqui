@@ -205,7 +205,7 @@ void drawStringOnCursor(uint8_t * string, uint32_t * length) {
         } else {
             if (string[i] == '\t') {
                 moveCursor(TAB);
-            } else {
+            } else if(string[i] != 27) { // exclude ESC key
                 drawCharOnCursor(string[i]);
             }
         }

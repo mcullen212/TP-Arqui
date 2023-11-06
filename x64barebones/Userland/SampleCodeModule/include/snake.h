@@ -11,6 +11,8 @@
 #define MENU_Y 0
 #define MENU_WIDTH 1024
 #define MENU_HEIGHT 32
+#define POINTS_PLAYER_1 200
+#define POINTS_PLAYER_2 400
 
 //pixel positions
 #define Y_MAX 768
@@ -81,8 +83,8 @@ void createFood();
 
 snake * createSnake(direction direction);
 char moveSnake(snake * s, direction direction);
-void moveTwoSnake(snake * s1, snake * s2, direction direction1, direction direction2);
 void printSnake(snake * s);
+void createBoard();
 // -----------------------------------------------------
 
 // Game ------------------------------------------------

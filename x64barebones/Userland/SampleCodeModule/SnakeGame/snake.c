@@ -6,7 +6,15 @@ static void drawSnakeHead(snake * s);
 static char collision(snake * s);
 static char ateFood(snake * s);
 
-static char boardStatus[X_SQUARES][Y_SQUARES] = {{EMPTY}};
+static char boardStatus[X_SQUARES][Y_SQUARES];
+
+void createBoard(){
+    for(int i = 0; i < X_SQUARES; i++){
+        for(int j = 0; j < Y_SQUARES; j++){
+            boardStatus[i][j] = EMPTY;
+        }
+    }
+}
 
 char moveSnake(snake * s, direction direction){
     switch(direction){
@@ -47,19 +55,6 @@ char moveSnake(snake * s, direction direction){
             break;
     }
     return 0;
-}
-
-void moveTwoSnake(snake * s1, snake * s2, direction direction1, direction direction2){
-    char c1,c2;
-
-    c1 = moveSnake(s1, direction1);
-    c2 = moveSnake(s2, direction2);
-
-    if(c1){
-        lostGame(1);
-    }else if (c2){
-        lostGame(2);
-    }
 }
 
 void printSnake(snake * s){

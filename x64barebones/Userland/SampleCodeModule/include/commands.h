@@ -22,7 +22,7 @@ void time();
 
 void div0();
 
-void invalidop();
+void invalidOp();
 
 void clear();
 
