@@ -4,6 +4,8 @@ GLOBAL poolKey
 GLOBAL getKeyNumber
 GLOBAL realTimeClock
 GLOBAL poolChar
+GLOBAL outPortSpeaker
+GLOBAL inPortSpeaker
 
 
 
@@ -32,20 +34,6 @@ cpuVendor:
 	mov rsp, rbp
 	pop rbp
 	ret
-
-getRTCHour:
-    push rbp
-    mov rbp, rsp
-
-    ;cli
-    mov al, 4       ; Hour register
-    out 70h, al
-    in al, 71h
-    ;sti
-
-    mov rsp, rbp
-    pop rbp
-    ret
 
 poolKey:
     push rbp
@@ -87,6 +75,29 @@ realTimeClock:
     out 70h, al ; mueve el valor de al al puerto 70h
     in al, 71h ; mueve el valor del puerto 71h al registro ax
     sti ; cuando esta leyendo el reloj no puedas interumpirlo
+
+    mov rsp, rbp
+    pop rbp
+    ret
+
+outPortSpeaker:
+    push rbp
+    mov rbp, rsp
+
+    mov rax, rsi      ; Load the value 0xb6 into AL
+    mov rdx, rdi      ; Load the I/O port number 0x43 into DX
+    out dx, al        ; Write the value in AL to the I/O port in DX
+
+    mov rsp, rbp
+    pop rbp
+    ret
+
+inPortSpeaker:
+    push rbp
+    mov rbp, rsp
+
+    mov rdx, rdi
+    in al, dx
 
     mov rsp, rbp
     pop rbp

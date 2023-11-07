@@ -27,5 +27,6 @@ void call_draw_circle(uint32_t color, uint32_t x, uint32_t y, uint32_t length, u
 void call_clear_screen();
 void call_sleep(unsigned long long ms);
 void call_get_ticks(unsigned long long * ticks);
+void call_beep(uint32_t frequency);
 
 #endif

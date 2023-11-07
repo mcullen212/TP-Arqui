@@ -10,4 +10,7 @@ char *cpuVendor(char *result);
 
 uint32_t realTimeClock(int num);
 
+void outPortSpeaker(uint16_t port, uint8_t value);
+uint8_t inPortSpeaker(uint16_t port);
+
 #endif

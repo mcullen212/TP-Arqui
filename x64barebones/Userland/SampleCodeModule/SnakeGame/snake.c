@@ -65,7 +65,7 @@ void snakeGame(){
     gameStarter();
     pointsTab(0, 0);
 
-    char p1, p2;
+    char p1=0, p2=0;
     createFood();
     updateBoardFromFood();
 
@@ -307,22 +307,22 @@ static char inputPlayer1(snake * s){ // que mov tiene la serpiente
                 exit = 1;
                 break;
             case 'w': // Move up
-                if(s->lastMove != UP && s->lastMove != DOWN){
+                if(s->lastMove != DOWN){
                     lost = moveSnake(s, UP);
                 }
                 break;
             case 's': // Move down
-                if(s->lastMove != UP && s->lastMove != DOWN){
+                if(s->lastMove != UP){
                     lost = moveSnake(s, DOWN);
                 }
                 break;
             case 'a': // Move left
-                if(s->lastMove != LEFT && s->lastMove != RIGHT){
+                if(s->lastMove != RIGHT){
                     lost = moveSnake(s, LEFT);
                 }
                 break;
             case 'd': // Move right
-                if(s->lastMove != LEFT && s->lastMove != RIGHT){
+                if(s->lastMove != LEFT){
                     lost = moveSnake(s, RIGHT);
                 }
             default:
@@ -495,9 +495,15 @@ char moveSnake(snake * s, direction direction){
 
 static char collision(snake * s){
     if(boardStatus[s->head.y][s->head.x] != EMPTY && boardStatus[s->head.y][s->head.x] != FOOD ){ // Collision with its snake
+        call_beep(2000);
+        call_beep(1000);
+        call_beep(500);
         return 1;
     }
     else if(s->head.x < 0 || s->head.x > X_SQUARES - 1 || s->head.y < 0 || s->head.y > Y_SQUARES - 1){ // Collision with the wall
+        call_beep(2000);
+        call_beep(1000);
+        call_beep(500);
         return 1;
     }
     return 0;
@@ -505,6 +511,7 @@ static char collision(snake * s){
 
 static char ateFood(snake * s){
     if (s->head.x == currentFood->position.x && s->head.y == currentFood->position.y) {
+        call_beep(800);
         createFood(); // generates a new food
         return 1;
     }

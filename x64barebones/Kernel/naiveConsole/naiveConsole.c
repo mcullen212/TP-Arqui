@@ -118,9 +118,9 @@ static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base)
 }
 
 void ncGetRTCHour() {
-    ncPrint("Real Time Clock Hour: ");
-    uint64_t hour = getRTCHour();
-    ncPrintHex(hour);
+    // ncPrint("Real Time Clock Hour: ");
+    // uint64_t hour = getRTCHour();
+    // ncPrintHex(hour);
 }
 
 void ncPoolChar() {

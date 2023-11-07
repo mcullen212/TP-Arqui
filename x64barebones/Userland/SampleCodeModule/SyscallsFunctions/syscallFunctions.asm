@@ -19,6 +19,7 @@ GLOBAL call_clear_screen
 GLOBAL call_set_exception_handler
 GLOBAL call_sleep
 GLOBAL call_get_ticks
+GLOBAL call_beep
 
 section .text
 
@@ -359,3 +360,19 @@ call_get_ticks:
     mov rsp, rbp
     pop rbp
     ret
+
+call_beep:
+    push rbp
+    mov rbp, rsp
+
+    pushAll
+
+    mov rax, 21
+    int 80h
+
+    popAll
+
+    mov rsp, rbp
+    pop rbp
+    ret
+

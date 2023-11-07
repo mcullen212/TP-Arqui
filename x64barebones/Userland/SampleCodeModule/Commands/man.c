@@ -1,7 +1,7 @@
 #include <commands.h>
 
 void man(){
-    printf("Welcome to Wuevo\n");
+    printf("Welcome to MAT\n");
     printf("NAME\n");
     printf("\t man - the manual to the system reference\n\n");
     printf("DESCRIPTION\n");
@@ -16,7 +16,9 @@ void man(){
     printf("\t clear - Clear the screen.\n");
     printf("\t zoom in - Increase text size. Clears screen after change.\n");
     printf("\t zoom out - Decrease text size. Clears screen after change.\n");
-    printf("\t registers - View the registers in use after pressing Shift + Alt.\n\n");
+    printf("\t registers - View the registers in use after pressing Shift + Alt.\n");
+    printf("\t set theme - Choose terminal theme. Clears screen after change.\n");
+    printf("\t Esto es Boca - BOCA.\n\n");
     printf("EXCEPTIONS\n");
     printf("\t inval op - Indicates an invalid operation.\n");
     printf("\t div0 - Signals division by zero.\n");

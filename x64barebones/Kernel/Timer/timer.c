@@ -1,4 +1,5 @@
 #include <timer.h>
+#include <interruptions.h>
 
 static unsigned long long ticks = 0;
 
@@ -16,4 +17,12 @@ unsigned long long seconds_elapsed() {
 
 unsigned long long ms_elapsed() {
 	return ticks * 55;
+}
+void sleep(unsigned long long ms) {
+	unsigned long long intial_time = ms_elapsed();
+	unsigned long long currentTime = intial_time;
+    while( currentTime - intial_time <= ms) {
+		currentTime = ms_elapsed();
+	    _hlt();
+    }
 }

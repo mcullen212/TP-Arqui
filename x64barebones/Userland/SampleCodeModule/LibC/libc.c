@@ -2,6 +2,8 @@
 #include <syscallFunctions.h>
 #include <stdarg.h>
 
+#define BUFFER_DIM 20
+
 int strcmp(const char * s1, const char * s2) {
     int i = 0;
     while(s1[i] != 0  && s2[i] != 0){
@@ -37,6 +39,16 @@ char getChar(){
         call_read(&c, 1, &size);
     }
     return c;
+}
+
+static int readFromKeyboard(char * buffer) {
+    int i=0;
+    char c;
+    while (c != ' ' && c != '\t' && c != '\n' && i < BUFFER_DIM) {
+        c = getChar();
+        buffer[i++] = c;
+    }
+    return i;
 }
 
 static int intToString(int num, char *str) {
@@ -87,6 +99,28 @@ static int strConcat(char *str1, char *str2){
     return i;
 }
 
+static int stringToInt(char * num){
+    char isNegative = 0;
+    int i = 0;
+    int res = 0;
+
+    if(num[0] == '-'){
+        isNegative = 1;
+        i++;
+    }
+
+    while(num[i] != '\0'){
+        res = res*10 + num[i] - '0';
+        i++;
+    }
+    
+    if(isNegative){
+        res = -res;
+    }
+    
+    return res;
+}
+
 
 int printf(const char * format, ...){
     va_list variables;
@@ -129,5 +163,42 @@ char readChar(int * readBytes) {
 int randNbr(int fromIncluded, int toIncluded) {
     unsigned long long currentTicks;
     call_get_ticks(&currentTicks);
-    return (fromIncluded + (currentTicks % (toIncluded + 1)));
+    return (fromIncluded + (currentTicks % (toIncluded)));
+}
+
+void scanf(const char * format, ...) {
+    va_list variables;
+
+    va_start(variables, format);
+
+    char str[DIM];
+    char buffer[BUFFER_DIM];
+    int index = 0, fmtPos = 0;
+
+     while(format[fmtPos] != '\0'){
+        if(format[fmtPos] == '%'){
+            printf(str);
+            fmtPos++;
+            switch(format[fmtPos]){
+                case 'd': //int
+                    readFromKeyboard(buffer);
+                    int * number;
+                    number = va_arg(variables, int*);
+                    *number = stringToInt(buffer);
+                    break;
+                case 's': //string
+                    readFromKeyboard(buffer);
+                    char ** string;
+                    string = va_arg(variables, char**);
+                    *string = buffer;
+                    break;
+                default:
+                    break;
+            }
+            fmtPos++;
+        }else{
+            str[index] = format[fmtPos++];
+            index++;
+        }
+    }
 }

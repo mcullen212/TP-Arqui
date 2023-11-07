@@ -10,6 +10,6 @@ char getChar();
 int printf(const char * format, ...);
 char readChar(int * readBytes);
 int randNbr(int fromIncluded, int toIncluded);
-
+void scanf(const char * format, ...);
 
 #endif
