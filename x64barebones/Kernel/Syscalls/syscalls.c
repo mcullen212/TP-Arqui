@@ -30,19 +30,19 @@ static void sys_set_colors(uint32_t textColor, uint32_t backgroundColor);
 static void sys_get_registers();
 static void sys_draw_square(uint32_t hexColor,uint64_t x, uint64_t y, uint32_t scale);
 static void sys_color_screen(uint32_t hexColor);
-static void sys_draw_circle(uint32_t color, uint32_t x, uint32_t y, uint32_t length);
+static void sys_draw_circle(uint32_t color, uint32_t x, uint32_t y, uint32_t length, uint32_t backgroundColor);
 static void sys_clear_screen();
 static void sys_sleep(unsigned long long ms);
 static void sys_get_ticks(unsigned long long * ticks);
 
 
 void syscallsDispatcher(uint64_t rax, uint64_t *otherRegisters) {
-    uint64_t rdi,rsi,rdx,rcx;// r8, r9;     // Me guardo los registros en variables para mayor claridad de lectura del codigo.
+    uint64_t rdi,rsi,rdx,rcx,r8;// r9;     //Save registers with respective order for each syscall logic legiablitity
     rdi = otherRegisters[0];
     rsi = otherRegisters[1];
     rdx = otherRegisters[2];
     rcx = otherRegisters[3];
-    //r8 = otherRegisters[4];
+    r8 = otherRegisters[4];
     //r9 = otherRegisters[5];
     switch(rax) {
         case SYS_READ :
@@ -97,7 +97,7 @@ void syscallsDispatcher(uint64_t rax, uint64_t *otherRegisters) {
             sys_color_screen((uint32_t) rdi);
             break;
         case DRAW_CIRCLE :
-            sys_draw_circle((uint32_t) rdi, (uint32_t) rsi, (uint32_t) rdx, (uint32_t) rcx);
+            sys_draw_circle((uint32_t) rdi, (uint32_t) rsi, (uint32_t) rdx, (uint32_t) rcx, (uint32_t) r8);
         case CLEAR_SCREEN :
             sys_clear_screen();
             break;
@@ -201,8 +201,8 @@ static void sys_color_screen(uint32_t hexColor) {
     colorScreen(hexColor);
 }
 
-static void sys_draw_circle(uint32_t color, uint32_t x, uint32_t y, uint32_t length) {
-    drawCircle(color, x, y, length);
+static void sys_draw_circle(uint32_t color, uint32_t x, uint32_t y, uint32_t length, uint32_t backgroundColor) {
+    drawCircle(color, x, y, length, backgroundColor);
 }
 
 static void sys_clear_screen() {

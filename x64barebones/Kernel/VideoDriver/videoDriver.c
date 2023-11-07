@@ -248,7 +248,7 @@ static void clearTerminal() {
 }
 
 // x y coordinates are the border of the square where the circle is inscribed
-void drawCircle(uint32_t hexColor, uint64_t x, uint64_t y, uint32_t length) {
+void drawCircle(uint32_t hexColor, uint64_t x, uint64_t y, uint32_t length, uint32_t backgroundColor) {
     uint32_t radius = length/2 - 1;
     // center of square
     x = x + radius;
@@ -260,6 +260,11 @@ void drawCircle(uint32_t hexColor, uint64_t x, uint64_t y, uint32_t length) {
                 putPixel(hexColor,x-i,y+j);
                 putPixel(hexColor,x+i,y-j);
                 putPixel(hexColor,x-i,y-j);
+            }else{
+                putPixel(backgroundColor,x+i,y+j);
+                putPixel(backgroundColor,x-i,y+j);
+                putPixel(backgroundColor,x+i,y-j);
+                putPixel(backgroundColor,x-i,y-j);
             }
         }
     }

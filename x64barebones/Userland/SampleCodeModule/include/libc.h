@@ -11,4 +11,5 @@ int printf(const char * format, ...);
 char readChar(int * readBytes);
 int randNbr(int fromIncluded, int toIncluded);
 
+
 #endif

@@ -34,7 +34,7 @@ int main(void) {
 }
 
 void terminal() {
-    call_set_theme(themesShell[1]);
+    defaultTheme();
 
     char c;
 
@@ -82,7 +82,7 @@ int printShellHeader() {
 }
 
 void exceptionHandler(uint64_t exceptionNumber, char * errorMessage) {
-    call_set_theme(themesShell[6]);
+    setTheme(6);
     call_c_init(MIN_X, MIN_Y, 1);
     putString("\t\t\t\t\t\t\t\t\t\t\t\t");
     switch(exceptionNumber) {

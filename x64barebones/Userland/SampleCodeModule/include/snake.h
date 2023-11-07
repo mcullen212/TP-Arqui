@@ -9,13 +9,6 @@
 #define MIN_SNAKE_LENGTH 5
 #define MAX_SNAKE_LENGTH 100
 
-//menu positions
-#define MENU_Y 0
-#define MENU_X 0
-#define MENU_WIDTH 1024
-#define MENU_HEIGHT 32
-#define MENU_SCALE 1
-
 //pixel positions
 #define Y_MAX 768
 #define X_MAX 1024
@@ -26,6 +19,14 @@
 #define SQUARE_SIZE 32
 #define X_SQUARES (X_MAX / SQUARE_SIZE) // 32
 #define Y_SQUARES (Y_MAX / SQUARE_SIZE ) // 24
+
+//menu positions
+#define MENU_PLAYER_1 696
+#define MENU_PLAYER_2 928
+#define MENU 96
+#define MENU_WIDTH 
+#define MENU_HEIGHT 32
+#define MENU_SCALE 1
 
 //board status
 #define SNAKE_PLAYER_1 '#'
@@ -41,11 +42,11 @@
 
 typedef enum{ UP = 0, DOWN, LEFT, RIGHT } direction;
 
-typedef enum  {
+typedef enum {
     PALE_BLUE = 0xADD8E6, // Light Pale Blue
     PALE_BLUE_LIGHTER = 0x87CEEB, // Slightly Darker Pale Blue
-    PALE_YELLOW = 0xFFFFE0, // Light Pale Yellow
-    PALE_YELLOW_LIGHTER = 0xFFFFF0, // Slightly Darker Pale Yellow
+    PALE_YELLOW = 0xD4DF73, // Light Pale Yellow
+    PALE_YELLOW_LIGHTER = 0xFFFFD9, // Slightly Darker Pale Yellow
     PALE_GREEN  = 0xB7EA9D, // Light Pale Green
     PALE_GREEN_LIGHTER  = 0xEBFFD1 // Slightly Darker Pale Green
 } boardColors;
@@ -65,8 +66,6 @@ typedef enum  {
     PINEAPPLE = 0xFFD700, // Gold
     CHERRY = 0x8B0000, // Dark Red
 } foodColors;
-
-//foodColors[]  {APPLE, BANANA, ORANGE, STRAWBERRY, WATERMELON, PINEAPPLE, CHERRY} foodType;
 
 typedef struct point{
     int x;
@@ -90,8 +89,8 @@ typedef struct { // Food coordinates in the board
 
 // Food ------------------------------------------------
 
-food * getFood();
 void createFood();
+void printFood();
 
 // -----------------------------------------------------
 
@@ -112,7 +111,6 @@ void scoreStatus(snake * s1, snake * s2);
 void createBoard();
 char ** getBoardStatus();
 void updateBoard(snake * s1, snake * s2);
-void updateBoardFromFood(food * currentFood);
 void printBoard(snake * s1, snake * s2);
 
 // -----------------------------------------------------
