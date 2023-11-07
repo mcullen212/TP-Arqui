@@ -119,20 +119,23 @@ static void themeColor(){
 
 static void themeSnake(snake * s1, snake * s2){
     char c, t;
-    printf("\n\n Now please select theme:\n");
     if(players == 1){
+        printf("\n\n Select color for snake:\n");
         printf(" 1. Blue\n 2. Cyan\n 3. Magenta\n 4. Yellow\n");
         do {
             c = getChar();
         } while ( c != '1' && c != '2' && c != '3' && c != '4');
     } else{
-        printf(" Player 1:\n 1. Blue\n 2. Cyan\n Player 2: \n 3. Magenta\n 4. Yellow\n First player 1, then player 2.");
+        printf("Select color for player 1:\n \n 1. Blue\n 2. Cyan\n");
         do {
             c = getChar();
+        } while ( c != '1' && c != '2');
+
+        printf("Select color for player 2:\n \n 1. Magenta\n 2. Yellow\n");
+        do {
             t = getChar();
-        } while ( c != '1' && c != '2' && t != '3' && t != '4');
+        } while ( t != '1' && t != '2');
     }
-    
     
     switch(c){
         case '1':
@@ -150,10 +153,10 @@ static void themeSnake(snake * s1, snake * s2){
     }
 
     switch(t){
-        case '3':
+        case '1':
             s2->color = SNAKE_MAGENTA;
             break;
-        case '4':
+        case '2':
             s2->color = SNAKE_YELLOW;
     }
 
@@ -175,13 +178,16 @@ void scoreStatus(snake * s1, snake * s2){
     if(players == 2){
         call_c_init(MENU_PLAYER_1, MENU_HEIGHT/4, MENU_SCALE);
         call_delete_char(); // delete last score
+        call_delete_char();
         printf("%d", s1->points);
         call_c_init(MENU_PLAYER_2, MENU_HEIGHT/4, MENU_SCALE);
         call_delete_char(); // delete last score
+        call_delete_char();
         printf("%d", s2->points);
     }else{
         call_c_init(MENU_PLAYER_1, MENU_HEIGHT/4, MENU_SCALE);
         call_delete_char(); // delete last score
+        call_delete_char();
         printf("%d", s1->points);
     }
 }

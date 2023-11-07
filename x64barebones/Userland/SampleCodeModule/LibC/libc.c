@@ -39,27 +39,44 @@ char getChar(){
     return c;
 }
 
-static int intToString(int num, char *str){
+static int intToString(int num, char *str) {
     int i = 0;
-    if(num < 0){
-        str[i] = '-';
-        i++;
+    int isNegative = 0;
+
+    // if negative flag to add sign
+    if (num < 0) {
+        isNegative = 1;
         num = -num;
     }
 
-    if(num == 0){
+    if (num == 0) {
         str[i] = '0';
         i++;
-    }
-    else{
-        while(num != 0){
-            str[i] = (num % 10) + '0';
+    } else {
+        char *aux; 
+        int j = 0;
+
+        while (num != 0) {
+            aux[j] = (num % 10) + '0';
             num = num / 10;
+            j++;
+        }
+
+        if (isNegative) {
+            str[i] = '-';
+            i++;
+        }
+
+        for (j = j - 1; j >= 0; j--) {
+            str[i] = aux[j];
             i++;
         }
     }
+    str[i] = '\0';
+
     return i;
 }
+
 
 static int strConcat(char *str1, char *str2){
     int i = strlen(str1);

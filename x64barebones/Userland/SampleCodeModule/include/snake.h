@@ -21,8 +21,8 @@
 #define Y_SQUARES (Y_MAX / SQUARE_SIZE ) // 24
 
 //menu positions
-#define MENU_PLAYER_1 696
-#define MENU_PLAYER_2 928
+#define MENU_PLAYER_1 704
+#define MENU_PLAYER_2 936
 #define MENU 96
 #define MENU_WIDTH 
 #define MENU_HEIGHT 32
