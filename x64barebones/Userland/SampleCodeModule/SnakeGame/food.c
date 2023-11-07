@@ -1,17 +1,24 @@
 #include <snake.h>
 
-static foodPosition * food;
+static food * currentFood;
+
+static uint32_t * foodType = {APPLE, BANANA, STRAWBERRY, WATERMELON, PINEAPPLE, CHERRY};
 
 void createFood(){
-    // food->color = APPLE;
-    // f->x = rand() % 32;
-    // f->y = rand() % 24;
-    // boardStatus[f->y][f->x] = FOOD;
-    //printFood();
+    char boardStatusCopy[Y_SQUARES][X_SQUARES] = getBoardStatus();
+    int xCoord, yCoord;
+    do {
+        xCoord = rand(0, X_SQUARES-1);
+        yCoord = rand(1,Y_SQUARES-1);
+
+    } while (boardStatusCopy[yCoord][xCoord] != EMPTY);
+    currentFood->position.x = xCoord;
+    currentFood->position.y = yCoord;
+    currentFood->color = foodType[rand(0,FOOD_TYPES - 1)];
 }
 
-foodPosition * getFood(){
-    return food;
+food * getFood(){
+    return currentFood;
 }
 
 // random food position

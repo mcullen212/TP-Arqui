@@ -7,7 +7,7 @@
 #include <timer.h>
 #include <interruptions.h>
 
-typedef enum {SYS_READ = 0, SYS_WRITE, DRAW_C, DELETE_C, TIME, THEME, SET_EXC, C_GET_X, C_GET_Y, C_GET_S, C_SET_S, C_MOVE, C_INIT, SET_COLORS, GET_REGS, DRAW_SQUARE, COLOR_SCREEN, DRAW_CIRCLE, CLEAR_SCREEN, SLEEP}SysID;
+typedef enum {SYS_READ = 0, SYS_WRITE, DRAW_C, DELETE_C, TIME, THEME, SET_EXC, C_GET_X, C_GET_Y, C_GET_S, C_SET_S, C_MOVE, C_INIT, SET_COLORS, GET_REGS, DRAW_SQUARE, COLOR_SCREEN, DRAW_CIRCLE, CLEAR_SCREEN, SLEEP, GET_TICKS}SysID;
 
 
 static void sys_read(uint8_t * buf, uint32_t count, uint32_t * readBytes);
@@ -33,6 +33,7 @@ static void sys_color_screen(uint32_t hexColor);
 static void sys_draw_circle(uint32_t color, uint32_t x, uint32_t y, uint32_t length);
 static void sys_clear_screen();
 static void sys_sleep(unsigned long long ms);
+static void sys_get_ticks(unsigned long long * ticks);
 
 
 void syscallsDispatcher(uint64_t rax, uint64_t *otherRegisters) {
@@ -102,6 +103,10 @@ void syscallsDispatcher(uint64_t rax, uint64_t *otherRegisters) {
             break;
         case SLEEP :
             sys_sleep((unsigned long long) rdi);
+            break;
+        case GET_TICKS :
+            sys_get_ticks((unsigned long long *) rdi);
+            break;
         default :
             break;
     }
@@ -212,4 +217,8 @@ static void sys_sleep(unsigned long long ms) {
     while( (ms_elapsed() - intial_time) <= ms ) {
         _hlt();
     }
+}
+
+static void sys_get_ticks(unsigned long long * ticks) {
+    *ticks = ticks_elapsed();
 }

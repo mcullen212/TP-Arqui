@@ -69,14 +69,6 @@ static int strConcat(char *str1, char *str2){
     return i;
 }
 
-// static int doubleToString(double num, char *str){
-//     int integerPart = (int) num;
-//     int decimalPart = (int) (num - integerPart)*1000;
-//     int length = intToString(integerPart,str);
-//     *(str+length) = '.';
-//     int i = intToString(decimalPart,str+integerPart+1);
-//     return length + i;
-// }
 
 int printf(const char * format, ...){
     va_list variables;
@@ -114,4 +106,10 @@ char readChar(int * readBytes) {
     uint8_t buffer;
     call_read(&buffer, 1, (uint32_t *) readBytes);
     return buffer;
+}
+
+int rand(int fromIncluded, int toIncluded) {
+    unsigned long long currentTicks;
+    call_get_ticks(&currentTicks);
+    return (fromIncluded + (currentTicks % (toIncluded + 1)));
 }

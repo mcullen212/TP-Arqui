@@ -8,7 +8,7 @@ int strcmp(const char * s1, const char * s2);
 int putString(char *c);
 char getChar();
 int printf(const char * format, ...);
-char ** substrings(char * str, char delim, int * amountOfSubstrings);
 char readChar(int * readBytes);
+int rand(int fromIncluded, int toIncluded);
 
 #endif

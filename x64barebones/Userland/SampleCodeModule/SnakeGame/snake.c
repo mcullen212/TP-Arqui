@@ -20,32 +20,54 @@ void createBoard(){
 }
 
 void createSnake(snake * s, uint32_t color, int player) {
-    s->color = color; 
+    // Player 1 initialization
     if(player == 1){
+        s->playerReference = SNAKE_PLAYER_1;
+        s->color = color;
         s->head.x = MIN_SNAKE_LENGTH - 1;
         s->head.y = Y_SQUARES / 2 + 1;
-        for(int i = 0; i <= s->head.x; i++){ // tail is first
+        for(int i = 0; i <= s->head.x; i++){ // Tail (x,y) is the first element of "body" array.
             s->body[i].x = i;
             s->body[i].y = s->head.y;
-            boardStatus[i][s->head.y] = SNAKE_PLAYER_1;
+            boardStatus[i][s->head.y] = s->playerReference;
         }
         s->length = MIN_SNAKE_LENGTH;
         s->lastMove = RIGHT;
         s->points = 0;
         return;
     }
-    
+    // Player 2 initialization
+    s->playerReference = SNAKE_PLAYER_2;
+    s->color = color;
     s->head.x = X_SQUARES-MIN_SNAKE_LENGTH;
     s->head.y = Y_SQUARES / 2 - 1;
-    for(int i = X_SQUARES-1; i >= s->head.x; i--){ // tail is first
+    for(int i = X_SQUARES-1; i >= s->head.x; i--){ // Tail (x,y) is the first element of "body" array.
         s->body[i].x = i;
         s->body[i].y = s->head.y;
-        boardStatus[i][s->head.y] = SNAKE_PLAYER_2;
+        boardStatus[i][s->head.y] = s->playerReference;
     }
     s->length = MIN_SNAKE_LENGTH;
     s->lastMove = LEFT;
     s->points = 0;
 }
+
+void updateBoard(snake * s1, snake * s2, food * currentFood) {
+    updateBoardFromSnake(s1);
+    updateBoardFromSnake(s2);
+    // if ( (boardStatus[currentFood->position.y][currentFood->position.x] != s1->playerReference) && (s2 == NULL || (boardStatus[currentFood->position.y][currentFood->position.x] != s2->playerReference) ) ) {
+
+    // }
+}
+
+static void updateBoardFromSnake(snake * s) {
+    if (s == NULL) {
+        return;
+    }
+    for (int i = 0; i < s->length; i++) {
+        boardStatus[s->body[i].y][s->body[i].x] = s->playerReference;
+    }
+}
+
 
 char moveSnake(snake * s, direction direction){
     switch(direction){

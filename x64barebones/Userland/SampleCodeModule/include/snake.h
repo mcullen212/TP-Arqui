@@ -30,7 +30,9 @@
 #define SNAKE_PLAYER_1 '#'
 #define SNAKE_PLAYER_2 '@'
 #define FOOD '*'
-#define EMPTY ' '
+#define EMPTY '\0'
+
+#define FOOD_TYPES 6
 
 typedef enum{ UP = 0, DOWN, LEFT, RIGHT } direction;
 
@@ -43,7 +45,7 @@ typedef enum  {
     PALE_GREEN_LIGHTER    = 0xEBFFD1 // Slightly Darker Pale Green
 } boardColors;
 
-typedef enum { 
+typedef enum {
     SNAKE_BLUE      = 0x0000FF,
     SNAKE_YELLOW    = 0xFFFF00,
     SNAKE_MAGENTA   = 0xFF00FF,
@@ -73,16 +75,17 @@ typedef struct { // Snake coordinates in the board
     uint32_t color;
     direction lastMove;
     int points;
+    char playerReference;
 } snake;
 
 typedef struct { // Food coordinates in the board
     foodColors color;
     point position; //{x,y}
-} foodPosition;
+} food;
 
 // Food ------------------------------------------------
 
-foodPosition * getFood();
+food * getFood();
 void createFood();
 
 // -----------------------------------------------------
