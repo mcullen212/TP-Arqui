@@ -9,6 +9,6 @@ int putString(char *c);
 char getChar();
 int printf(const char * format, ...);
 char readChar(int * readBytes);
-int rand(int fromIncluded, int toIncluded);
+int randNbr(int fromIncluded, int toIncluded);
 
 #endif

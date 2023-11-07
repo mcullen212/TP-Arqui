@@ -108,7 +108,7 @@ char readChar(int * readBytes) {
     return buffer;
 }
 
-int rand(int fromIncluded, int toIncluded) {
+int randNbr(int fromIncluded, int toIncluded) {
     unsigned long long currentTicks;
     call_get_ticks(&currentTicks);
     return (fromIncluded + (currentTicks % (toIncluded + 1)));
