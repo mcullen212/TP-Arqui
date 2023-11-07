@@ -4,12 +4,13 @@
 #define Y 1
 
 static char collision(snake * s);
-static void resetSquare(int x, int y);
-static void drawSnakeHead(snake * s);
 static char ateFood(snake * s);
+static void updateBody(snake * s);
+static void updateBodyAfterMeal(snake * s);
 
 void createSnake(snake * s, uint32_t color, int player) {
-    char boardStatus[Y_SQUARES][X_SQUARES] = getBoardStatus();
+    char ** boardStatus;
+    boardStatus = getBoardStatus();
     // Player 1 initialization
     if(player == 1){
         s->playerReference = SNAKE_PLAYER_1;
@@ -41,61 +42,53 @@ void createSnake(snake * s, uint32_t color, int player) {
     s->points = 0;
 }
 
-
 char moveSnake(snake * s, direction direction){
     switch(direction){
-        case UP: // Up v
-            s->head[Y] = s->head[Y] - 1;
+        case UP: // Up ^
+            s->head.y -= 1; // Head update
             if(collision(s)){
                 return 1;
             }
             s->lastMove = UP;
-            printSnake(s);
             break;
-        case DOWN: // Down ^
-            s->head[Y] = s->head[Y] + 1;
+        case DOWN: // Down v
+            s->head.y += 1;  // Head update
             if(collision(s)){
                 return 1;
             }
             s->lastMove = DOWN;
-            printSnake(s);
             break;
         case LEFT: // Left ->
-            s->head[X] = s->head[X] + 1;
+            s->head.x += 1; // Head update
             if(collision(s)){
                 return 1;
             }
             s->lastMove = LEFT;
-            printSnake(s);
             break;
         case RIGHT: // Right <-
-            s->head[X] = s->head[X] - 1; // x + 1 right in the x axis
+            s->head.x -= 1;
             if(collision(s)){
                 return 1;
             }
             s->lastMove = RIGHT;
-            printSnake(s);
             break;
-        default: // continue moving in the same direction
-            moveSnake(s, s->lastMove);
+        default:
             break;
     }
+    if (ateFood(s)) {
+        updateBodyAfterMeal(s);
+        updateBoardFromFood(getFood());
+        return 0;
+    }
+    updateBody(s);
     return 0;
 }
 
-void printSnake(snake * s){
-    drawSnakeHead(s);
-    if(ateFood(s)){
-        s->length++;
-        return;
-    }
-    return;
-}
-
 static char collision(snake * s){
-    char boardStatus[Y_SQUARES][X_SQUARES] = getBoardStatus();
+    char ** boardStatus;
+    boardStatus = getBoardStatus();
 
-    if(boardStatus[s->head.y][s->head.x] != EMPTY || boardStatus[s->head.y][s->head.x] != FOOD ){ // Collision with its snake 
+    if(boardStatus[s->head.y][s->head.x] != EMPTY && boardStatus[s->head.y][s->head.x] != FOOD ){ // Collision with its snake
         return 1;
     }
     else if(s->head.x < 0 || s->head.x > X_SQUARES || s->head.y < 1 || s->head.y > Y_SQUARES){ // Collision with the wall
@@ -104,29 +97,23 @@ static char collision(snake * s){
     return 0;
 }
 
-static void resetSquare(int x, int y){
-    char boardStatus[Y_SQUARES][X_SQUARES] = getBoardStatus();
-    if((x%2 && y%2) || (x%2 == 0 && y%2 == 0)){
-        call_draw_square(PALE_GREEN, PIXEL_POS(x), PIXEL_POS(y), SQUARE_SIZE);
-    }else{
-        call_draw_square(PALE_GREEN_LIGHTER, PIXEL_POS(x), PIXEL_POS(y), SQUARE_SIZE);
-    }
-    boardStatus[x][y] = EMPTY;
-}
-
-static void drawSnakeHead(snake * s){
-    char boardStatus[Y_SQUARES][X_SQUARES] = getBoardStatus();
-
-    call_draw_square(s->color, PIXEL_POS(s->head[X]), PIXEL_POS(s->head[Y]), SQUARE_SIZE);
-    boardStatus[s->head[Y]][s->head[X]] = SNAKE;
-    resetSquare(s->tail[X], s->tail[Y]);
-    return;
-}
-
 static char ateFood(snake * s){
     if (s->head.x == getFood()->position.x && s->head.y == getFood()->position.y) {
         createFood(); // generates a new food
         return 1;
     }
     return 0;
+}
+
+static void updateBody(snake * s) {
+    int i;
+    for (i = 1; i < s->length; i++) {
+        s->body[i - 1] = s->body[i];
+    }
+    s->body[i - 1] = s->head;
+}
+
+static void updateBodyAfterMeal(snake * s) {
+    s->length++;
+    s->body[s->length - 1] = s->head;
 }

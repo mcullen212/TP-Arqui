@@ -111,6 +111,9 @@ void lostGame(int player, snake * s1, snake * s2);
 void scoreStatus(snake * s1, snake * s2);
 void createBoard();
 char ** getBoardStatus();
+void updateBoard(snake * s1, snake * s2);
+void updateBoardFromFood(food * currentFood);
+void printBoard(snake * s1, snake * s2);
 
 // -----------------------------------------------------
 
