@@ -15,5 +15,5 @@ unsigned long long seconds_elapsed() {
 }
 
 unsigned long long ms_elapsed() {
-	return (seconds_elapsed() * 1000);
+	return ticks * 55;
 }

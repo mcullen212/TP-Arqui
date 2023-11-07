@@ -40,8 +40,9 @@ char getChar(){
 }
 
 static int intToString(int num, char *str) {
-    int i = 0;
-    int isNegative = 0;
+    int i = 0, j=0;
+    char isNegative = 0;
+    char aux[10]; 
 
     // if negative flag to add sign
     if (num < 0) {
@@ -52,25 +53,22 @@ static int intToString(int num, char *str) {
     if (num == 0) {
         str[i] = '0';
         i++;
-    } else {
-        char *aux; 
-        int j = 0;
+    } 
 
-        while (num != 0) {
-            aux[j] = (num % 10) + '0';
-            num = num / 10;
-            j++;
-        }
+    while (num != 0) {
+        aux[j] = (num % 10) + '0';
+        num = num / 10;
+        j++;
+    }
 
-        if (isNegative) {
-            str[i] = '-';
-            i++;
-        }
+    if (isNegative) {
+        str[i] = '-';
+        i++;
+    }
 
-        for (j = j - 1; j >= 0; j--) {
-            str[i] = aux[j];
-            i++;
-        }
+    for (j = j - 1; j >= 0; j--) {
+        str[i] = aux[j];
+        i++;
     }
     str[i] = '\0';
 

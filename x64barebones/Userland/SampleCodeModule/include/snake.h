@@ -37,7 +37,7 @@
 //colors
 #define BOARD_COLORS 3
 #define SNAKE_COLORS 4
-#define FOOD_TYPES 6
+#define FOOD_TYPES 4
 
 
 typedef enum{ UP = 0, DOWN, LEFT, RIGHT } direction;
@@ -60,10 +60,8 @@ typedef enum {
 
 typedef enum  {
     APPLE = 0xFF0000, // Red
-    BANANA = 0xFFFF00, // Yellow
     STRAWBERRY = 0xFFC0CB, // Pink
     WATERMELON = 0xFF1493, // Dark Pink
-    PINEAPPLE = 0xFFD700, // Gold
     CHERRY = 0x8B0000, // Dark Red
 } foodColors;
 
