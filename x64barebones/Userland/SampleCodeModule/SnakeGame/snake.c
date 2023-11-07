@@ -6,20 +6,10 @@
 static char collision(snake * s);
 static void resetSquare(int x, int y);
 static void drawSnakeHead(snake * s);
-static char collision(snake * s);
 static char ateFood(snake * s);
 
-static char boardStatus[Y_SQUARES][X_SQUARES];
-
-void createBoard(){
-    for(int i = 0; i < Y_SQUARES; i++){
-        for(int j = 0; j < X_SQUARES; j++){
-            boardStatus[i][j] = EMPTY;
-        }
-    }
-}
-
 void createSnake(snake * s, uint32_t color, int player) {
+    char boardStatus[Y_SQUARES][X_SQUARES] = getBoardStatus();
     // Player 1 initialization
     if(player == 1){
         s->playerReference = SNAKE_PLAYER_1;
@@ -49,23 +39,6 @@ void createSnake(snake * s, uint32_t color, int player) {
     s->length = MIN_SNAKE_LENGTH;
     s->lastMove = LEFT;
     s->points = 0;
-}
-
-void updateBoard(snake * s1, snake * s2, food * currentFood) {
-    updateBoardFromSnake(s1);
-    updateBoardFromSnake(s2);
-    // if ( (boardStatus[currentFood->position.y][currentFood->position.x] != s1->playerReference) && (s2 == NULL || (boardStatus[currentFood->position.y][currentFood->position.x] != s2->playerReference) ) ) {
-
-    // }
-}
-
-static void updateBoardFromSnake(snake * s) {
-    if (s == NULL) {
-        return;
-    }
-    for (int i = 0; i < s->length; i++) {
-        boardStatus[s->body[i].y][s->body[i].x] = s->playerReference;
-    }
 }
 
 
@@ -119,19 +92,20 @@ void printSnake(snake * s){
     return;
 }
 
-
-
 static char collision(snake * s){
-    if(boardStatus[s->head[Y]][s->head[X]] == SNAKE){ // Collision with its snake
+    char boardStatus[Y_SQUARES][X_SQUARES] = getBoardStatus();
+
+    if(boardStatus[s->head.y][s->head.x] != EMPTY || boardStatus[s->head.y][s->head.x] != FOOD ){ // Collision with its snake 
         return 1;
     }
-    else if(s->head[X] < 0 || s->head[X] > X_SQUARES || s->head[Y] < 1 || s->head[Y] > Y_SQUARES){ // Collision with the wall
+    else if(s->head.x < 0 || s->head.x > X_SQUARES || s->head.y < 1 || s->head.y > Y_SQUARES){ // Collision with the wall
         return 1;
     }
     return 0;
 }
 
 static void resetSquare(int x, int y){
+    char boardStatus[Y_SQUARES][X_SQUARES] = getBoardStatus();
     if((x%2 && y%2) || (x%2 == 0 && y%2 == 0)){
         call_draw_square(PALE_GREEN, PIXEL_POS(x), PIXEL_POS(y), SQUARE_SIZE);
     }else{
@@ -141,6 +115,8 @@ static void resetSquare(int x, int y){
 }
 
 static void drawSnakeHead(snake * s){
+    char boardStatus[Y_SQUARES][X_SQUARES] = getBoardStatus();
+
     call_draw_square(s->color, PIXEL_POS(s->head[X]), PIXEL_POS(s->head[Y]), SQUARE_SIZE);
     boardStatus[s->head[Y]][s->head[X]] = SNAKE;
     resetSquare(s->tail[X], s->tail[Y]);
@@ -148,7 +124,7 @@ static void drawSnakeHead(snake * s){
 }
 
 static char ateFood(snake * s){
-    if (s->head[X] == getFood()->x && s->head[Y] == getFood()->y) {
+    if (s->head.x == getFood()->position.x && s->head.y == getFood()->position.y) {
         createFood(); // generates a new food
         return 1;
     }

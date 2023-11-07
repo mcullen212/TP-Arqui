@@ -11,20 +11,21 @@
 
 //menu positions
 #define MENU_Y 0
+#define MENU_X 0
 #define MENU_WIDTH 1024
 #define MENU_HEIGHT 32
-#define POINTS_PLAYER_1 200
-#define POINTS_PLAYER_2 400
+#define MENU_SCALE 1
 
 //pixel positions
 #define Y_MAX 768
 #define X_MAX 1024
-#define PIXEL_POS(i) (i) * SQUARE_SIZE
+#define PIXEL_POS_X(i) (i) * SQUARE_SIZE
+#define PIXEL_POS_Y(i) (i + 1) * SQUARE_SIZE
 
 //board positions
 #define SQUARE_SIZE 32
 #define X_SQUARES (X_MAX / SQUARE_SIZE) // 32
-#define Y_SQUARES (Y_MAX / SQUARE_SIZE ) // 23
+#define Y_SQUARES (Y_MAX / SQUARE_SIZE ) // 24
 
 //board status
 #define SNAKE_PLAYER_1 '#'
@@ -32,17 +33,21 @@
 #define FOOD '*'
 #define EMPTY '\0'
 
+//colors
+#define BOARD_COLORS 3
+#define SNAKE_COLORS 4
 #define FOOD_TYPES 6
+
 
 typedef enum{ UP = 0, DOWN, LEFT, RIGHT } direction;
 
 typedef enum  {
-    PALE_BLUE      = 0xADD8E6, // Light Pale Blue
-    PALE_BLUE_LIGHTER     = 0x87CEEB, // Slightly Darker Pale Blue
-    PALE_YELLOW    = 0xFFFFE0, // Light Pale Yellow
-    PALE_YELLOW_LIGHTER   = 0xFFFFF0, // Slightly Darker Pale Yellow
-    PALE_GREEN     = 0xB7EA9D, // Light Pale Green
-    PALE_GREEN_LIGHTER    = 0xEBFFD1 // Slightly Darker Pale Green
+    PALE_BLUE = 0xADD8E6, // Light Pale Blue
+    PALE_BLUE_LIGHTER = 0x87CEEB, // Slightly Darker Pale Blue
+    PALE_YELLOW = 0xFFFFE0, // Light Pale Yellow
+    PALE_YELLOW_LIGHTER = 0xFFFFF0, // Slightly Darker Pale Yellow
+    PALE_GREEN  = 0xB7EA9D, // Light Pale Green
+    PALE_GREEN_LIGHTER  = 0xEBFFD1 // Slightly Darker Pale Green
 } boardColors;
 
 typedef enum {
@@ -95,7 +100,6 @@ void createFood();
 void createSnake(snake * s, uint32_t color, int player);
 char moveSnake(snake * s, direction direction);
 void printSnake(snake * s);
-void createBoard();
 // -----------------------------------------------------
 
 // Game ------------------------------------------------
@@ -103,7 +107,10 @@ void createBoard();
 void snakeGame();
 int getPlayers();
 void quitGame();
-void lostGame(int player);
+void lostGame(int player, snake * s1, snake * s2);
+void scoreStatus(snake * s1, snake * s2);
+void createBoard();
+char ** getBoardStatus();
 
 // -----------------------------------------------------
 

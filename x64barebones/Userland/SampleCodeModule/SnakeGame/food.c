@@ -20,5 +20,3 @@ void createFood(){
 food * getFood(){
     return currentFood;
 }
-
-// random food position
