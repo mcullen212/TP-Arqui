@@ -7,4 +7,6 @@
 *.bash_history
 x64barebones/run.sh
 x64barebones/build.sh
+x64barebones/runSound.sh
 .vscode
+task.json
