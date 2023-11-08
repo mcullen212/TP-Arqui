@@ -31,7 +31,7 @@ static void nosound() {
  //Make a beep
  void beep(uint32_t frequency) {
  	 play_sound(frequency);
- 	 sleep(200);
+ 	 sleep(100);
  	 nosound();
     
  }

@@ -41,8 +41,18 @@ static int foodType[] = {APPLE, STRAWBERRY, WATERMELON, CHERRY};
 // Players ------------------------------------------------------------------------
 static int players = 1;
 static char exit = 0;
+static int topScore = 0;
+
+static void topPointsInGame(snake * s1, snake * s2);
 
 // Game -----------------------------------------------------------------------------
+void snakeNewGame(){
+    topScore = 0; // reset for each new game
+    snakeGame();
+    quitGame();
+    return;
+}
+
 void snakeGame(){
     exit = 0;
     call_clear_screen();
@@ -94,8 +104,6 @@ void snakeGame(){
             }
         }
     }
-
-    quitGame();
 }
 
 static int snakeMenu() {
@@ -115,6 +123,13 @@ static void themeColor(){
     } while ( c != '1' && c != '2' && c != '3');
     dark = boardThemes[c - '1'][0];
     light = boardThemes[c - '1'][1];
+    if(c == '1'){
+        printf("\nTheme: Blue\n");
+    } else if(c == '2'){
+        printf("\nTheme: Yellow\n");
+    } else {
+        printf("\nTheme: Green\n");
+    }
 }
 
 static void themeSnake(snake * s1, snake * s2){
@@ -140,14 +155,18 @@ static void themeSnake(snake * s1, snake * s2){
     switch(c){
         case '1':
             s1->color = SNAKE_BLUE;
+            printf("\nPlayer 1: color blue\n");
             break;
         case '2':
             s1->color = SNAKE_CYAN;
+            printf("\nPlayer 1: color cyan\n");
             break;
         case '3':
             s1->color = SNAKE_MAGENTA;
+            printf("\nPlayer 1: color magenta\n");
             break;
         case '4':
+            printf("\nPlayer 1: color yellow\n");
             s1->color = SNAKE_YELLOW;
         break;
     }
@@ -155,10 +174,13 @@ static void themeSnake(snake * s1, snake * s2){
     switch(t){
         case '1':
             s2->color = SNAKE_MAGENTA;
+            printf("\nPlayer 2: color magenta\n");
             break;
         case '2':
+            printf("\nPlayer 2: color yellow\n");
             s2->color = SNAKE_YELLOW;
     }
+    call_sleep(2000);
 
 }
 
@@ -194,6 +216,21 @@ void scoreStatus(snake * s1, snake * s2){
     return;
 }
 
+static void topPointsInGame(snake * s1, snake * s2){
+    if(players == 2){
+        if(topScore < s1->points){
+            topScore = s1->points;
+        }
+        if(topScore < s2->points){
+            topScore = s2->points;
+        }
+    }else{
+        if(topScore < s1->points){
+            topScore = s1->points;
+        }
+    }
+}
+
 void quitGame(){
     call_clear_screen();
     printf("\t\t\t\t\t Thanks for playing!\n");
@@ -209,12 +246,14 @@ void lostGame(int player, snake * s1, snake * s2){ // cartel
         printf("\t\t\t\t\t Player %d lost the game, Player %d WON!!\n", player, player%2 + 1);
         printf("\t\t\t\t\t Score Player 1: %d\n", s1->points);
         printf("\t\t\t\t\t Score Player 2: %d\n", s2->points);
-        printf("\t\t\t\t\t Press any key to play again or ESC to quit game\n");
     }else{
         printf("\t\t\t\t\t You lost the game, try again!\n\n");
         printf("\t\t\t\t\t Score: %d \n", s1->points);
-        printf("\t\t\t\t\t Press any key to play again or ESC to quit game\n");
     }
+
+    topPointsInGame(s1, s2);
+    printf("\n\t\t\t\t\t Top score: %d \n\n", topScore);
+    printf("\t\t\t\t\t Press any key to play again or ESC to quit game\n");
 
     char c = getChar();
 
@@ -495,9 +534,9 @@ char moveSnake(snake * s, direction direction){
 
 static char collision(snake * s){
     if(boardStatus[s->head.y][s->head.x] != EMPTY && boardStatus[s->head.y][s->head.x] != FOOD ){ // Collision with its snake
-        call_beep(2000);
-        call_beep(1000);
         call_beep(500);
+        call_beep(300);
+        call_beep(100);
         return 1;
     }
     else if(s->head.x < 0 || s->head.x > X_SQUARES - 1 || s->head.y < 0 || s->head.y > Y_SQUARES - 1){ // Collision with the wall
@@ -511,7 +550,7 @@ static char collision(snake * s){
 
 static char ateFood(snake * s){
     if (s->head.x == currentFood->position.x && s->head.y == currentFood->position.y) {
-        call_beep(800);
+        call_beep(100);
         createFood(); // generates a new food
         return 1;
     }

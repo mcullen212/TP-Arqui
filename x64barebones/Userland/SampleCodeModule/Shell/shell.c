@@ -6,7 +6,7 @@
 
 char * commands[AMOUNT_OF_COMMANDS] = {"man", "time", "registers", "snake", "div0", "invalid op", "clear", "zoom in", "zoom out", "set theme", "Esto es Boca"};
 
-void (* commandsReferences[])() = {man, time, registers, snakeGame, div0, invalidOp, clear, zoomIn, zoomOut, theme, printBoca};
+void (* commandsReferences[])() = {man, time, registers, snakeNewGame, div0, invalidOp, clear, zoomIn, zoomOut, theme, printBoca};
 
 void shell(char *command) {
     if(*command == 0){

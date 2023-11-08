@@ -100,7 +100,7 @@ void printSnake(snake * s);
 // -----------------------------------------------------
 
 // Game ------------------------------------------------
-
+void snakeNewGame();
 void snakeGame();
 int getPlayers();
 void quitGame();

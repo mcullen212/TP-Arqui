@@ -41,6 +41,7 @@ void terminal() {
     int cursorX = MIN_X, cursorY = MIN_Y, cursorScale = 1;
     call_c_init(cursorX, cursorY, cursorScale);
 
+
     while (1) {
         char  commandBuffer[BUFFER_SIZE] = {0};
         int yIndex, position;
