@@ -271,7 +271,7 @@ static void gameStarter(){
     printf("\t\t\t\t\t Game start in: ");
     for(int i=3; i >= 0; i--){
         printf("%d", i);
-        call_sleep(500);
+        call_sleep(1000);
         call_delete_char();
     }
     for(int i=0; i<15; i++){

@@ -18,7 +18,7 @@
 //board positions
 #define SQUARE_SIZE 32
 #define X_SQUARES (X_MAX / SQUARE_SIZE) // 32
-#define Y_SQUARES (Y_MAX / SQUARE_SIZE ) // 24
+#define Y_SQUARES 23 // 24
 
 //menu positions
 #define MENU_PLAYER_1 704
